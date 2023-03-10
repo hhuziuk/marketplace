@@ -4,7 +4,6 @@ import {Book} from "../infrastructure/database/PostgresEntities/BookEntity";
 import {Publisher} from "../infrastructure/database/PostgresEntities/PublisherEntity";
 import {Category} from "../infrastructure/database/PostgresEntities/CategoryEntity";
 import {Token} from "../infrastructure/database/PostgresEntities/TokenEntity";
-import {WishlistBooks} from "../infrastructure/database/PostgresEntities/WishlistBooksEntity";
 import {Wishlist} from "../infrastructure/database/PostgresEntities/WishlistEntity";
 import {Favorite} from "../infrastructure/database/PostgresEntities/FavoriteEntity";
 import {Order} from "../infrastructure/database/PostgresEntities/OrderEntity";
@@ -27,7 +26,6 @@ export const PostgresDataSource : DataSource = new DataSource({
         Publisher,
         Category,
         Token,
-        WishlistBooks,
         Wishlist,
         Favorite,
         Order,

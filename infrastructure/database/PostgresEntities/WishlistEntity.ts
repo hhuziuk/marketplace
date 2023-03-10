@@ -1,6 +1,7 @@
 import {Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./UserEntity";
 import {WishlistBooks} from "./WishlistBooksEntity";
+import {Book} from "./BookEntity";
 
 @Entity('Wishlist')
 export class Wishlist {
@@ -11,6 +12,6 @@ export class Wishlist {
     @JoinColumn()
     user: User;
 
-    @OneToMany(() => WishlistBooks, wishlistBook => wishlistBook.wishlist)
-    wishlistBooks: WishlistBooks[];
+    @OneToMany(() => Book, book => book.wishlist)
+    book: Book[];
 }

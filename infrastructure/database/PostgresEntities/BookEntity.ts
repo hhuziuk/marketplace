@@ -1,10 +1,12 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {IsISBN, IsNumber, IsString, IsUUID, MaxLength, MinLength} from "class-validator";
-import {Rating} from "./RatingEntity";
-import {Favorite} from "./FavoriteEntity";
-import {Category} from "./CategoryEntity";
-import {Publisher} from "./PublisherEntity";
-import {WishlistBooks} from "./WishlistBooksEntity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { IsISBN, IsNumber, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
+import { Rating } from "./RatingEntity";
+import { Favorite } from "./FavoriteEntity";
+import { Category } from "./CategoryEntity";
+import { Publisher } from "./PublisherEntity";
+import { Wishlist } from "./WishlistEntity";
+import { OrderItem } from "./OrderItemEntity";
+
 @Entity('Book')
 export class Book {
     @PrimaryGeneratedColumn('uuid')
@@ -69,7 +71,7 @@ export class Book {
     rating: Rating[];
 
     @ManyToOne(() => Favorite, favorite => favorite.book)
-    favorite: Favorite
+    favorite: Favorite;
 
     @ManyToOne(() => Category, category => category.books)
     category: Category;
@@ -77,6 +79,9 @@ export class Book {
     @ManyToOne(() => Publisher, publisher => publisher.books)
     publisher: Publisher;
 
-    @OneToMany(() => WishlistBooks, wishlistBook => wishlistBook.book)
-    wishlistBooks: WishlistBooks[];
+    @ManyToOne(() => Wishlist, wishlist => wishlist.book)
+    wishlist: Wishlist;
+
+    @OneToMany(() => OrderItem, orderItem => orderItem.book)
+    orderItems: OrderItem[];
 }

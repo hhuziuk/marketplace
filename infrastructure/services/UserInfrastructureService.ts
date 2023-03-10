@@ -7,9 +7,13 @@ import {
     SellerRepository
 } from "../../core/repositories/UserRepository/UserRepository";
 import {Book} from "../../core/domain/Book";
+import {AuthDomainService} from "../../core/services/AuthDomainService";
+import ApiError from "../exceptions/ApiError";
+import * as bcrypt from 'bcrypt';
 
 export class UserInfrastructureService {
-    constructor(readonly userRepository = new UserDomainService(userRepository)){}
+    constructor(readonly userRepository: any = new UserDomainService(userRepository),
+                readonly authRepository: any = new AuthDomainService(authRepository)){}
     async create(
         username: string,
         name: string,
@@ -24,7 +28,25 @@ export class UserInfrastructureService {
         address: string,
         role: Role
     ): Promise<User> {
-
+        const candidate = await this.userRepository.getBy({username, email, phoneNumber })
+        if(candidate){
+            throw ApiError.BadRequest(`User with the same ${email} already exists`);
+        }
+        const hashPassword = await bcrypt.hash(password, 8)
+        const user = await this.userRepository.create({username,
+            name,
+            surname,
+            email,
+            hashPassword,
+            activationLink,
+            phoneNumber,
+            country,
+            city,
+            postalCode,
+            address,
+            role})
+        await this.userRepository.save(user)
+        return await this.authRepository.registration(user);
     }
 
     async save(user: User): Promise<User> {

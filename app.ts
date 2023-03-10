@@ -3,13 +3,29 @@ require('dotenv').config();
 import cors from "cors";
 import logger from "./tools/logger";
 import router from "./infrastructure/routers";
+import cookieParser from "cookie-parser"
+import passport from "passport"
+import { Strategy as LocalStrategy } from "passport-local"
 import {PostgresDataSource} from "./tools/PostgresConnection";
+import {User} from "./infrastructure/database/PostgresEntities/UserEntity";
 const PORT = process.env.PORT || 3015;
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use('/api', router);
+app.use(cookieParser());
+app.use(require('express-session')({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 
 // app.use(session({
