@@ -4,7 +4,5 @@ export class Category {
         readonly category: string,
         readonly bookId: number,
         readonly publisherId: string,
-    ) {
-
-    }
+    ) {}
 }
