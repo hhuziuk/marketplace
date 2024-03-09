@@ -1,6 +1,6 @@
 export class Wishlist {
     constructor(
-        readonly id: string,
+        readonly wishlistId: string,
         readonly wishlistBooksId: string,
         readonly userId: string
     ) {}
