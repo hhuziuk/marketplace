@@ -1,3 +1,5 @@
+import {Role} from "./Role";
+
 export class User {
     constructor(
         readonly userId: string,
@@ -12,5 +14,6 @@ export class User {
         readonly city: string,
         readonly postalCode: string,
         readonly address: string,
+        readonly role: Role,
     ) {}
 }
