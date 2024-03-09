@@ -11,6 +11,5 @@ export class Book {
         readonly language: string,
         readonly size: string,
         readonly price: number,
-        readonly role: string,
     ) {}
 }
