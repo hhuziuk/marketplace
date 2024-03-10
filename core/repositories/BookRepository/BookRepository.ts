@@ -14,7 +14,7 @@ export interface BookRepository {
         price: number,
     ) : Promise<Book>,
     getBook(id: string) : Promise<Book | null>,
-    getAllBooks() : Promise<Book | null>,
+    getAllBooks() : Promise<Book[] | null>,
     updateBook(id: string) : Promise<Book | null>,
     deleteBook(id: string) : Promise<void>
 }
