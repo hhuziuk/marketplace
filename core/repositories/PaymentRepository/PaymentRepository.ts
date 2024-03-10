@@ -1,4 +1,6 @@
+import {PaymentMethod} from "../../domain/enums/PaymentMethod";
+
 export interface PaymentRepository {
     //впідорити сюди enum з методами
-    addPaymentMethod(method: any): Promise<void>
+    addPaymentMethod(method: PaymentMethod): Promise<void>
 }
