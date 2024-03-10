@@ -1,4 +1,5 @@
 import {User} from "../../domain/User";
+import {Book} from "../../domain/Book";
 import {Role} from "../../domain/enums/Role";
 
 export interface UserRepository {
@@ -22,3 +23,32 @@ export interface UserRepository {
     delete(id: string | number): Promise<User>;
 }
 
+export interface AdminRepository extends UserRepository{
+    verifySeller(sellerId: string) : Promise<void>,
+    deleteSeller(sellerId: string) : Promise<void>,
+    deleteCustomer(customerId: string) : Promise<void>,
+    deleteItem(itemId: string) : Promise<void>,
+}
+
+export interface SellerRepository extends UserRepository{
+    addItem(
+        bookName: string,
+        author: string,
+        categoryId: string,
+        publisherId: string,
+        ratingId: string,
+        description: string,
+        ISBN: string,
+        language: string,
+        size: string,
+        price: number,
+    ) : Promise<Book>,
+    updateItem(itemId: string) : Promise<Book>,
+    deleteItem(itemId: string) : Promise<void>,
+}
+
+export interface CustomerRepository extends UserRepository{
+    addItemToWishlist(itemId: string),
+    removeItemFromWishlist(itemId: string),
+    payment(),
+}

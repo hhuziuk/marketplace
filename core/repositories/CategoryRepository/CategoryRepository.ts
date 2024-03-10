@@ -7,6 +7,6 @@ export interface CategoryRepository {
         publisherId: string,
     ): Promise<Category>;
     getAll(): Promise<Category[]>;
-    getById(id: string | number): Promise<Category | null>;
-    delete(id: string | number): Promise<void>;
+    getById(id: string): Promise<Category | null>;
+    delete(id: string): Promise<void>;
 }
