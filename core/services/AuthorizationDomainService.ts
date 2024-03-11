@@ -1,4 +1,5 @@
 import {User} from "../domain/User";
+import {AuthRepository} from "../repositories/AuthorizationRepository/AuthorizationRepository";
 
 export class AuthDomainService implements AuthRepository{
     constructor(private authRepository: AuthRepository) {}
@@ -8,8 +9,8 @@ export class AuthDomainService implements AuthRepository{
     login(user: User){
         return this.authRepository.login(user);
     }
-    logout(argument: any){
-        return this.authRepository.logout(argument);
+    logout(refreshToken: string){
+        return this.authRepository.logout(refreshToken);
     }
     refresh(refreshToken: string){
         return this.authRepository.refresh(refreshToken);

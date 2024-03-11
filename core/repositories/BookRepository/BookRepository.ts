@@ -17,5 +17,7 @@ export interface BookRepository {
     save(book: Book): Promise<Book>;
     findOne(object: object): Promise<Book>;
     getById(id: string): Promise<Book | null>;
+    getByAuthor(author: string): Promise<Book | null>;
+    getByName(bookName: string): Promise<Book | null>;
     delete(id: string): Promise<void>;
 }
