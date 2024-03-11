@@ -2,24 +2,22 @@ import {CategoryRepository} from "../repositories/CategoryRepository/CategoryRep
 import {Category} from "../domain/Category";
 
 export class CategoryDomainService implements CategoryRepository{
-    constructor(private categoryRepository: CategoryRepository) {
-
-    }
+    constructor(private categoryDomainRepository: CategoryRepository) {}
     async addCategory(
         category: string
     ): Promise<Category> {
-        return await this.categoryRepository.addCategory(category);
+        return await this.categoryDomainRepository.addCategory(category);
     }
     async getAll(): Promise<Category[]> {
-        return await this.categoryRepository.getAll();
+        return await this.categoryDomainRepository.getAll();
     }
     async getById(categryId: string): Promise<Category | null> {
-        return await this.categoryRepository.getById(categryId);
+        return await this.categoryDomainRepository.getById(categryId);
     }
     async getByName(categoryName: string): Promise<Category | null> {
-        return await this.categoryRepository.getByName(categoryName);
+        return await this.categoryDomainRepository.getByName(categoryName);
     }
     async delete(categryId: string): Promise<void> {
-        return await this.categoryRepository.delete(categryId);
+        return await this.categoryDomainRepository.delete(categryId);
     }
 }
