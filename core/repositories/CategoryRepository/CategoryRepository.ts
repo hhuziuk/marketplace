@@ -1,12 +1,9 @@
 import {Category} from "../../domain/Category";
 
 export interface CategoryRepository {
-    addCategory(
-        category: string,
-        bookId: string,
-        publisherId: string,
-    ): Promise<Category>;
+    addCategory(category: string,): Promise<Category>;
     getAll(): Promise<Category[]>;
-    getById(id: string): Promise<Category | null>;
-    delete(id: string): Promise<void>;
+    getById(categoryId: string): Promise<Category | null>;
+    getByName(categoryName: string): Promise<Category | null>;
+    delete(categoryId: string): Promise<void>;
 }

@@ -18,28 +18,27 @@ export class BookDomainService implements BookRepository {
         size: string,
         price: number,
     ) : Promise<Book> {
-        const createdBook = await this.bookRepository.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price);
-        return createdBook;
+        return await this.bookRepository.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price);
     }
     async getAll(): Promise<Book[]> {
-        return this.bookRepository.getAll();
+        return await this.bookRepository.getAll();
     }
     async save(book: Book): Promise<Book> {
-        return this.bookRepository.save(book);
+        return await this.bookRepository.save(book);
     }
     async findOne(object: object): Promise<Book> {
-        return this.bookRepository.findOne(object);
+        return await this.bookRepository.findOne(object);
     }
     async getById(bookId: string): Promise<Book | null> {
-        return this.bookRepository.getById(bookId);
+        return await this.bookRepository.getById(bookId);
     }
     async getByName(bookName: string): Promise<Book | null> {
-        return this.bookRepository.getByName(bookName);
+        return await this.bookRepository.getByName(bookName);
     }
     async getByAuthor(author: string): Promise<Book | null> {
-        return this.bookRepository.getByAuthor(author);
+        return await this.bookRepository.getByAuthor(author);
     }
     async delete(bookId: string): Promise<void> {
-        return this.bookRepository.delete(bookId);
+        return await this.bookRepository.delete(bookId);
     }
 }
