@@ -1,4 +1,5 @@
 import {Status} from "./enums/Status";
+import {Delivery} from "./enums/Delivery";
 
 export class Order {
     constructor(
@@ -9,5 +10,6 @@ export class Order {
         readonly wishlistId: string,
         readonly totalPrice: number,
         readonly paymentId: string,
+        readonly deliveryType: Delivery,
     ) {}
 }
