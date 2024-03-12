@@ -16,21 +16,21 @@ export interface UserRepository {
         postalCode: string,
         address: string,
         role: Role,
-    ) : Promise<User>,
+    ): Promise<User>;
     save(user: User): Promise<User>;
-    getAll(): Promise<User>;
-    getById(id: string | number): Promise<User>;
-    delete(id: string | number): Promise<User>;
+    getAll(): Promise<User[]>;
+    getById(userId: string): Promise<User | null>;
+    delete(userId: string): Promise<void>;
 }
 
-export interface AdminRepository extends UserRepository{
-    verifySeller(sellerId: string) : Promise<void>,
-    deleteSeller(sellerId: string) : Promise<void>,
-    deleteCustomer(customerId: string) : Promise<void>,
-    deleteItem(itemId: string) : Promise<void>,
+export interface AdminRepository extends UserRepository {
+    verifySeller(sellerId: string): Promise<void>;
+    deleteSeller(sellerId: string): Promise<void>;
+    deleteCustomer(customerId: string): Promise<void>;
+    deleteItem(itemId: string): Promise<void>;
 }
 
-export interface SellerRepository extends UserRepository{
+export interface SellerRepository extends UserRepository {
     addItem(
         bookName: string,
         author: string,
@@ -42,13 +42,13 @@ export interface SellerRepository extends UserRepository{
         language: string,
         size: string,
         price: number,
-    ) : Promise<Book>,
-    updateItem(itemId: string) : Promise<Book>,
-    deleteItem(itemId: string) : Promise<void>,
+    ): Promise<Book>;
+    updateItem(itemId: string): Promise<Book>;
+    deleteItem(itemId: string): Promise<void>;
 }
 
-export interface CustomerRepository extends UserRepository{
-    addItemToWishlist(itemId: string),
-    removeItemFromWishlist(itemId: string),
-    payment(),
+export interface CustomerRepository extends UserRepository {
+    addItemToWishlist(itemId: string): Promise<void>;
+    removeItemFromWishlist(itemId: string): Promise<void>;
+    payment(): Promise<void>;
 }
