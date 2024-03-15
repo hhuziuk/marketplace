@@ -3,7 +3,7 @@ import {Publisher} from "../domain/Publisher";
 
 export class PublisherDomainService implements PublisherRepostiory {
     constructor(private publisherDomainRepository : PublisherRepostiory) {}
-    async addPublisher(publisherName: string,): Promise<Publisher> {
+    async addPublisher(publisherName: string): Promise<Publisher> {
         return await this.publisherDomainRepository.addPublisher(publisherName);
     }
     async getAll(): Promise<Publisher[]> {
