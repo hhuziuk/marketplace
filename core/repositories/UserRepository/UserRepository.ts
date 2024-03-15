@@ -20,6 +20,19 @@ export interface UserRepository {
     save(user: User): Promise<User>;
     getAll(): Promise<User[]>;
     getById(userId: string): Promise<User | null>;
+    update(
+        username?: string,
+        name?: string,
+        surname?: string,
+        email?: string,
+        password?: string,
+        activationLink?: string,
+        phoneNumber?: string,
+        country?: string,
+        city?: string,
+        postalCode?: string,
+        address?: string,
+    ): Promise<User>;
     delete(userId: string): Promise<void>;
 }
 
