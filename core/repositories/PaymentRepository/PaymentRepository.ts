@@ -1,5 +1,8 @@
 import {PaymentMethod} from "../../domain/enums/PaymentMethod";
+import {Payment} from "../../domain/Payment";
 
 export interface PaymentRepository {
-    addPaymentMethod(method: PaymentMethod): Promise<void>
+    setPaymentMethod(method: PaymentMethod): Promise<void>,
+    getAll(): Promise<Payment>,
+    updatePaymentMethod(method: PaymentMethod): Promise<void>,
 }
