@@ -5,7 +5,7 @@ router.post('/add', ) // ---> createOrder()
 router.post('/confirm', ) // ---> confirmOrder()
 router.get('/orders', ) // ---> getAll() for implementation!
 router.get('/:orderId', ) // ---> getById() for implementation!
-router.put('/setStatus', ) // ---> setStatus()
-router.delete('/cancelOrder', ) // ---> cancelOrder()
+router.put('/setStatus/:orderId', ) // ---> setStatus()
+router.delete('/cancelOrder/:orderId', ) // ---> cancelOrder()
 
 export default router
