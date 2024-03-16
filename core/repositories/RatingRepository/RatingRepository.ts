@@ -5,7 +5,8 @@ export interface RatingRepostiory {
         ratingValue: number,
         comment: string
     ): Promise<Rating>;
-    update(id: string): Promise<Rating | null>;
+    save(category: Rating): Promise<Rating>;
+    update(ratingId: string): Promise<Rating | null>;
     getAll(): Promise<Rating[] | null>;
-    delete(id: string): Promise<void>;
+    delete(ratingId: string): Promise<void>;
 }
