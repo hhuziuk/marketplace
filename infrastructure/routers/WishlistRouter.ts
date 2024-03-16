@@ -1,5 +1,4 @@
 import express from "express"
-import {Book} from "../../core/domain/Book";
 const router = express.Router();
 
 router.post('/add', ) // ---> addToWishList(bookId : string)
