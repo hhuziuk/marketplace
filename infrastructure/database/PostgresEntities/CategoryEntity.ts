@@ -1,11 +1,22 @@
-import {Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Book} from "./BookEntity";
 import {Publisher} from "./PublisherEntity";
+import {IsString, MaxLength, MinLength} from "class-validator";
 
 @Entity('Category')
 export class Category {
     @PrimaryGeneratedColumn('uuid')
     public categoryId: string;
+
+    @Column({ nullable: false })
+    @IsString()
+    @MinLength(1, {
+        message: 'categoryName is too short',
+    })
+    @MaxLength(20, {
+        message: 'categoryName is too long',
+    })
+    public categoryName: string;
 
     @OneToMany(() => Book, book => book.category)
     books: Book[];

@@ -30,18 +30,6 @@ export class Book {
     })
     public author: string;
 
-    @Column({ nullable: false })
-    @IsUUID()
-    public categoryId: string;
-
-    @Column({ nullable: false })
-    @IsUUID()
-    public publisherId: string;
-
-    @Column({ nullable: false, unique: true })
-    @IsUUID()
-    public ratingId: string;
-
     @Column({ nullable: true })
     @IsString()
     @MinLength(1, {
@@ -76,7 +64,7 @@ export class Book {
     })
     public size: string;
 
-    @Column({ nullable: false })
+    @Column({ type: "float", nullable: false })
     @IsNumber()
     public price: number;
 

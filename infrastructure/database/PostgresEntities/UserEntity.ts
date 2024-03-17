@@ -6,8 +6,6 @@ import {Order} from "./OrderEntity";
 import {Payment} from "./PaymentEntity";
 import {Wishlist} from "./WishlistEntity";
 import {Favorite} from "./FavoriteEntity";
-
-
 @Entity('User')
 export class User {
     @PrimaryGeneratedColumn('uuid')
@@ -92,7 +90,7 @@ export class User {
     })
     public address: string
 
-    @Column({ nullable: false, default: 'USER' })
+    @Column({ type: 'enum', nullable: false, default: 'USER' })
     @IsEnum(Role)
     public role: Role
 

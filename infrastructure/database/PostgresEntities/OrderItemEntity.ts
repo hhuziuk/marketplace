@@ -1,10 +1,12 @@
 import {Entity, ManyToOne, PrimaryGeneratedColumn, Column} from "typeorm";
 import {Order} from "./OrderEntity";
 import {Book} from "./BookEntity";
+import {IsNumber, IsUUID} from "class-validator";
 
 @Entity('OrderItem')
 export class OrderItem {
     @PrimaryGeneratedColumn('uuid')
+    @IsUUID()
     public orderItemId: string;
 
     @ManyToOne(() => Order, order => order.orderItems)
@@ -13,6 +15,7 @@ export class OrderItem {
     @ManyToOne(() => Book)
     book: Book;
 
-    @Column()
+    @Column({nullable: false})
+    @IsNumber()
     quantity: number;
 }
