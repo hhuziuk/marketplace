@@ -32,9 +32,6 @@ export class Book {
 
     @Column({ nullable: true })
     @IsString()
-    @MinLength(1, {
-        message: 'description is too short',
-    })
     @MaxLength(255, {
         message: 'description is too long',
     })

@@ -3,7 +3,7 @@ import {PostgresDataSource} from "../../../tools/PostgresConnection";
 import {DeleteResult} from "typeorm";
 
 
-class PostgresBookRepository {
+class BookPostgresRepository {
     async create(book: Book) {
         return await PostgresDataSource.getRepository(Book).create(book);
     }
@@ -30,4 +30,4 @@ class PostgresBookRepository {
     }
 }
 
-export default new PostgresBookRepository()
+export default new BookPostgresRepository()
