@@ -6,10 +6,10 @@ export class Token {
     @PrimaryGeneratedColumn('uuid')
     public tokenId: string;
 
+    @Column({ nullable: false })
+    public refreshToken: string;
+
     @OneToOne(() => User)
     @JoinColumn()
     public user: User;
-
-    @Column({ nullable: false })
-    public refreshToken: string;
 }

@@ -1,11 +1,12 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany} from 'typeorm';
 import {IsBoolean, IsEmail, IsEnum, IsMobilePhone, IsString, MaxLength, MinLength} from 'class-validator';
 import {Role} from "../../../core/domain/enums/Role";
-import {Wishlist} from "../../../core/domain/Wishlist";
-import {Favorite} from "../../../core/domain/Favorite";
 import {Rating} from "./RatingEntity";
 import {Order} from "./OrderEntity";
 import {Payment} from "./PaymentEntity";
+import {Wishlist} from "./WishlistEntity";
+import {Favorite} from "./FavoriteEntity";
+
 
 @Entity('User')
 export class User {
