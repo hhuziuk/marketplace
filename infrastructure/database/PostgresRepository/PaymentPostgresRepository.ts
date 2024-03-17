@@ -22,5 +22,4 @@ class PaymentPostgresRepository {
         return await PostgresDataSource.getRepository(Payment).delete(paymentId);
     }
 }
-
 export default new PaymentPostgresRepository()
