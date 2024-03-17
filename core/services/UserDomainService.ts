@@ -16,7 +16,6 @@ export class UserDomainService implements UserRepository {
         surname: string,
         email: string,
         password: string,
-        activationLink: string,
         phoneNumber: string,
         country: string,
         city: string,
@@ -24,7 +23,7 @@ export class UserDomainService implements UserRepository {
         address: string,
         role: Role,
     ) : Promise<User> {
-        return await this.userDomainRepository.create(username, name, surname, email, password, activationLink, phoneNumber, country, city, postalCode, address, role);
+        return await this.userDomainRepository.create(username, name, surname, email, password, phoneNumber, country, city, postalCode, address, role);
     }
     async save(user: User): Promise<User> {
         return await this.userDomainRepository.save(user);

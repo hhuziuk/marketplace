@@ -1,21 +1,25 @@
+import {PostgresDataSource} from "../../../tools/PostgresConnection";
+import {DeleteResult} from "typeorm";
+import {User} from "../PostgresEntities/UserEntity";
+
 class PostgresUserRepository {
-    async findOne(data: object){
-        return PostgresDataSource.getRepository(User).findOne({where: data})
+    async create(user: User) {
+        return await PostgresDataSource.getRepository(User).create(user);
     }
-    async create(data: object){
-        return PostgresDataSource.getRepository(User).create(data)
+    async save(user: User): Promise<User> {
+        return await PostgresDataSource.getRepository(User).save(user);
     }
-
-    async save(data: any){
-        return PostgresDataSource.getRepository(User).save(data)
+    async getAll(): Promise<User[]> {
+        return await PostgresDataSource.getRepository(User).find();
     }
-
-    async find(){
-        return PostgresDataSource.getRepository(User).find()
+    async getById(userId: string): Promise<User> {
+        return await PostgresDataSource.getRepository(User).findOne({where: {userId}});
     }
-
-    async delete(id: number){
-        return PostgresDataSource.getRepository(User).delete(id)
+    async getBy(data: object): Promise<User> {
+        return await PostgresDataSource.getRepository(User).findOne({where: data});
+    }
+    async delete(userId: string): Promise<DeleteResult> {
+        return await PostgresDataSource.getRepository(User).delete(userId);
     }
 }
 

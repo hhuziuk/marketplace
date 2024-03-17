@@ -6,6 +6,7 @@ import router from "./infrastructure/routers";
 import session from "express-session";
 import passport from "passport";
 import GoogleStrategy from 'passport-google-oauth2';
+import {PostgresDataSource} from "./tools/PostgresConnection";
 const PORT = process.env.PORT || 3015;
 const app = express();
 
@@ -33,11 +34,14 @@ app.use('/api', router);
 //     passReqToCallback: true,
 // }, userRouter));
 
-const start = async () => {
-    try {
-        app.listen(PORT, () => { logger.info(`app is running on ${PORT} port`); });
-    } catch (e) {
-        logger.error(e);
+const start = async() => {
+    try{
+        await PostgresDataSource.initialize()
+            .then(() => logger.info('Postgres Connected...'))
+            .catch((error) => console.log(error))
+        app.listen(PORT, () => {logger.info(`app is running on ${PORT} port`)})
+    } catch(e){
+        logger.error(e)
     }
-};
+}
 start();
