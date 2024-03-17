@@ -1,5 +1,5 @@
 import {OrderRepository} from "../repositories/OrderRepository/OrderRepository";
-import {Order} from "../domain/Order";
+import {Order, OrderItem} from "../domain/Order";
 import {Status} from "../domain/enums/Status";
 import {Delivery} from "../domain/enums/Delivery";
 
@@ -10,12 +10,12 @@ export class OrderDomainService implements OrderRepository {
         createdAt: Date,
         status: Status,
         userId: string,
-        wishlistId: string,
+        orderItems: OrderItem[],
         totalPrice: number,
         paymentId: string,
         deliveryType: Delivery,
     ) : Promise<Order> {
-        return await this.orderDomainRepository.createOrder(orderId, createdAt, status, userId, wishlistId, totalPrice, paymentId, deliveryType);
+        return await this.orderDomainRepository.createOrder(orderId, createdAt, status, userId, orderItems, totalPrice, paymentId, deliveryType);
     }
     async confirmOrder(orderId: string) : Promise<Order> {
         return await this.orderDomainRepository.confirmOrder(orderId);

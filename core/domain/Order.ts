@@ -7,9 +7,16 @@ export class Order {
         readonly createdAt: Date,
         readonly status: Status,
         readonly userId: string,
-        readonly wishlistId: string,
+        readonly orderItems: OrderItem[],
         readonly totalPrice: number,
         readonly paymentId: string,
         readonly deliveryType: Delivery,
+    ) {}
+}
+
+export class OrderItem {
+    constructor(
+        readonly bookId: string,
+        readonly quantity: number
     ) {}
 }
