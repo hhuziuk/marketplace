@@ -9,7 +9,6 @@ export interface UserRepository {
         surname: string,
         email: string,
         password: string,
-        activationLink: string,
         phoneNumber: string,
         country: string,
         city: string,
