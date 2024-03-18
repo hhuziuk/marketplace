@@ -16,7 +16,7 @@ export class Order {
     @IsDate()
     public createdAt: Date;
 
-    @Column({ type: 'enum', nullable: false })
+    @Column({ type: 'enum', enum: Status, nullable: false })
     @IsEnum(Status)
     public status: Status;
 
@@ -24,7 +24,7 @@ export class Order {
     @IsNumber()
     public totalPrice: number;
 
-    @Column({ type: 'enum', nullable: false })
+    @Column({ type: 'enum', enum: Delivery, nullable: false })
     @IsEnum(Delivery)
     public delivery: Delivery;
 

@@ -1,27 +1,26 @@
 import {DataSource} from "typeorm";
-import {Book} from "../core/domain/Book";
-import {Publisher} from "../core/domain/Publisher";
-import {Token} from "../core/domain/Token";
-import {User} from "../core/domain/User";
-import {Category} from "../core/domain/Category";
-import {Wishlist} from "../core/domain/Wishlist";
-import {WishlistBooks} from "../core/domain/WishlistBooks";
-import {Favorite} from "../core/domain/Favorite";
-import {Order, OrderItem} from "../core/domain/Order";
-import {Payment} from "../core/domain/Payment";
-import {Rating} from "../core/domain/Rating";
-
+import {User} from "../infrastructure/database/PostgresEntities/UserEntity";
+import {Book} from "../infrastructure/database/PostgresEntities/BookEntity";
+import {Publisher} from "../infrastructure/database/PostgresEntities/PublisherEntity";
+import {Category} from "../infrastructure/database/PostgresEntities/CategoryEntity";
+import {Token} from "../infrastructure/database/PostgresEntities/TokenEntity";
+import {WishlistBooks} from "../infrastructure/database/PostgresEntities/WishlistBooksEntity";
+import {Wishlist} from "../infrastructure/database/PostgresEntities/WishlistEntity";
+import {Favorite} from "../infrastructure/database/PostgresEntities/FavoriteEntity";
+import {Order} from "../infrastructure/database/PostgresEntities/OrderEntity";
+import {OrderItem} from "../infrastructure/database/PostgresEntities/OrderItemEntity";
+import {Payment} from "../infrastructure/database/PostgresEntities/PaymentEntity";
+import {Rating} from "../infrastructure/database/PostgresEntities/RatingEntity";
 
 export const PostgresDataSource : DataSource = new DataSource({
-    type: 'postgres',
-    host: process.env.POSTGRES_HOST,
-    port: parseInt(process.env.POSTGRES_PORT || '', 10),
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DB,
+    type: "postgres",
+    host: "localhost",
+    port: 5432,
+    username: "postgres",
+    password: "root",
+    database: "postgres",
     synchronize: true,
     logging: false,
-    name: 'default',
     entities: [
         User,
         Book,
@@ -36,4 +35,6 @@ export const PostgresDataSource : DataSource = new DataSource({
         Payment,
         Rating
     ],
+    subscribers: [],
+    migrations: [],
 })

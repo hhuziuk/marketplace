@@ -90,9 +90,8 @@ export class User {
     })
     public address: string
 
-    @Column({ type: 'enum', nullable: false, default: 'USER' })
-    @IsEnum(Role)
-    public role: Role
+    @Column({ type: "enum", enum: Role, nullable: false })
+    public role: Role;
 
     @OneToOne(() => Wishlist)
     wishlist: Wishlist;
