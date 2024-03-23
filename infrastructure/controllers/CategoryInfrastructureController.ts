@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {CategoryInfrastructureService} from "../services/CategoryInfrastructureService";
 
 class CategoryInfrastructureController {
     constructor(readonly categoryService: any = CategoryInfrastructureService) {}

@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {RatingInfrastructureService} from "../services/RatingInfrastructureService";
 class RatingInfrastructureController {
     constructor(readonly ratingService: any = RatingInfrastructureService) {}
     async addRating(req: Request, res: Response, next: NextFunction){

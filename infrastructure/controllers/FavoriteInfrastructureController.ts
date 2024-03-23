@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {FavoriteInfrastructureService} from "../services/FavoriteInfrastructureService";
 
 class FavoriteInfrastructureController {
     constructor(readonly favoriteService: any = FavoriteInfrastructureService) {}

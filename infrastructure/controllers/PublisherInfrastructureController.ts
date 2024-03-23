@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {PublisherInfrastructureService} from "../services/PublisherInfrastructureService";
 
 class PublisherInfrastructureController {
     constructor(readonly publisherService: any = PublisherInfrastructureService) {}

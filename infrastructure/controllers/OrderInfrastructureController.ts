@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {OrderInfrastructureService} from "../services/OrderInfrastructureService";
 
 class OrderInfrastructureController {
     constructor(readonly orderService: any = OrderInfrastructureService) {}

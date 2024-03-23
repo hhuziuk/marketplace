@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {PaymentInfrastructureService} from "../services/PaymentInfrastructureService";
 class PaymentInfrastructureController {
     constructor(readonly paymentService: any = PaymentInfrastructureService) {}
     async setPaymentMethod(req: Request, res: Response, next: NextFunction){

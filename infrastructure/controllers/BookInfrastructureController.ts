@@ -1,6 +1,7 @@
 import {AuthInfrastructureService} from "../services/AuthInfrastructureService";
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {BookInfrastructureService} from "../services/BookInfrastructureService";
 
 class BookInfrastructureController {
     constructor(readonly bookService: any = BookInfrastructureService) {}

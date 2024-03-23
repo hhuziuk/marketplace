@@ -1,5 +1,6 @@
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
+import {WishlistInfrastructureService} from "../services/WishlistInfrastructureService";
 class WishlistInfrastructureController {
     constructor(readonly wishlistService: any = WishlistInfrastructureService) {}
     async addToWishList(req: Request, res: Response, next: NextFunction){
