@@ -9,7 +9,7 @@ import {Favorite} from "./FavoriteEntity";
 @Entity('User')
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    public userId: string;
+    public userId?: string;
 
     @Column({ nullable: false, unique: true })
     @IsString()
@@ -19,7 +19,7 @@ export class User {
     @MaxLength(30, {
         message: 'username is too long',
     })
-    public username: string;
+    public username?: string;
 
     @Column({ nullable: false })
     @IsString()
@@ -44,6 +44,16 @@ export class User {
     @Column({ nullable: false, unique: true })
     @IsEmail()
     public email: string;
+
+
+    @Column({ nullable: false, unique: false })
+    @MinLength(8, {
+        message: 'password is too short',
+    })
+    @MaxLength(50, {
+        message: 'password is too long',
+    })
+    public password: string;
 
     @Column({ nullable: false, default: false })
     @IsBoolean()

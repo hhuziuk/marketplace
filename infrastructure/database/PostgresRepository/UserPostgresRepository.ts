@@ -3,7 +3,7 @@ import {DeleteResult} from "typeorm";
 import {User} from "../PostgresEntities/UserEntity";
 
 class PostgresUserRepository {
-    async create(user: User) {
+    async create(user: any) {
         return await PostgresDataSource.getRepository(User).create(user);
     }
     async save(user: User): Promise<User> {

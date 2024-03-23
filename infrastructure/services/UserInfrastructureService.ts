@@ -12,8 +12,7 @@ import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
 
 export class UserInfrastructureService {
-    constructor(readonly userRepository: any = new UserDomainService(userRepository),
-                readonly authRepository: any = new AuthDomainService(authRepository)){}
+    constructor(readonly userRepository: any = new UserDomainService(userRepository)){}
     async create(
         username: string,
         name: string,

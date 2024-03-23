@@ -1,7 +1,8 @@
 import {UserInfrastructureService} from "../services/UserInfrastructureService";
+import {AuthInfrastructureService} from "../services/AuthInfrastructureService";
 
 class UserInfrastructureController {
-    constructor(private userService: UserInfrastructureService) {}
+    constructor(readonly userService: any = UserInfrastructureService) {}
 
     // Methods for Admin
     async createAdmin(req: Request, res: Response) {
@@ -55,4 +56,4 @@ class UserInfrastructureController {
     }
 }
 
-export default new UserInfrastructureController(UserInfrastructureService);
+export default new UserInfrastructureController();
