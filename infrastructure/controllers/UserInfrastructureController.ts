@@ -1,58 +1,118 @@
 import {UserInfrastructureService} from "../services/UserInfrastructureService";
-import {AuthInfrastructureService} from "../services/AuthInfrastructureService";
+import logger from "../../tools/logger";
+import {NextFunction} from "express";
 
 class UserInfrastructureController {
     constructor(readonly userService: any = UserInfrastructureService) {}
-
     // Methods for Admin
-    async createAdmin(req: Request, res: Response) {
-        // Implement logic to create admin user
+    async createAdmin(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async getByIdAdmin(req: Request, res: Response) {
-        // Implement logic to get admin user by ID
+    async getByIdAdmin(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async updateAdmin(req: Request, res: Response) {
-        // Implement logic to update admin user
+    async updateAdmin(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async deleteAdmin(req: Request, res: Response) {
-        // Implement logic to delete admin user
+    async deleteAdmin(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
     // Methods for Seller
-    async createSeller(req: Request, res: Response) {
-        // Implement logic to create seller user
+    async createSeller(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async getByIdSeller(req: Request, res: Response) {
-        // Implement logic to get seller user by ID
+    async getByIdSeller(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async updateSeller(req: Request, res: Response) {
-        // Implement logic to update seller user
+    async updateSeller(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async deleteSeller(req: Request, res: Response) {
-        // Implement logic to delete seller user
+    async deleteSeller(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
     // Methods for Customer
-    async createCustomer(req: Request, res: Response) {
-        // Implement logic to create customer user
+    async createCustomer(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async getByIdCustomer(req: Request, res: Response) {
-        // Implement logic to get customer user by ID
+    async getByIdCustomer(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async updateCustomer(req: Request, res: Response) {
-        // Implement logic to update customer user
+    async updateCustomer(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 
-    async deleteCustomer(req: Request, res: Response) {
-        // Implement logic to delete customer user
+    async deleteCustomer(req: Request, res: Response, next: NextFunction){
+        try{
+            return res.json()
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
     }
 }
 
