@@ -7,7 +7,6 @@ import {
     SellerRepository
 } from "../../core/repositories/UserRepository/UserRepository";
 import {Book} from "../../core/domain/Book";
-import {AuthDomainService} from "../../core/services/AuthDomainService";
 import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
 
