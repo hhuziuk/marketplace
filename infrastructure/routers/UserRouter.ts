@@ -2,25 +2,26 @@ import UserInfrastructureController from "../controllers/UserInfrastructureContr
 import express from "express"
 import {checkRole} from "../middleware/RoleMiddleware";
 import {Role} from "../../core/domain/enums/Role";
+import {authenticateUser} from "../middleware/AuthenticateMiddleware";
 const router = express.Router();
 
 // Routes for Admin
-router.post('/admin/users', checkRole(Role.Admin), UserInfrastructureController.createAdmin);
-router.get('/admin/:userId', checkRole(Role.Admin), UserInfrastructureController.getByIdAdmin);
-router.put('/admin/update/:userId', checkRole(Role.Admin), UserInfrastructureController.updateAdmin);
-router.delete('/admin/delete/:userId', checkRole(Role.Admin), UserInfrastructureController.deleteAdmin);
+router.post('/admin/users', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.createAdmin);
+router.get('/admin/:userId', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.getByIdAdmin);
+router.put('/admin/update/:userId', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.updateAdmin);
+router.delete('/admin/delete/:userId', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.deleteAdmin);
 
 // Routes for Seller
-router.post('/seller/users', checkRole(Role.Seller), UserInfrastructureController.createSeller);
-router.get('/seller/:userId', checkRole(Role.Seller), UserInfrastructureController.getByIdSeller);
-router.put('/seller/update/:userId', checkRole(Role.Seller), UserInfrastructureController.updateSeller);
-router.delete('/seller/delete/:userId', checkRole(Role.Seller), UserInfrastructureController.deleteSeller);
+router.post('/seller/users', authenticateUser, checkRole(Role.Seller), UserInfrastructureController.createSeller);
+router.get('/seller/:userId', authenticateUser, checkRole(Role.Seller), UserInfrastructureController.getByIdSeller);
+router.put('/seller/update/:userId', authenticateUser, checkRole(Role.Seller), UserInfrastructureController.updateSeller);
+router.delete('/seller/delete/:userId', authenticateUser, checkRole(Role.Seller), checkRole(Role.Admin), UserInfrastructureController.deleteSeller);
 
 // Routes for Customer
-router.post('/customer/users', checkRole(Role.Customer), UserInfrastructureController.createCustomer);
-router.get('/customer/:userId', checkRole(Role.Customer), UserInfrastructureController.getByIdCustomer);
-router.put('/customer/update/:userId', checkRole(Role.Customer), UserInfrastructureController.updateCustomer);
-router.delete('/customer/delete/:userId', checkRole(Role.Customer), UserInfrastructureController.deleteCustomer);
+router.post('/customer/users', authenticateUser, checkRole(Role.Customer), UserInfrastructureController.createCustomer);
+router.get('/customer/:userId', authenticateUser, checkRole(Role.Customer), UserInfrastructureController.getByIdCustomer);
+router.put('/customer/update/:userId', authenticateUser, checkRole(Role.Customer), UserInfrastructureController.updateCustomer);
+router.delete('/customer/delete/:userId', authenticateUser, checkRole(Role.Customer), checkRole(Role.Admin), UserInfrastructureController.deleteCustomer);
 
 export default router
 
