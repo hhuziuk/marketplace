@@ -115,5 +115,4 @@ class UserInfrastructureController {
         }
     }
 }
-
 export default new UserInfrastructureController();
