@@ -3,16 +3,7 @@ import logger from "../../tools/logger";
 import {NextFunction} from "express";
 
 class BookInfrastructureController {
-    constructor(readonly authService: any = AuthInfrastructureService) {}
-
-    async registration(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
-            next(e);
-            logger.error(e)
-        }
-    }
+    constructor(readonly bookService: any = BookInfrastructureService) {}
 
     async create(req: Request, res: Response, next: NextFunction){
         try{
