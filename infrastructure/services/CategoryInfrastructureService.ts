@@ -1,7 +1,6 @@
 import {CategoryDomainService} from "../../core/services/CategoryDomainService";
 import {Category} from "../../core/domain/Category";
 import ApiError from "../exceptions/ApiError";
-
 export class CategoryInfrastructureService {
     constructor(readonly categoryRepository: any = new CategoryDomainService(categoryRepository)){}
     async addCategory(
