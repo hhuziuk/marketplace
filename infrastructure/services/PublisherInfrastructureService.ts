@@ -1,6 +1,5 @@
 import {PublisherDomainService} from "../../core/services/PublisherDomainService";
 import {Publisher} from "../database/PostgresEntities/PublisherEntity";
-import {PostgresDataSource} from "../../tools/PostgresConnection";
 import {DeleteResult} from "typeorm";
 import ApiError from "../exceptions/ApiError";
 
