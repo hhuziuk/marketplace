@@ -4,11 +4,12 @@ import {v4} from "uuid";
 import ApiError from "../exceptions/ApiError";
 import mailService from "./OuterServices/MailService";
 import {UserDomainService} from "../../core/services/UserDomainService";
+import {Role} from "../../core/domain/enums/Role";
 
 export class AuthInfrastructureService {
     constructor(readonly authRepository: any = new AuthDomainService(authRepository),
     readonly userRepository: any = new UserDomainService(userRepository)){}
-    async registration(email: string, username: string, password: string, role: string) {
+    async registration(email: string, username: string, password: string, role: Role) {
         const candidate = await this.userRepository.findBy({ email });
         if (candidate) {
             throw ApiError.BadRequest(`User with the same ${email} already exists`)
