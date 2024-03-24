@@ -1,25 +1,39 @@
-import {RatingDomainService} from "../../core/services/RatingDomainService";
-import {Rating} from "../database/PostgresEntities/RatingEntity";
-import {PostgresDataSource} from "../../tools/PostgresConnection";
-import {DeleteResult} from "typeorm";
+import { RatingDomainService } from "../../core/services/RatingDomainService";
+import { Rating } from "../database/PostgresEntities/RatingEntity";
+import { PostgresDataSource } from "../../tools/PostgresConnection";
+import { DeleteResult } from "typeorm";
+import ApiError from "../exceptions/ApiError";
+
 export class RatingInfrastructureService {
-    constructor(readonly ratingRepository: any = new RatingDomainService(ratingRepository)){}
-    async create(rating: Rating) {
-        return await PostgresDataSource.getRepository(Rating).create(rating);
+    constructor(readonly ratingRepository: any = new RatingDomainService(ratingRepository)) {}
+
+    async create(rating: Rating): Promise<Rating> {
+        const existingRating = await this.ratingRepository.getById(rating.ratingId);
+        if (existingRating) {
+            throw ApiError.BadRequest(`Rating with id ${rating.ratingId} already exists`);
+        }
+        const createdRating = await this.ratingRepository.create(rating);
+        await this.ratingRepository.save(createdRating);
+        return createdRating;
     }
-    async save(rating: Rating): Promise<Rating> {
-        return await PostgresDataSource.getRepository(Rating).save(rating);
-    }
+
     async getAll(): Promise<Rating[]> {
-        return await PostgresDataSource.getRepository(Rating).find();
+        const ratings = await this.ratingRepository.getAll();
+        return ratings;
     }
+
     async getById(ratingId: string): Promise<Rating> {
-        return await PostgresDataSource.getRepository(Rating).findOne({where: {ratingId}});
-    }
-    async getBy(data: object): Promise<Rating> {
-        return await PostgresDataSource.getRepository(Rating).findOne({where: data});
+        if(!ratingId){
+            throw ApiError.BadRequest(`No id was provided`)
+        }
+        const rating = await this.ratingRepository.getById(ratingId);
+        return rating;
     }
     async delete(ratingId: string): Promise<DeleteResult> {
-        return await PostgresDataSource.getRepository(Rating).delete(ratingId);
+        if(!ratingId){
+            throw ApiError.BadRequest(`No id was provided`)
+        }
+        const category = this.ratingRepository.delete(ratingId)
+        return category;
     }
 }
