@@ -37,6 +37,9 @@ export class UserDomainService implements UserRepository {
     async getById(userId: string): Promise<User> {
         return await this.userDomainRepository.getById(userId);
     }
+    async getBy(data: object): Promise<User> {
+        return await this.userDomainRepository.getBy(data);
+    }
     async delete(userId: string): Promise<void> {
         return await this.userDomainRepository.delete(userId);
     }

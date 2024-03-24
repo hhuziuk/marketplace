@@ -18,6 +18,7 @@ export interface UserRepository {
     ): Promise<User>;
     save(user: User): Promise<User>;
     getAll(): Promise<User[]>;
+    getBy(data: object): Promise<User>;
     getById(userId: string): Promise<User | null>;
     update(userId: string): Promise<User>;
     delete(userId: string): Promise<void>;
