@@ -3,5 +3,6 @@ export enum Status {
     processing = "Processing",
     shipped = "Shipped",
     delivered = "Delivered",
+    confirmed = "Confirmed",
     cancelled = "Cancelled"
 }

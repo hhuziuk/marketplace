@@ -7,14 +7,11 @@ export class FavoriteInfrastructureService {
 
     async addToFavorite(bookId: string): Promise<Favorite> {
         const existingFavorite = await this.favoriteRepository.getBy({ bookId });
-
         if (existingFavorite) {
             throw ApiError.BadRequest(`The book is already in favorites`);
         }
-
         const favorite = await this.favoriteRepository.create({ bookId });
         await this.favoriteRepository.save(favorite);
-
         return favorite;
     }
 
@@ -24,11 +21,9 @@ export class FavoriteInfrastructureService {
 
     async deleteFromFavorite(bookId: string): Promise<void> {
         const favorite = await this.favoriteRepository.getBy({ bookId });
-
         if (!favorite) {
             throw ApiError.BadRequest(`The book is not in favorites`);
         }
-
         await this.favoriteRepository.delete(favorite.id);
     }
 }
