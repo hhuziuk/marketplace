@@ -3,10 +3,10 @@ import {User} from "../../../core/domain/User";
 import tokenInfrastructureService from "../TokenInfrastructureService";
 import ApiError from "../../exceptions/ApiError";
 import {UserDomainService} from "../../../core/services/UserDomainService";
+import UserPostgresRepository from "../../database/PostgresRepository/UserPostgresRepository";
 
 class JWTService {
-    constructor(readonly authRepository: any = new AuthDomainService(authRepository),
-                readonly userRepository: any = new UserDomainService(userRepository)) {}
+    constructor(readonly userRepository: any = new UserDomainService(userRepository)) {}
     async registration(user: User) {
         const tokens = tokenInfrastructureService.generateTokens({...user})
         await tokenInfrastructureService.saveToken(user.userId, tokens.refreshToken)
@@ -45,3 +45,4 @@ class JWTService {
         }
     }
 }
+export default new JWTService(UserPostgresRepository);
