@@ -1,6 +1,5 @@
 import {Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./UserEntity";
-import {WishlistBooks} from "./WishlistBooksEntity";
 import {Book} from "./BookEntity";
 
 @Entity('Wishlist')

@@ -4,7 +4,7 @@ import { DeleteResult } from "typeorm";
 import ApiError from "../exceptions/ApiError";
 
 export class WishlistInfrastructureService {
-    constructor(readonly wishlistRepository: any = new WishlistDomainService()){}
+    constructor(readonly wishlistRepository: any = new WishlistDomainService(wishlistRepository)){}
 
     async create(wishlist: Wishlist): Promise<Wishlist> {
         const existingWishlist = await this.wishlistRepository.getBy({ user: wishlist.user });

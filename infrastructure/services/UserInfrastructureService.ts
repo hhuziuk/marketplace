@@ -44,11 +44,7 @@ export class UserInfrastructureService {
             address,
             role})
         await this.userRepository.save(user)
-        return await this.authRepository.registration(user);
-    }
-
-    async save(user: User): Promise<User> {
-
+        return user;
     }
 
     async getAll(): Promise<User[]> {
