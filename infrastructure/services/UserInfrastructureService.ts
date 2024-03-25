@@ -9,6 +9,8 @@ import {
 import {Book} from "../../core/domain/Book";
 import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
+import {BookDomainService} from "../../core/services/BookDomainService";
+import {WishlistDomainService} from "../../core/services/WishlistDomainService";
 
 export class UserInfrastructureService {
     constructor(readonly userRepository: any = new UserDomainService(userRepository)){}
@@ -46,44 +48,61 @@ export class UserInfrastructureService {
         await this.userRepository.save(user)
         return user;
     }
-
     async getAll(): Promise<User[]> {
-
+        return await this.userRepository.getAll();
     }
     async getById(userId: string): Promise<User | null> {
-
+        return await this.userRepository.getById(userId);
     }
-    async update(userId: string): Promise<User> {
-
+    async update(userId: string, userData: Partial<User>): Promise<User> {
+        const user = await this.userRepository.getById(userId);
+        if (!user) {
+            throw ApiError.BadRequest("User not found");
+        }
+        Object.assign(user, userData);
+        await this.userRepository.save(user);
+        return user;
     }
     async delete(userId: string): Promise<void> {
-
+        const user = await this.userRepository.getById(userId);
+        if (!user) {
+            throw ApiError.BadRequest("User not found");
+        }
+        await this.userRepository.delete(user);
     }
 }
 
 export class AdminInfrastructureService extends UserDomainService{
-    constructor(private adminDomainRepository: AdminRepository){
-        super(adminDomainRepository);
+    constructor(readonly userRepository: any = new UserDomainService(userRepository)){
+        super(userRepository);
     }
     async verifySeller(sellerId: string) : Promise<void>{
-
+        //TODO
     }
-    async deleteSeller(sellerId: string) : Promise<void>{
-
+    async deleteSeller(sellerId: string): Promise<void> {
+        const seller = await this.userRepository.getById(sellerId);
+        if (!seller || seller.role !== Role.Seller) {
+            throw ApiError.BadRequest("Seller not found");
+        }
+        await this.userRepository.delete(seller);
     }
-    async deleteCustomer(customerId: string) : Promise<void>{
-
+    async deleteCustomer(customerId: string): Promise<void> {
+        const customer = await this.userRepository.getById(customerId);
+        if (!customer || customer.role !== Role.Customer) {
+            throw ApiError.BadRequest("Customer not found");
+        }
+        await this.userRepository.delete(customer);
     }
     async deleteItem(itemId: string) : Promise<void>{
-
+        //TODO
     }
 }
 
 export class SellerInfrastructureService extends UserDomainService {
-    constructor(private sellerDomainRepository: SellerRepository) {
-        super(sellerDomainRepository);
+    constructor(readonly userRepository: any = new UserDomainService(userRepository),
+                readonly bookRepository: any = new BookDomainService(bookRepository)){
+        super(userRepository);
     }
-
     async addItem(
         bookName: string,
         author: string,
@@ -94,24 +113,51 @@ export class SellerInfrastructureService extends UserDomainService {
         ISBN: string,
         language: string,
         size: string,
-        price: number,
+        price: number
     ): Promise<Book> {
-
+        const item = await this.bookRepository.create({
+            bookName,
+            author,
+            categoryId,
+            publisherId,
+            ratingId,
+            description,
+            ISBN,
+            language,
+            size,
+            price
+        });
+        return item;
     }
-    async updateItem(itemId: string): Promise<Book> {
-
+    async updateItem(bookId: string, updatedData: Partial<Book>): Promise<Book> {
+        const book = await this.bookRepository.getById(bookId);
+        if (!book) {
+            throw ApiError.BadRequest("Item not found");
+        }
+        Object.assign(book, updatedData);
+        await this.bookRepository.save(book);
+        return book;
     }
-    async deleteItem(itemId: string): Promise<void> {
-
+    async deleteItem(bookId: string): Promise<void> {
+        const book = await this.bookRepository.getById(bookId);
+        if (!book) {
+            throw ApiError.BadRequest("Item not found");
+        }
+        await this.bookRepository.delete(book);
     }
 }
 
 export class CustomerInfrastructureService extends UserDomainService {
-    constructor(private customerDomainRepository : CustomerRepository) {
-        super(customerDomainRepository);
+    constructor(readonly userRepository: any = new UserDomainService(userRepository),
+                readonly wishlistRepository: any = new WishlistDomainService(wishlistRepository)){
+        super(userRepository);
     }
-    async addItemToWishlist(itemId: string): Promise<void> {
-
+    async addItemToWishlist(userId: string, itemId: string): Promise<void> {
+        const user = await this.userRepository.getById(userId);
+        if (!user || user.role !== Role.Customer) {
+            throw ApiError.BadRequest("Customer not found");
+        }
+        await this.wishlistRepository.addItemToWishlist(user, itemId);
     }
     async removeItemFromWishlist(itemId: string): Promise<void> {
 

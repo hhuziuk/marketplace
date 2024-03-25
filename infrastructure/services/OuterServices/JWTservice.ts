@@ -1,4 +1,3 @@
-import {AuthDomainService} from "../../../core/services/AuthDomainService";
 import {User} from "../../../core/domain/User";
 import tokenInfrastructureService from "../TokenInfrastructureService";
 import ApiError from "../../exceptions/ApiError";

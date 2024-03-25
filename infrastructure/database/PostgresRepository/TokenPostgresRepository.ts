@@ -13,9 +13,6 @@ class PostgresTokenRepository {
     async getAll(){
         return await PostgresDataSource.getRepository(Token).find()
     }
-    async findOneBy(tokenId: string){
-        return PostgresDataSource.getRepository(Token).findOneBy({tokenId})
-    }
     async removeToken(refreshToken: object) {
         return PostgresDataSource.getRepository(Token).delete(refreshToken);
     }
