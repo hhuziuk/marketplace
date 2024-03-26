@@ -19,7 +19,6 @@ export const PostgresDataSource : DataSource = new DataSource({
     password: "root",
     database: "postgres",
     synchronize: true,
-    logging: false,
     entities: [
         User,
         Book,
