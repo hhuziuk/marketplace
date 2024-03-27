@@ -1,11 +1,6 @@
 import {UserDomainService} from "../../core/services/UserDomainService";
 import {User} from "../../core/domain/User";
 import {Role} from "../../core/domain/enums/Role";
-import {
-    AdminRepository,
-    CustomerRepository,
-    SellerRepository
-} from "../../core/repositories/UserRepository/UserRepository";
 import {Book} from "../../core/domain/Book";
 import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
@@ -73,7 +68,8 @@ export class UserInfrastructureService {
 }
 
 export class AdminInfrastructureService extends UserDomainService{
-    constructor(readonly userRepository: any = new UserDomainService(userRepository)){
+    constructor(readonly userRepository: UserDomainService = new UserDomainService(userRepository),
+                readonly bookRepository: BookDomainService = new BookDomainService(bookRepository)){
         super(userRepository);
     }
     async verifySeller(sellerId: string) : Promise<void>{
@@ -84,17 +80,22 @@ export class AdminInfrastructureService extends UserDomainService{
         if (!seller || seller.role !== Role.Seller) {
             throw ApiError.BadRequest("Seller not found");
         }
-        await this.userRepository.delete(seller);
+        await this.userRepository.delete(sellerId);
     }
     async deleteCustomer(customerId: string): Promise<void> {
         const customer = await this.userRepository.getById(customerId);
         if (!customer || customer.role !== Role.Customer) {
             throw ApiError.BadRequest("Customer not found");
         }
-        await this.userRepository.delete(customer);
+        await this.userRepository.delete(customerId);
     }
-    async deleteItem(itemId: string) : Promise<void>{
-        //TODO
+    async deleteItem(userId: string, itemId: string) : Promise<void>{
+        const user = await this.userRepository.getById(userId);
+        const item = await this.bookRepository.getById(itemId);
+        if ((!user || !item) || user.role !== Role.Customer) {
+            throw ApiError.BadRequest("Customer or book not found");
+        }
+        await this.bookRepository.delete(itemId);
     }
 }
 
@@ -148,21 +149,28 @@ export class SellerInfrastructureService extends UserDomainService {
 }
 
 export class CustomerInfrastructureService extends UserDomainService {
-    constructor(readonly userRepository: any = new UserDomainService(userRepository),
+    constructor(readonly userRepository: UserDomainService = new UserDomainService(userRepository),
+                readonly bookRepository: BookDomainService = new BookDomainService(bookRepository),
                 readonly wishlistRepository: any = new WishlistDomainService(wishlistRepository)){
         super(userRepository);
     }
     async addItemToWishlist(userId: string, itemId: string): Promise<void> {
         const user = await this.userRepository.getById(userId);
-        if (!user || user.role !== Role.Customer) {
-            throw ApiError.BadRequest("Customer not found");
+        const item = await this.bookRepository.getById(itemId);
+        if ((!user || !item) || user.role !== Role.Customer) {
+            throw ApiError.BadRequest("Customer or book not found");
         }
-        await this.wishlistRepository.addItemToWishlist(user, itemId);
+        await this.wishlistRepository.addItemToWishlist(userId, itemId);
     }
-    async removeItemFromWishlist(itemId: string): Promise<void> {
-
+    async removeItemFromWishlist(userId: string, itemId: string): Promise<void> {
+        const user = await this.userRepository.getById(userId);
+        const item = await this.bookRepository.getById(itemId);
+        if ((!user || !item) || user.role !== Role.Customer) {
+            throw ApiError.BadRequest("Customer or book not found");
+        }
+        await this.wishlistRepository.removeItemFromWishlist(userId, itemId);
     }
     async payment(): Promise<void> {
-
+        // TODO
     }
 }
