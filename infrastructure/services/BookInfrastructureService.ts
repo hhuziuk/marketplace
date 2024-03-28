@@ -1,7 +1,8 @@
 import {BookDomainService} from "../../core/services/BookDomainService";
 import {Book} from "../../core/domain/Book";
 import ApiError from "../exceptions/ApiError";
-export class BookInfrastructureService {
+import BookPostgresRepository from "../database/PostgresRepository/BookPostgresRepository";
+class BookInfrastructureService {
     constructor(readonly bookRepository: any = new BookDomainService(bookRepository)){}
     async create(
         bookName: string,
@@ -60,3 +61,4 @@ export class BookInfrastructureService {
         return updatedBook;
     }
 }
+export default new BookInfrastructureService(BookPostgresRepository);

@@ -3,12 +3,21 @@ import bcrypt from "bcrypt";
 import {v4} from "uuid";
 import ApiError from "../exceptions/ApiError";
 import mailService from "./OuterServices/MailService";
+import JWTservice from "./OuterServices/JWTservice";
 import {UserDomainService} from "../../core/services/UserDomainService";
 import {Role} from "../../core/domain/enums/Role";
+import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
 
-export class AuthInfrastructureService {
+class AuthInfrastructureService {
+    public cookiesEnabled: boolean
     constructor(readonly authRepository: any = new AuthDomainService(authRepository),
-    readonly userRepository: any = new UserDomainService(userRepository)){}
+        readonly userRepository: any = new UserDomainService(userRepository)){
+        if(authRepository === JWTservice) {
+            this.cookiesEnabled = true;
+        } else {
+            this.cookiesEnabled = false
+        }
+    }
     async registration(email: string, username: string, password: string, role: Role) {
         const candidate = await this.userRepository.findBy({ email });
         if (candidate) {
@@ -49,3 +58,4 @@ export class AuthInfrastructureService {
         return await this.authRepository.refresh(refreshToken)
     }
 }
+export default new AuthInfrastructureService(UserPostgresRepository);

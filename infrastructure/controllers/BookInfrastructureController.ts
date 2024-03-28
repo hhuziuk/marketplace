@@ -1,6 +1,6 @@
 import {AuthInfrastructureService} from "../services/AuthInfrastructureService";
 import logger from "../../tools/logger";
-import {NextFunction} from "express";
+import {Response, Request, NextFunction} from "express";
 import {BookInfrastructureService} from "../services/BookInfrastructureService";
 
 class BookInfrastructureController {
@@ -8,7 +8,9 @@ class BookInfrastructureController {
 
     async create(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {name, author, description, ISBN, typeId, publisherId} = req.body
+            const book = await BookInfrastructureService.create(name, author, description, ISBN, typeId, publisherId)
+            return res.json(book)
         } catch(e){
             next(e);
             logger.error(e)
