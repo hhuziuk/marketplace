@@ -7,8 +7,6 @@ import * as bcrypt from 'bcrypt';
 import {BookDomainService} from "../../core/services/BookDomainService";
 import {WishlistDomainService} from "../../core/services/WishlistDomainService";
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
-import {AuthInfrastructureService} from "./AuthInfrastructureService";
-
 export class UserInfrastructureService {
     constructor(readonly userRepository: any = new UserDomainService(userRepository)){}
     async create(

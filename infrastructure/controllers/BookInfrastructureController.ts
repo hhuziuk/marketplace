@@ -102,5 +102,4 @@ class BookInfrastructureController {
         }
     }
 }
-
 export default new BookInfrastructureController(BookInfrastructureService);
