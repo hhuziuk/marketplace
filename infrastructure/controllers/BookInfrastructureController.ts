@@ -1,15 +1,26 @@
-import {AuthInfrastructureService} from "../services/AuthInfrastructureService";
 import logger from "../../tools/logger";
 import {Response, Request, NextFunction} from "express";
-import {BookInfrastructureService} from "../services/BookInfrastructureService";
+import BookInfrastructureService from "../services/BookInfrastructureService";
+import ApiError from "../exceptions/ApiError";
 
 class BookInfrastructureController {
     constructor(readonly bookService: any = BookInfrastructureService) {}
-
     async create(req: Request, res: Response, next: NextFunction){
         try{
-            const {name, author, description, ISBN, typeId, publisherId} = req.body
-            const book = await BookInfrastructureService.create(name, author, description, ISBN, typeId, publisherId)
+            const {bookName,
+                author,
+                categoryId,
+                publisherId,
+                ratingId,
+                description,
+                ISBN,
+                language,
+                size,
+                price} = req.body
+            if (!bookName || !author || !categoryId || !publisherId || !ratingId || !description || !ISBN || !language || !size || !price) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const book = await BookInfrastructureService.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price)
             return res.json(book)
         } catch(e){
             next(e);
@@ -18,47 +29,60 @@ class BookInfrastructureController {
     }
     async getAll(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
-        } catch(e){
-            next(e);
-            logger.error(e)
-        }
-    }
-    async save(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
+            const books = await BookInfrastructureService.getAll();
+            return res.json(books);
+        } catch(e) {
             next(e);
             logger.error(e)
         }
     }
     async getById(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {bookId} = req.params;
+            if (!bookId) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const book = await BookInfrastructureService.getById(bookId);
+            return res.json(book)
         } catch(e){
-            next(e);
+            next(e)
             logger.error(e)
         }
     }
     async getByName(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {bookName} = req.params;
+            if (!bookName) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const book = await BookInfrastructureService.getByName(bookName);
+            return res.json(book)
         } catch(e){
-            next(e);
+            next(e)
             logger.error(e)
         }
     }
     async getByAuthor(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {bookAuthor} = req.params;
+            if (!bookAuthor) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const book = await BookInfrastructureService.getByAuthor(bookAuthor);
+            return res.json(book)
         } catch(e){
-            next(e);
+            next(e)
             logger.error(e)
         }
     }
     async delete(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {bookId} = req.body;
+            if (!bookId) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const book = await BookInfrastructureService.delete(bookId)
+            return res.json(book)
         } catch(e){
             next(e);
             logger.error(e)
@@ -66,7 +90,12 @@ class BookInfrastructureController {
     }
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {bookId, updates} = req.body;
+            const book = await BookInfrastructureService.update(bookId, updates)
+            if (!bookId || !updates) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            return res.json(book)
         } catch(e){
             next(e);
             logger.error(e)
@@ -74,4 +103,4 @@ class BookInfrastructureController {
     }
 }
 
-export default new BookInfrastructureController();
+export default new BookInfrastructureController(BookInfrastructureService);

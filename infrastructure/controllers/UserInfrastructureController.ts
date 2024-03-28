@@ -1,4 +1,4 @@
-import {UserInfrastructureService} from "../services/UserInfrastructureService";
+import UserInfrastructureService from "../services/UserInfrastructureService";
 import logger from "../../tools/logger";
 import {NextFunction} from "express";
 

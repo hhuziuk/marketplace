@@ -4,13 +4,12 @@ import {Response, Request, NextFunction} from "express";
 
 class AuthInfrastructureController {
     constructor(readonly authService: any = AuthInfrastructureService) {}
-
     async registration(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, username, password, role } = req.body;
             const userData = await AuthInfrastructureService.registration(email, username, password, role);
 
-            if (UserService.cookiesEnabled) {
+            if (AuthInfrastructureService.cookiesEnabled) {
                 res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
             } else {
                 req.session.user = { ...userData };
@@ -28,7 +27,7 @@ class AuthInfrastructureController {
         try{
             const {email, password} = req.body
             const userData = await AuthInfrastructureService.login(email, password)
-            if(UserService.cookiesEnabled) {
+            if(AuthInfrastructureService.cookiesEnabled) {
                 res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             } else {
                 req.session.user = {...userData};
@@ -43,7 +42,7 @@ class AuthInfrastructureController {
         try{
             const {email} = req.body;
             const userData = AuthInfrastructureService.logout(email)
-            if(UserService.cookiesEnabled) {
+            if(AuthInfrastructureService.cookiesEnabled) {
                 res.clearCookie('userData')
             } else {
                 await req.session.destroy((err) => {
@@ -73,7 +72,7 @@ class AuthInfrastructureController {
         try{
             const {refreshToken} = req.cookies
             const userData = await AuthInfrastructureService.refresh(refreshToken)
-            if(UserService.cookiesEnabled) {
+            if(AuthInfrastructureService.cookiesEnabled) {
                 res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             }
             return res.json(userData)
