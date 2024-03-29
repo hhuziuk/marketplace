@@ -1,31 +1,43 @@
 import logger from "../../tools/logger";
-import {NextFunction} from "express";
-import {PaymentInfrastructureService} from "../services/PaymentInfrastructureService";
+import {Response, Request, NextFunction} from "express";
+import PaymentInfrastructureService from "../services/PaymentInfrastructureService";
+import ApiError from "../exceptions/ApiError";
 class PaymentInfrastructureController {
     constructor(readonly paymentService: any = PaymentInfrastructureService) {}
-    async setPaymentMethod(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
+    async setPaymentMethod(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { paymentId, method } = req.body;
+            if (!paymentId || !method) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            await this.paymentService.setPaymentMethod(paymentId, method);
+            return res.json({ message: "Payment method updated successfully" });
+        } catch (e) {
             next(e);
-            logger.error(e)
+            logger.error(e);
         }
     }
-    async getAll(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
+    async getAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const payments = await PaymentInfrastructureService.getAll();
+            return res.json(payments);
+        } catch (e) {
             next(e);
-            logger.error(e)
+            logger.error(e);
         }
     }
-    async updatePaymentMethod(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
+    async updatePaymentMethod(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { paymentId, method } = req.body;
+            if (!paymentId || !method) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            await this.paymentService.updatePaymentMethod(paymentId, method);
+            return res.json({ message: "Payment method updated successfully" });
+        } catch (e) {
             next(e);
-            logger.error(e)
+            logger.error(e);
         }
     }
 }
-export default new PaymentInfrastructureController();
+export default new PaymentInfrastructureController(PaymentInfrastructureService);

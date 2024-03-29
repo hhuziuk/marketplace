@@ -1,33 +1,28 @@
 import {PaymentDomainService} from "../../core/services/PaymentDomainService";
 import {Payment} from "../database/PostgresEntities/PaymentEntity";
-import {DeleteResult} from "typeorm";
 import ApiError from "../exceptions/ApiError";
+import PaymentPostgresRepository from "../database/PostgresRepository/PaymentPostgresRepository";
+import {PaymentMethod} from "../../core/domain/enums/PaymentMethod";
 
-export class PaymentInfrastructureService {
+class PaymentInfrastructureService {
     constructor(readonly paymentRepository: any = new PaymentDomainService(paymentRepository)){}
-    async create(payment: Payment) {
-        const userPayment = await this.paymentRepository.create(payment)
-        await this.paymentRepository.save(userPayment)
-        return userPayment;
-    }
-    async getAll(): Promise<Payment[]> {
-        const payments = await this.paymentRepository.getAll();
-        return payments;
-    }
-    async getById(paymentId: string): Promise<Payment> {
-        if (!paymentId) {
-            throw ApiError.BadRequest(`No id was provided`);
-        }
+    async setPaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
         const payment = await this.paymentRepository.getById(paymentId);
         if (!payment) {
             throw ApiError.BadRequest(`Payment with id ${paymentId} not found`);
         }
-        return payment;
+        payment.method = method;
+        await this.paymentRepository.save(payment);
     }
-    async delete(paymentId: string): Promise<DeleteResult> {
-        if (!paymentId) {
-            throw ApiError.BadRequest(`No id was provided`);
+    async getAll(): Promise<Payment> {
+        return this.paymentRepository.getAll();
+    }
+    async updatePaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
+        const payment = await this.paymentRepository.getById(paymentId);
+        if (!payment) {
+            throw ApiError.BadRequest(`Payment with id ${paymentId} not found`);
         }
-        return await this.paymentRepository.delete(paymentId);
+        await this.setPaymentMethod(paymentId, method);
     }
 }
+export default new PaymentInfrastructureService(PaymentPostgresRepository);

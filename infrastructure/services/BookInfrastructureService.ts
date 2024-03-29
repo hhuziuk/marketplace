@@ -25,8 +25,7 @@ class BookInfrastructureService {
         return book;
     }
     async getAll(): Promise<Book[]> {
-        const books = await this.bookRepository.getAll()
-        return books;
+        return await this.bookRepository.getAll()
     }
     async getById(bookId: string): Promise<Book | null> {
         const book = await this.bookRepository.getById(bookId)
