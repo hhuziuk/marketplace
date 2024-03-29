@@ -3,10 +3,11 @@ import { Status } from "../../core/domain/enums/Status";
 import { Order, OrderItem } from "../../core/domain/Order";
 import { Delivery } from "../../core/domain/enums/Delivery";
 import ApiError from "../exceptions/ApiError";
-export class OrderInfrastructureService {
+import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgresRepository";
+import FavoritePostgresRepository from "../database/PostgresRepository/FavoritePostgresRepository";
+class OrderInfrastructureService {
     constructor(readonly orderRepository: any = new OrderDomainService(orderRepository)) {}
     async createOrder(
-        orderId: string,
         createdAt: Date,
         status: Status,
         userId: string,
@@ -16,7 +17,6 @@ export class OrderInfrastructureService {
         deliveryType: Delivery
     ): Promise<Order> {
         return await this.orderRepository.createOrder(
-            orderId,
             createdAt,
             status,
             userId,
@@ -58,3 +58,4 @@ export class OrderInfrastructureService {
         await this.orderRepository.save(order);
     }
 }
+export default new OrderInfrastructureService(OrderPostgresRepository);

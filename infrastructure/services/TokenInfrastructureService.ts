@@ -13,7 +13,6 @@ class TokenInfrastructureService{
             refreshToken
         }
     }
-
     validateAccessToken(token: any){
         try{
             const userData = jwt.verify(token, process.env.JWT_ACCESS_SECRET || '') as JwtPayload

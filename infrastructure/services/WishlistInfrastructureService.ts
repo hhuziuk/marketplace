@@ -15,15 +15,12 @@ export class WishlistInfrastructureService {
         await this.wishlistRepository.save(createdWishlist);
         return createdWishlist;
     }
-
     async getAll(): Promise<Wishlist[]> {
         return await this.wishlistRepository.getAll();
     }
-
     async getBy(data: object): Promise<Wishlist> {
         return await this.wishlistRepository.getBy(data);
     }
-
     async delete(wishlistId: string): Promise<DeleteResult> {
         if (!wishlistId) {
             throw ApiError.BadRequest(`No id was provided`);
