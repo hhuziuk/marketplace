@@ -57,8 +57,8 @@ class CategoryInfrastructureController {
             if (!categoryName) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            const book = await CategoryInfrastructureService.getByName(categoryName);
-            return res.json(book)
+            const category = await CategoryInfrastructureService.getByName(categoryName);
+            return res.json(category)
         } catch(e){
             next(e)
             logger.error(e)

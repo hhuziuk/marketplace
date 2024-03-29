@@ -2,8 +2,10 @@ import {PublisherDomainService} from "../../core/services/PublisherDomainService
 import {Publisher} from "../database/PostgresEntities/PublisherEntity";
 import {DeleteResult} from "typeorm";
 import ApiError from "../exceptions/ApiError";
+import PublisherPostgresRepository from "../database/PostgresRepository/PublisherPostgresRepository";
+import {Category} from "../../core/domain/Category";
 
-export class PublisherInfrastructureService {
+class PublisherInfrastructureService {
     constructor(readonly publisherRepository: any = new PublisherDomainService(publisherRepository)){}
     async create(publisher: string) {
         const userPublisher = await this.publisherRepository.getByName(publisher);
@@ -15,28 +17,33 @@ export class PublisherInfrastructureService {
         return type;
     }
     async getAll(): Promise<Publisher[]> {
-        const publishers = await this.publisherRepository.getAll();
-        return publishers;
+        return await this.publisherRepository.getAll();
     }
     async getById(publisherId: string): Promise<Publisher> {
         if(!publisherId){
             throw ApiError.BadRequest(`No id was provided`)
         }
-        const category = await this.publisherRepository.getById(publisherId);
-        return category;
+        return await this.publisherRepository.getById(publisherId);
     }
     async getByName(publisherName: string): Promise<Publisher> {
         if(!publisherName){
             throw ApiError.BadRequest(`No categoryName was provided`)
         }
-        const publisher = await this.publisherRepository.getByName(publisherName);
-        return publisher;
+        return await this.publisherRepository.getByName(publisherName);
     }
     async delete(publisherId: string): Promise<DeleteResult> {
         if(!publisherId){
             throw ApiError.BadRequest(`No id was provided`)
         }
-        const publisher = this.publisherRepository.delete(publisherId)
-        return publisher;
+        return await this.publisherRepository.delete(publisherId);
+    }
+    async update(publisherId: string, publisherName: string): Promise<Category> {
+        const existingPublisher = await this.publisherRepository.getById(publisherId);
+        if(!existingPublisher) {
+            throw ApiError.BadRequest(`Category with id ${publisherId} not found`);
+        }
+        Object.assign(existingPublisher, { publisherName });
+        return await this.publisherRepository.save(existingPublisher);
     }
 }
+export default new PublisherInfrastructureService(PublisherPostgresRepository);
