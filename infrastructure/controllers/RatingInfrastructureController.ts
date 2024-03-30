@@ -1,43 +1,49 @@
 import logger from "../../tools/logger";
-import {NextFunction} from "express";
-import {RatingInfrastructureService} from "../services/RatingInfrastructureService";
+import {NextFunction, Request, Response} from "express";
+import RatingInfrastructureService from "../services/RatingInfrastructureService";
+import ApiError from "../exceptions/ApiError";
 class RatingInfrastructureController {
     constructor(readonly ratingService: any = RatingInfrastructureService) {}
-    async addRating(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
+    async addRating(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { ratingValue, comment } = req.body;
+            const rating = await this.ratingService.create({ ratingValue, comment });
+            res.json(rating);
+        } catch (e) {
             next(e);
-            logger.error(e)
         }
     }
-    async update(req: Request, res: Response, next: NextFunction){
-        try{
-            return res.json()
-        } catch(e){
-            next(e);
-            logger.error(e)
-        }
-    }
+    // TODO добавить update
     async getAll(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
-        } catch(e){
+            const ratings = await RatingInfrastructureService.getAll();
+            return res.json(ratings);
+        } catch(e) {
             next(e);
             logger.error(e)
         }
     }
-    async save(req: Request, res: Response, next: NextFunction){
+    async getById(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {ratingId} = req.params;
+            if (!ratingId) {
+                ApiError.BadRequest(`Required data is missing`);
+            }
+            const rating = await RatingInfrastructureService.getById(ratingId);
+            return res.json(rating)
         } catch(e){
-            next(e);
+            next(e)
             logger.error(e)
         }
     }
     async delete(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const {ratingId} = req.body;
+            if (!ratingId) {
+                ApiError.BadRequest(`Required data is missing`);
+            }
+            const rating = await RatingInfrastructureService.delete(ratingId)
+            return res.json(rating)
         } catch(e){
             next(e);
             logger.error(e)

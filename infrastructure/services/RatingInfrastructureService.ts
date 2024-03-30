@@ -1,39 +1,40 @@
 import { RatingDomainService } from "../../core/services/RatingDomainService";
 import { Rating } from "../database/PostgresEntities/RatingEntity";
-import { PostgresDataSource } from "../../tools/PostgresConnection";
 import { DeleteResult } from "typeorm";
 import ApiError from "../exceptions/ApiError";
-
-export class RatingInfrastructureService {
+import RatingPostgresRepository from "../database/PostgresRepository/RatingPostgresRepository";
+class RatingInfrastructureService {
     constructor(readonly ratingRepository: any = new RatingDomainService(ratingRepository)) {}
-
-    async create(rating: Rating): Promise<Rating> {
-        const existingRating = await this.ratingRepository.getById(rating.ratingId);
-        if (existingRating) {
-            throw ApiError.BadRequest(`Rating with id ${rating.ratingId} already exists`);
+    async create(ratingData: Partial<Rating>): Promise<Rating> {
+        const { ratingValue, comment } = ratingData;
+        if (ratingValue === undefined || ratingValue === null) {
+            throw ApiError.BadRequest("Rating value is required");
         }
-        const createdRating = await this.ratingRepository.create(rating);
-        await this.ratingRepository.save(createdRating);
-        return createdRating;
+        const existingRating = await this.ratingRepository.getByRatingValue(ratingValue);
+        if (existingRating) {
+            throw ApiError.BadRequest(`Rating with value ${ratingValue} already exists`);
+        }
+        const rating = await this.ratingRepository.create({
+            ratingValue,
+            comment,
+        });
+        await this.ratingRepository.save(rating);
+        return rating;
     }
-
     async getAll(): Promise<Rating[]> {
-        const ratings = await this.ratingRepository.getAll();
-        return ratings;
+        return await this.ratingRepository.getAll();
     }
-
     async getById(ratingId: string): Promise<Rating> {
         if(!ratingId){
             throw ApiError.BadRequest(`No id was provided`)
         }
-        const rating = await this.ratingRepository.getById(ratingId);
-        return rating;
+        return await this.ratingRepository.getById(ratingId);
     }
     async delete(ratingId: string): Promise<DeleteResult> {
         if(!ratingId){
             throw ApiError.BadRequest(`No id was provided`)
         }
-        const category = this.ratingRepository.delete(ratingId)
-        return category;
+        return await this.ratingRepository.delete(ratingId)
     }
 }
+export default new RatingInfrastructureService(RatingPostgresRepository);
