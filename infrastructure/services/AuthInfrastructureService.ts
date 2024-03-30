@@ -7,7 +7,6 @@ import JWTservice from "./OuterServices/JWTservice";
 import {UserDomainService} from "../../core/services/UserDomainService";
 import {Role} from "../../core/domain/enums/Role";
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
-
 class AuthInfrastructureService {
     public cookiesEnabled: boolean
     constructor(readonly authRepository: any = new AuthDomainService(authRepository),

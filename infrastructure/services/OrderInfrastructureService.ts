@@ -4,27 +4,27 @@ import { Order, OrderItem } from "../../core/domain/Order";
 import { Delivery } from "../../core/domain/enums/Delivery";
 import ApiError from "../exceptions/ApiError";
 import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgresRepository";
-import FavoritePostgresRepository from "../database/PostgresRepository/FavoritePostgresRepository";
 class OrderInfrastructureService {
     constructor(readonly orderRepository: any = new OrderDomainService(orderRepository)) {}
-    async createOrder(
-        createdAt: Date,
-        status: Status,
-        userId: string,
-        orderItems: OrderItem[],
-        totalPrice: number,
-        paymentId: string,
-        deliveryType: Delivery
-    ): Promise<Order> {
-        return await this.orderRepository.createOrder(
+    async createOrder(orderData: Partial<Order>): Promise<Order> {
+        const { createdAt, status, userId, orderItems, totalPrice, paymentId, deliveryType } = orderData;
+
+        if (!createdAt || !status || !userId || !orderItems || !totalPrice || !paymentId || !deliveryType) {
+            throw ApiError.BadRequest(`Required data is missing`);
+        }
+
+        const order = await this.orderRepository.create({
             createdAt,
             status,
             userId,
             orderItems,
             totalPrice,
             paymentId,
-            deliveryType
-        );
+            deliveryType,
+        });
+
+        await this.orderRepository.save(order);
+        return order;
     }
     async confirmOrder(orderId: string): Promise<Order> {
         const order = await this.orderRepository.getById(orderId);

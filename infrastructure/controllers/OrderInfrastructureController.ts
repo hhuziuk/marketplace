@@ -5,25 +5,17 @@ import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgre
 import ApiError from "../exceptions/ApiError";
 class OrderInfrastructureController {
     constructor(readonly orderService: any = OrderInfrastructureService) {}
-    async createOrder(req: Request, res: Response, next: NextFunction){
-        try{
-            const {createdAt,
-                status,
-                userId,
-                orderItems,
-                totalPrice,
-                paymentId,
-                deliveryType} = req.body;
-            if (!createdAt || !status || !userId || !orderItems || !totalPrice || !paymentId || !deliveryType) {
-                throw ApiError.BadRequest(`Required data is missing`);
-            }
-            const order= await OrderInfrastructureService.createOrder(createdAt, status, userId, orderItems, totalPrice, paymentId, deliveryType)
-            return res.json(order)
-        } catch(e){
+    async createOrder(req: Request, res: Response, next: NextFunction) {
+        try {
+            const orderData = req.body;
+            const order = await this.orderService.createOrder(orderData);
+            return res.json(order);
+        } catch (e) {
             next(e);
-            logger.error(e)
+            logger.error(e);
         }
     }
+
     async confirmOrder(req: Request, res: Response, next: NextFunction){
         try{
             return res.json()
@@ -32,7 +24,6 @@ class OrderInfrastructureController {
             logger.error(e)
         }
     }
-
     async getAll(req: Request, res: Response, next: NextFunction){
         try{
             const orders = await OrderInfrastructureService.getAll();

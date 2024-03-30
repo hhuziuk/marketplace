@@ -3,7 +3,6 @@ import {Payment} from "../database/PostgresEntities/PaymentEntity";
 import ApiError from "../exceptions/ApiError";
 import PaymentPostgresRepository from "../database/PostgresRepository/PaymentPostgresRepository";
 import {PaymentMethod} from "../../core/domain/enums/PaymentMethod";
-
 class PaymentInfrastructureService {
     constructor(readonly paymentRepository: any = new PaymentDomainService(paymentRepository)){}
     async setPaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
