@@ -1,7 +1,6 @@
 import { OrderDomainService } from "../../core/services/OrderDomainService";
 import { Status } from "../../core/domain/enums/Status";
 import { Order, OrderItem } from "../../core/domain/Order";
-import { Delivery } from "../../core/domain/enums/Delivery";
 import ApiError from "../exceptions/ApiError";
 import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgresRepository";
 class OrderInfrastructureService {
@@ -12,7 +11,6 @@ class OrderInfrastructureService {
         if (!createdAt || !status || !userId || !orderItems || !totalPrice || !paymentId || !deliveryType) {
             throw ApiError.BadRequest(`Required data is missing`);
         }
-
         const order = await this.orderRepository.create({
             createdAt,
             status,

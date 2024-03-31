@@ -2,18 +2,20 @@ import { WishlistDomainService } from "../../core/services/WishlistDomainService
 import { Wishlist } from "../database/PostgresEntities/WishlistEntity";
 import { DeleteResult } from "typeorm";
 import ApiError from "../exceptions/ApiError";
-
-export class WishlistInfrastructureService {
+import WishlistPostgresRepository from "../database/PostgresRepository/WishlistPostgresRepository";
+class WishlistInfrastructureService {
     constructor(readonly wishlistRepository: any = new WishlistDomainService(wishlistRepository)){}
-
-    async create(wishlist: Wishlist): Promise<Wishlist> {
-        const existingWishlist = await this.wishlistRepository.getBy({ user: wishlist.user });
-        if(existingWishlist){
-            throw ApiError.BadRequest(`Wishlist already exists for user`);
+    async addToWishList(bookId: string): Promise<Wishlist> {
+        if (!bookId) {
+            ApiError.BadRequest("No bookId was provided is required");
         }
-        const createdWishlist = await this.wishlistRepository.create(wishlist);
-        await this.wishlistRepository.save(createdWishlist);
-        return createdWishlist;
+        const existingBookInWishlist = await this.wishlistRepository.getBy({ id: bookId });
+        if (existingBookInWishlist) {
+            ApiError.BadRequest(`Book with id ${existingBookInWishlist} already exists`);
+        }
+        const wishlist = await this.wishlistRepository.create(bookId);
+        await this.wishlistRepository.save(wishlist);
+        return wishlist;
     }
     async getAll(): Promise<Wishlist[]> {
         return await this.wishlistRepository.getAll();
@@ -21,10 +23,19 @@ export class WishlistInfrastructureService {
     async getBy(data: object): Promise<Wishlist> {
         return await this.wishlistRepository.getBy(data);
     }
-    async delete(wishlistId: string): Promise<DeleteResult> {
-        if (!wishlistId) {
+    async deleteFromWishList(bookId: string): Promise<DeleteResult> {
+        if (!bookId) {
             throw ApiError.BadRequest(`No id was provided`);
         }
-        return await this.wishlistRepository.delete(wishlistId);
+        return await this.wishlistRepository.delete(bookId);
+    }
+    async cleanWishList(): Promise<DeleteResult> {
+        const allBooksInWishlist = await this.wishlistRepository.getAll();
+        if (!allBooksInWishlist) {
+            //NotFound
+            ApiError.BadRequest(`No books were provided`);
+        }
+        return await this.wishlistRepository.remove(allBooksInWishlist);
     }
 }
+export default new WishlistInfrastructureService(WishlistPostgresRepository)

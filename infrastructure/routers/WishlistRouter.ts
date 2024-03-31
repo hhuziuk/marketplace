@@ -6,5 +6,6 @@ const router = express.Router();
 router.post('/add', checkRole(Role.Customer) ) // ---> addToWishList(bookId : string)
 router.get('/wishlist', checkRole(Role.Customer) ) // ---> getAll()
 router.delete('/delete', checkRole(Role.Customer) ) // ---> cleanWishList()
+router.delete('/delete/:bookId', checkRole(Role.Customer) ) // ---> delete()
 
 export default router
