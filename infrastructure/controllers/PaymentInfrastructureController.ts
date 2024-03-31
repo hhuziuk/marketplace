@@ -39,5 +39,18 @@ class PaymentInfrastructureController {
             logger.error(e);
         }
     }
+    async payByCard(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { amount, cardNumber } = req.body;
+            if (!amount || !cardNumber) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            await this.paymentService.payByCard(amount, cardNumber);
+            return res.json({ message: "Payment successful" });
+        } catch (e) {
+            next(e);
+            logger.error(e);
+        }
+    }
 }
 export default new PaymentInfrastructureController();

@@ -27,7 +27,7 @@ class RatingInfrastructureController {
         try{
             const {ratingId} = req.params;
             if (!ratingId) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const rating = await RatingInfrastructureService.getById(ratingId);
             return res.json(rating)
@@ -40,7 +40,7 @@ class RatingInfrastructureController {
         try{
             const {ratingId} = req.body;
             if (!ratingId) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const rating = await RatingInfrastructureService.delete(ratingId)
             return res.json(rating)

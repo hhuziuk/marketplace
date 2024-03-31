@@ -20,14 +20,17 @@ class ApiError extends Error {
     static AccessDenied() {
         return new ApiError(403, 'Access denied');
     }
-    static NotFound() {
-        return new ApiError(404, 'The requested resource doesn’t exist.');
+    static NotFound(message) {
+        return new ApiError(404, message);
     }
-    static Conflict() {
-        return new ApiError(409, 'The request conflicts with another request (perhaps due to using the same idempotent key).');
+    static Conflict(message) {
+        return new ApiError(409, message);
     }
     static TooManyRequests() {
         return new ApiError(429, 'Too many requests hit the API too quickly. We recommend an exponential backoff of your requests.');
+    }
+    static InternalServerError(message){
+        return new ApiError(500, message);
     }
 }
 

@@ -40,7 +40,7 @@ class BookInfrastructureController {
         try{
             const {bookId} = req.params;
             if (!bookId) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const book = await BookInfrastructureService.getById(bookId);
             return res.json(book)
@@ -53,7 +53,7 @@ class BookInfrastructureController {
         try{
             const {bookName} = req.params;
             if (!bookName) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const book = await BookInfrastructureService.getByName(bookName);
             return res.json(book)
@@ -66,7 +66,7 @@ class BookInfrastructureController {
         try{
             const {bookAuthor} = req.params;
             if (!bookAuthor) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const book = await BookInfrastructureService.getByAuthor(bookAuthor);
             return res.json(book)
@@ -79,7 +79,7 @@ class BookInfrastructureController {
         try{
             const {bookId} = req.body;
             if (!bookId) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             const book = await BookInfrastructureService.delete(bookId)
             return res.json(book)
@@ -93,7 +93,7 @@ class BookInfrastructureController {
             const {bookId, updates} = req.body;
             const book = await BookInfrastructureService.update(bookId, updates)
             if (!bookId || !updates) {
-                ApiError.BadRequest(`Required data is missing`);
+                throw ApiError.BadRequest(`Required data is missing`);
             }
             return res.json(book)
         } catch(e){

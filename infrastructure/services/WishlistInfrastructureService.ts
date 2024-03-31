@@ -7,11 +7,11 @@ class WishlistInfrastructureService {
     constructor(readonly wishlistRepository: any = new WishlistDomainService(wishlistRepository)){}
     async addToWishList(bookId: string): Promise<Wishlist> {
         if (!bookId) {
-            ApiError.BadRequest("No bookId was provided is required");
+            throw ApiError.NotFound("No bookId was provided is required");
         }
         const existingBookInWishlist = await this.wishlistRepository.getBy({ id: bookId });
         if (existingBookInWishlist) {
-            ApiError.BadRequest(`Book with id ${existingBookInWishlist} already exists`);
+            throw ApiError.Conflict(`Book with id ${existingBookInWishlist} already exists`);
         }
         const wishlist = await this.wishlistRepository.create(bookId);
         await this.wishlistRepository.save(wishlist);
@@ -25,15 +25,14 @@ class WishlistInfrastructureService {
     }
     async deleteFromWishList(bookId: string): Promise<DeleteResult> {
         if (!bookId) {
-            throw ApiError.BadRequest(`No id was provided`);
+            throw ApiError.NotFound(`No id was provided`);
         }
         return await this.wishlistRepository.delete(bookId);
     }
     async cleanWishList(): Promise<DeleteResult> {
         const allBooksInWishlist = await this.wishlistRepository.getAll();
         if (!allBooksInWishlist) {
-            //NotFound
-            ApiError.BadRequest(`No books were provided`);
+            throw ApiError.NotFound(`No books were provided`);
         }
         return await this.wishlistRepository.remove(allBooksInWishlist);
     }
