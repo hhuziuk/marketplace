@@ -78,4 +78,4 @@ class PublisherInfrastructureController {
         }
     }
 }
-export default new PublisherInfrastructureController(PublisherInfrastructureService);
+export default new PublisherInfrastructureController();

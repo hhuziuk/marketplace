@@ -16,5 +16,6 @@ export class User {
         readonly postalCode: string,
         readonly address: string,
         readonly role: Role,
+        public verified: boolean,
     ) {}
 }

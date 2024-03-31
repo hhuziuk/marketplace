@@ -72,8 +72,13 @@ export class AdminInfrastructureService extends UserDomainService{
                 readonly bookRepository: BookDomainService = new BookDomainService(bookRepository)){
         super(userRepository);
     }
-    async verifySeller(sellerId: string) : Promise<void>{
-        //TODO
+    async verifySeller(sellerId: string): Promise<void> {
+        const seller = await this.userRepository.getById(sellerId);
+        if (!seller || seller.role !== Role.Seller) {
+            throw ApiError.BadRequest("Seller not found");
+        }
+        seller.verified = true;
+        await this.userRepository.save(seller);
     }
     async deleteSeller(sellerId: string): Promise<void> {
         const seller = await this.userRepository.getById(sellerId);

@@ -79,4 +79,4 @@ class CategoryInfrastructureController {
     }
 }
 
-export default new CategoryInfrastructureController(CategoryInfrastructureService);
+export default new CategoryInfrastructureController();

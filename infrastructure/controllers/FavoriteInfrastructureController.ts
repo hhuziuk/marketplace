@@ -39,4 +39,4 @@ class FavoriteInfrastructureController {
         }
     }
 }
-export default new FavoriteInfrastructureController(FavoriteInfrastructureService);
+export default new FavoriteInfrastructureController();

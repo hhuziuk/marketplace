@@ -45,4 +45,4 @@ class WishlistInfrastructureController {
         }
     }
 }
-export default new WishlistInfrastructureController(WishlistInfrastructureService);
+export default new WishlistInfrastructureController();

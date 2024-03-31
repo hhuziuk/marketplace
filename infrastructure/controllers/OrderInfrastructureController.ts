@@ -74,4 +74,4 @@ class OrderInfrastructureController {
     }
 }
 
-export default new OrderInfrastructureController(OrderPostgresRepository);
+export default new OrderInfrastructureController();

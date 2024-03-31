@@ -28,12 +28,12 @@ class JWTService {
     }
     async refresh(refreshToken: string){
         if (!refreshToken) {
-            throw ApiError.UnauthorizedError()
+            throw ApiError.Unauthorized()
         }
         const userData = tokenInfrastructureService.validateRefreshToken(refreshToken)
         const tokenFromDatabase = await tokenInfrastructureService.findToken(refreshToken);
         if(!userData || !tokenFromDatabase){
-            throw ApiError.UnauthorizedError()
+            throw ApiError.Unauthorized()
         }
         const user = await this.userRepository.getById(userData.id)
         const tokens = tokenInfrastructureService.generateTokens({...user})

@@ -1,5 +1,5 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany} from 'typeorm';
-import {IsBoolean, IsEmail, IsEnum, IsMobilePhone, IsString, MaxLength, MinLength} from 'class-validator';
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, OneToMany} from 'typeorm';
+import {IsBoolean, IsEmail, IsMobilePhone, IsString, MaxLength, MinLength} from 'class-validator';
 import {Role} from "../../../core/domain/enums/Role";
 import {Rating} from "./RatingEntity";
 import {Order} from "./OrderEntity";

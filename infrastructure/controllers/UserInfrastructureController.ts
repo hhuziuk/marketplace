@@ -1,7 +1,6 @@
 import UserInfrastructureService from "../services/UserInfrastructureService";
 import logger from "../../tools/logger";
-import {NextFunction} from "express";
-
+import {Response, Request, NextFunction} from "express";
 class UserInfrastructureController {
     constructor(readonly userService: any = UserInfrastructureService) {}
     // Methods for Admin

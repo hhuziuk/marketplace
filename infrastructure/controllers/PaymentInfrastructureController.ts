@@ -40,4 +40,4 @@ class PaymentInfrastructureController {
         }
     }
 }
-export default new PaymentInfrastructureController(PaymentInfrastructureService);
+export default new PaymentInfrastructureController();
