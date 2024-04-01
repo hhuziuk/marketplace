@@ -1,13 +1,31 @@
 import AuthInfrastructureService from "../services/AuthInfrastructureService";
 import logger from "../../tools/logger";
 import {Response, Request, NextFunction} from "express";
+import {Role} from "../../core/domain/enums/Role";
+import UserInfrastructureController from "./UserInfrastructureController";
 
 class AuthInfrastructureController {
     constructor(readonly authService: any = AuthInfrastructureService) {}
     async registration(req: Request, res: Response, next: NextFunction) {
         try {
             const { email, username, password, role } = req.body;
-            const userData = await AuthInfrastructureService.registration(email, username, password, role);
+            let user;
+
+            switch (role) {
+                case Role.Admin:
+                    user = await UserInfrastructureController.createAdmin(req, res, next);
+                    break;
+                case Role.Seller:
+                    user = await UserInfrastructureController.createSeller(req, res, next);
+                    break;
+                case Role.Customer:
+                    user = await UserInfrastructureController.createCustomer(req, res, next);
+                    break;
+                default:
+                    throw new Error('Invalid role provided');
+            }
+
+            const userData = await AuthInfrastructureService.registration(email, username, password, user);
 
             if (AuthInfrastructureService.cookiesEnabled) {
                 res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
@@ -21,8 +39,6 @@ class AuthInfrastructureController {
             logger.error(e);
         }
     }
-
-
     async login(req: Request, res: Response, next: NextFunction){
         try{
             const {email, password} = req.body

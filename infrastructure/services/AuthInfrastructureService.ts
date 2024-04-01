@@ -9,8 +9,8 @@ import {Role} from "../../core/domain/enums/Role";
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
 class AuthInfrastructureService {
     public cookiesEnabled: boolean
-    constructor(readonly authRepository: any = new AuthDomainService(authRepository),
-        readonly userRepository: any = new UserDomainService(userRepository)){
+    constructor(readonly userRepository: any = new UserDomainService(userRepository),
+                readonly authRepository: any = new AuthDomainService(authRepository)){
         if(authRepository === JWTservice) {
             this.cookiesEnabled = true;
         } else {
@@ -18,7 +18,7 @@ class AuthInfrastructureService {
         }
     }
     async registration(email: string, username: string, password: string, role: Role) {
-        const candidate = await this.userRepository.findBy({ email });
+        const candidate = await this.userRepository.getBy({ email });
         if (candidate) {
             throw ApiError.BadRequest(`User with the same ${email} already exists`)
         }

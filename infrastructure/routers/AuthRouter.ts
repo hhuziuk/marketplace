@@ -9,8 +9,8 @@ router.post('/logout', AuthInfrastructureController.logout) // --- > logout(user
 router.get('/activate/:link', AuthInfrastructureController.activate) // --- >
 router.get('/refresh', AuthInfrastructureController.refresh) // --- > refresh(refreshToken)
 
-router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+router.get('/auth/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/auth/login/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/login' }), (req, res) => {
     res.redirect('/');
 });
 export default router

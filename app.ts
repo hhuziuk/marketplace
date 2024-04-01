@@ -15,7 +15,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/api', router);
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -26,12 +25,17 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
+        sameSite: true,
         secure: false,
-        httpOnly: true,
+        httpOnly: false,
         maxAge: 1000 * 60 * 10
     }
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/api', router);
 
 const start = async() => {
     try{
