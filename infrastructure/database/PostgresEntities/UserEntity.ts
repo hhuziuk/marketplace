@@ -59,7 +59,7 @@ export class User {
     @IsBoolean()
     public isActivated: boolean;
 
-    @Column({nullable: false})
+    @Column()
     @IsString()
     public activationLink: string;
 

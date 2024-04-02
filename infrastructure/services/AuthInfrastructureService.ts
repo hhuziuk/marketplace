@@ -17,7 +17,18 @@ class AuthInfrastructureService {
             this.cookiesEnabled = false
         }
     }
-    async registration(email: string, username: string, password: string, role: Role) {
+    async registration(email: string,
+                       name: string,
+                       surname: string,
+                       username: string,
+                       password: string,
+                       phoneNumber: string,
+                       country: string,
+                       city: string,
+                       postalCode: string,
+                       address: string,
+                       role: Role
+    ) {
         const candidate = await this.userRepository.getBy({ email });
         if (candidate) {
             throw ApiError.BadRequest(`User with the same ${email} already exists`)
@@ -25,9 +36,22 @@ class AuthInfrastructureService {
         const hashPassword = await bcrypt.hash(password, 8)
         const activationLink = v4()
 
-        const user = await this.userRepository.create({email, username, password: hashPassword, activationLink, role})
+        const user = await this.userRepository.create({
+            email,
+            name,
+            surname,
+            username,
+            password: hashPassword,
+            activationLink,
+            phoneNumber,
+            country,
+            city,
+            postalCode,
+            address,
+            role
+        })
         await this.userRepository.save(user)
-        await mailService.sendActivationMail(email, `${process.env.API_URL}api/user/activate/${activationLink}`)
+        await mailService.sendActivationMail(email, `${process.env.API_URL}api/auth/activate/${activationLink}`)
         return await this.authRepository.registration(user)
     }
     async login(email: string, password: string) {
@@ -51,7 +75,7 @@ class AuthInfrastructureService {
             throw ApiError.BadRequest("activation link is not correct")
         }
         user.isActivated = true;
-        await this.authRepository.save(user)
+        await this.userRepository.save(user)
     }
     async refresh(refreshToken: string) {
         return await this.authRepository.refresh(refreshToken)

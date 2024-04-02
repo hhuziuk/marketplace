@@ -28,7 +28,8 @@ export class UserInfrastructureService {
             throw ApiError.Conflict(`User with the same ${email} already exists`);
         }
         const hashPassword = await bcrypt.hash(password, 8)
-        const user = await this.userRepository.create({username,
+        const user = await this.userRepository.create({
+            username,
             name,
             surname,
             email,
@@ -39,7 +40,8 @@ export class UserInfrastructureService {
             city,
             postalCode,
             address,
-            role})
+            role
+        })
         await this.userRepository.save(user)
         return user;
     }

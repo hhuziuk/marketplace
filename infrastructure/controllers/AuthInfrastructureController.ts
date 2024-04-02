@@ -8,7 +8,19 @@ class AuthInfrastructureController {
     constructor(readonly authService: any = AuthInfrastructureService) {}
     async registration(req: Request, res: Response, next: NextFunction) {
         try {
-            const { email, username, password, role } = req.body;
+            const {
+                email,
+                name,
+                surname,
+                username,
+                password,
+                phoneNumber,
+                country,
+                city,
+                postalCode,
+                address,
+                role
+            } = req.body;
             let user;
 
             switch (role) {
@@ -25,7 +37,19 @@ class AuthInfrastructureController {
                     throw new Error('Invalid role provided');
             }
 
-            const userData = await AuthInfrastructureService.registration(email, username, password, user);
+            const userData = await AuthInfrastructureService.registration(
+                email,
+                name,
+                surname,
+                username,
+                password,
+                phoneNumber,
+                country,
+                city,
+                postalCode,
+                address,
+                role
+            );
 
             if (AuthInfrastructureService.cookiesEnabled) {
                 res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
