@@ -1,7 +1,28 @@
 import express from "express"
 import passport from 'passport';
 import AuthInfrastructureController from "../controllers/AuthInfrastructureController";
+import { Strategy as LocalStrategy } from 'passport-local';
+import AuthInfrastructureService from "../services/AuthInfrastructureService";
+import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
+import logger from "../../tools/logger";
+import {compare} from "bcrypt";
 const router = express.Router();
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+}, async (email, password, done) => {
+    try {
+        const userFound = await UserPostgresRepository.getBy({email: email});
+        if(userFound && compare(password, userFound.password)){
+            done(null, userFound);
+        } else {
+            done(null, false);
+        }
+    } catch (error) {
+        logger.error(error)
+        done(error);
+    }
+}));
 
 router.post('/registration', AuthInfrastructureController.registration) // --- > registration(user)
 router.post('/login', passport.authenticate('local'), AuthInfrastructureController.login) // --- > login(user)

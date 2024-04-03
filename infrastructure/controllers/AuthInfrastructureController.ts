@@ -73,6 +73,7 @@ class AuthInfrastructureController {
             }
             return res.json(userData)
         } catch(e){
+            logger.error(e)
             next(e);
         }
     }
