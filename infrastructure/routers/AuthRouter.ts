@@ -30,13 +30,12 @@ router.post('/logout', AuthInfrastructureController.logout) // --- > logout(user
 router.get('/activate/:link', AuthInfrastructureController.activate) // --- >
 router.get('/refresh', AuthInfrastructureController.refresh) // --- > refresh(refreshToken)
 
-
 passport.use(
     new GoogleStrategy(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL: '/api/auth/google/callback',
+            callbackURL: process.env.GOOGLE_CLIENT_CALLBACK_URL,
         },
         async (accessToken, refreshToken, profile, done) => {
             const newUser = {

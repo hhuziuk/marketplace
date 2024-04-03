@@ -4,6 +4,14 @@ import {Response, Request, NextFunction} from "express";
 import ApiError from "../exceptions/ApiError";
 class UserInfrastructureController {
     constructor(readonly userService: any = UserInfrastructureService) {}
+    async getAll(req: Request, res: Response, next: NextFunction){
+        try{
+            const users = await UserInfrastructureService.getAll();
+            return res.json(users);
+        } catch(e){
+            next(e);
+        }
+    }
     // Methods for Admin
     async createAdmin(req: Request, res: Response, next: NextFunction){
         try{

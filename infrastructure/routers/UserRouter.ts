@@ -5,6 +5,8 @@ import {Role} from "../../core/domain/enums/Role";
 import {authenticateUser} from "../middleware/AuthenticateMiddleware";
 const router = express.Router();
 
+router.post('/users', checkRole(Role.Admin), UserInfrastructureController.getAll);
+
 // Routes for Admin
 router.post('/admin/users', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.createAdmin);
 router.get('/admin/:userId', authenticateUser, checkRole(Role.Admin), UserInfrastructureController.getByIdAdmin);
