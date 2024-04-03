@@ -2,7 +2,7 @@ import express from "express"
 import passport from 'passport';
 import AuthInfrastructureController from "../controllers/AuthInfrastructureController";
 import { Strategy as LocalStrategy } from 'passport-local';
-import AuthInfrastructureService from "../services/AuthInfrastructureService";
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
 import logger from "../../tools/logger";
 import {compare} from "bcrypt";
@@ -30,8 +30,38 @@ router.post('/logout', AuthInfrastructureController.logout) // --- > logout(user
 router.get('/activate/:link', AuthInfrastructureController.activate) // --- >
 router.get('/refresh', AuthInfrastructureController.refresh) // --- > refresh(refreshToken)
 
-router.get('/auth/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-router.get('/auth/login/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/login' }), (req, res) => {
+
+passport.use(
+    new GoogleStrategy(
+        {
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL: '/api/auth/google/callback',
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            const newUser = {
+                googleId: profile.id,
+                displayName: profile.displayName,
+                firstName: profile.name.givenName,
+                lastName: profile.name.familyName,
+                image: profile.photos[0].value,
+            }
+
+            try {
+                let user = await UserPostgresRepository.getBy({ googleId: profile.id })
+                if (user) {
+                    done(null, user)
+                } else {
+                    done(null, await UserPostgresRepository.create(newUser))
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+    )
+)
+router.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/login/google/callback', passport.authenticate('google', { session: false, failureRedirect: '/login' }), (req, res) => {
     res.redirect('/');
 });
-export default router
+export default router;
