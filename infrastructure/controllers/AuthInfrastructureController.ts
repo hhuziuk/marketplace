@@ -56,7 +56,6 @@ class AuthInfrastructureController {
             } else {
                 req.session.user = { ...userData };
             }
-            //return res.json(userData);
         } catch (e) {
             next(e);
             logger.error(e);
