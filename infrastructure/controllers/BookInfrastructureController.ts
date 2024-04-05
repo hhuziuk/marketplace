@@ -16,11 +16,13 @@ class BookInfrastructureController {
                 ISBN,
                 language,
                 size,
-                price} = req.body
-            if (!bookName || !author || !categoryId || !publisherId || !ratingId || !description || !ISBN || !language || !size || !price) {
+                price,
+                seller
+            } = req.body
+            if (!bookName || !author || !categoryId || !publisherId || !ratingId || !description || !ISBN || !language || !size || !price || !seller) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            const book = await BookInfrastructureService.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price)
+            const book = await BookInfrastructureService.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price, seller)
             return res.json(book)
         } catch(e){
             next(e);

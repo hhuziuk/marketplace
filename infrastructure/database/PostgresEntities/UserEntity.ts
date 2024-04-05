@@ -101,6 +101,10 @@ export class User {
     @Column({ type: "enum", enum: Role, nullable: false })
     public role: Role;
 
+    @Column({ nullable: false, default: false })
+    @IsBoolean()
+    public verified: boolean;
+
     @OneToOne(() => Wishlist)
     wishlist: Wishlist;
 

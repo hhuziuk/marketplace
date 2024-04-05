@@ -1,11 +1,8 @@
 import {UserDomainService} from "../../core/services/UserDomainService";
 import {User} from "../../core/domain/User";
 import {Role} from "../../core/domain/enums/Role";
-import {Book} from "../../core/domain/Book";
 import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
-import {BookDomainService} from "../../core/services/BookDomainService";
-import {WishlistDomainService} from "../../core/services/WishlistDomainService";
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
 export class UserInfrastructureService {
     constructor(readonly userRepository: any = new UserDomainService(userRepository)){}
