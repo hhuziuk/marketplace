@@ -2,6 +2,7 @@ import AuthInfrastructureService from "../services/AuthInfrastructureService";
 import logger from "../../tools/logger";
 import {Response, Request, NextFunction} from "express";
 import UserInfrastructureController from "./UserInfrastructureController";
+
 class AuthInfrastructureController {
     constructor(readonly authService: any = AuthInfrastructureService) {}
     async registration(req: Request, res: Response, next: NextFunction) {
@@ -40,6 +41,7 @@ class AuthInfrastructureController {
             } else {
                 req.session.user = { ...userData };
             }
+
         } catch (e) {
             next(e);
             logger.error(e);

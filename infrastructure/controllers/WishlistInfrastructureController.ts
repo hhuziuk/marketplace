@@ -7,7 +7,7 @@ class WishlistInfrastructureController {
     async addToWishList(req: Request, res: Response, next: NextFunction) {
         try {
             const { bookId } = req.body;
-            const bookInWishlist = await this.wishlistService.addToWishList(bookId);
+            const bookInWishlist = await WishlistInfrastructureService.addToWishList(bookId);
             res.json(bookInWishlist);
         } catch (e) {
             next(e);
@@ -15,7 +15,7 @@ class WishlistInfrastructureController {
     }
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const booksInWishlist = await this.wishlistService.getAll();
+            const booksInWishlist = await WishlistInfrastructureService.getAll();
             return res.json(booksInWishlist);
         } catch (e) {
             next(e);
@@ -28,7 +28,7 @@ class WishlistInfrastructureController {
             if (!bookId) {
                 ApiError.BadRequest(`Required data is missing`);
             }
-            const bookInWishlist = await this.wishlistService.deleteFromWishList(bookId)
+            const bookInWishlist = await WishlistInfrastructureService.deleteFromWishList(bookId)
             return res.json(bookInWishlist)
         } catch(e) {
             next(e);
@@ -37,7 +37,7 @@ class WishlistInfrastructureController {
     }
     async cleanWishList(req: Request, res: Response, next: NextFunction) {
         try {
-            const booksInWishlist = await this.wishlistService.cleanWishList();
+            const booksInWishlist = await WishlistInfrastructureService.cleanWishList();
             return res.json(booksInWishlist);
         } catch(e) {
             next(e);

@@ -10,7 +10,7 @@ class PaymentInfrastructureController {
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await this.paymentService.setPaymentMethod(paymentId, method);
+            await PaymentInfrastructureService.setPaymentMethod(paymentId, method);
             return res.json({ message: "Payment method updated successfully" });
         } catch (e) {
             next(e);
@@ -32,7 +32,7 @@ class PaymentInfrastructureController {
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await this.paymentService.updatePaymentMethod(paymentId, method);
+            await PaymentInfrastructureService.updatePaymentMethod(paymentId, method);
             return res.json({ message: "Payment method updated successfully" });
         } catch (e) {
             next(e);
@@ -45,7 +45,7 @@ class PaymentInfrastructureController {
             if (!amount || !cardNumber) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await this.paymentService.payByCard(amount, cardNumber);
+            await PaymentInfrastructureService.payByCard(amount, cardNumber);
             return res.json({ message: "Payment successful" });
         } catch (e) {
             next(e);

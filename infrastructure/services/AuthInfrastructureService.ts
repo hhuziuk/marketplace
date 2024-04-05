@@ -8,6 +8,7 @@ import {UserDomainService} from "../../core/services/UserDomainService";
 import {Role} from "../../core/domain/enums/Role";
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
 import RedisService from "./OuterServices/RedisService";
+
 class AuthInfrastructureService {
     public cookiesEnabled: boolean
     constructor(readonly userRepository: any = new UserDomainService(userRepository),

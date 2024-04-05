@@ -7,7 +7,7 @@ class OrderInfrastructureController {
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const orderData = req.body;
-            const order = await this.orderService.createOrder(orderData);
+            const order = await OrderInfrastructureService.createOrder(orderData);
             return res.json(order);
         } catch (e) {
             next(e);
@@ -64,7 +64,7 @@ class OrderInfrastructureController {
             if (!orderId || !status) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await this.orderService.setStatus(orderId, status);
+            await OrderInfrastructureService.setStatus(orderId, status);
             return res.json({ message: "Status updated successfully" });
         } catch (e) {
             next(e);

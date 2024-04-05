@@ -3,6 +3,7 @@ import logger from "../../tools/logger";
 import {Response, Request, NextFunction} from "express";
 import ApiError from "../exceptions/ApiError";
 import {Role} from "../../core/domain/enums/Role";
+
 class UserInfrastructureController {
     constructor(readonly userService: any = UserInfrastructureService) {}
     async getAll(req: Request, res: Response, next: NextFunction){
@@ -16,10 +17,10 @@ class UserInfrastructureController {
     async create(req: Request, res: Response, next: NextFunction){
         try{
             const { username, name, surname, email, password, activationLink, phoneNumber, country, city, postalCode, address, role } = req.body;
-            if (!(role in Role)) {
+            if (!Object.values(Role).includes(role)) {
                 throw ApiError.BadRequest("Invalid role provided");
             }
-            const user = await this.userService.create(username, name, surname, email, password, activationLink, phoneNumber, country, city, postalCode, address, role);
+            const user = await UserInfrastructureService.create(username, name, surname, email, password, activationLink, phoneNumber, country, city, postalCode, address, role);
             return res.status(201).json(user);
         } catch(e){
             next(e);
@@ -28,8 +29,8 @@ class UserInfrastructureController {
     }
     async getById(req: Request, res: Response, next: NextFunction){
         try{
-            const userId = req.params.id;
-            const user = await this.userService.getById(userId);
+            const {id} = req.params;
+            const user = await UserInfrastructureService.getById(id);
             if (!user) {
                 throw ApiError.NotFound("Admin not found");
             }
@@ -41,9 +42,9 @@ class UserInfrastructureController {
     }
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            const userId = req.params.id;
+            const {id} = req.params;
             const userData = req.body;
-            const updatedUser = await this.userService.update(userId, userData);
+            const updatedUser = await UserInfrastructureService.update(id, userData);
             return res.json(updatedUser);
         } catch(e){
             next(e);
@@ -52,8 +53,8 @@ class UserInfrastructureController {
     }
     async delete(req: Request, res: Response, next: NextFunction){
         try{
-            const userId = req.params.id;
-            await this.userService.delete(userId);
+            const {id} = req.params;
+            await UserInfrastructureService.delete(id);
             return res.status(204).send();
         } catch(e){
             next(e);
@@ -62,9 +63,9 @@ class UserInfrastructureController {
     }
     async verifySeller(req: Request, res: Response, next: NextFunction) {
         try {
-            const sellerId = req.params.id;
-            await this.userService.verifySeller(sellerId);
-            return res.status(200).send("Seller verified successfully");
+            const { id } = req.params;
+            const verifiedUser = await UserInfrastructureService.verifySeller(id);
+            return res.status(200).send(verifiedUser);
         } catch (e) {
             next(e);
             logger.error(e);

@@ -4,7 +4,8 @@ import {Role} from "../../core/domain/enums/Role";
 import ApiError from "../exceptions/ApiError";
 import * as bcrypt from 'bcrypt';
 import UserPostgresRepository from "../database/PostgresRepository/UserPostgresRepository";
-export class UserInfrastructureService {
+
+class UserInfrastructureService {
     constructor(readonly userRepository: any = new UserDomainService(userRepository)){}
     async create(
         username: string,

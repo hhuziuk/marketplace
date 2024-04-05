@@ -7,7 +7,7 @@ class RatingInfrastructureController {
     async addRating(req: Request, res: Response, next: NextFunction) {
         try {
             const { ratingValue, comment } = req.body;
-            const rating = await this.ratingService.create({ ratingValue, comment });
+            const rating = await RatingInfrastructureService.create({ ratingValue, comment });
             res.json(rating);
         } catch (e) {
             next(e);
