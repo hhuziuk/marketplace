@@ -2,15 +2,25 @@ import logger from "../../tools/logger";
 import {Response, Request, NextFunction} from "express";
 import PaymentInfrastructureService from "../services/PaymentInfrastructureService";
 import ApiError from "../exceptions/ApiError";
+import {PaymentMethod} from "../../core/domain/enums/PaymentMethod";
 class PaymentInfrastructureController {
     constructor(readonly paymentService: any = PaymentInfrastructureService) {}
     async setPaymentMethod(req: Request, res: Response, next: NextFunction) {
         try {
-            const { paymentId, method } = req.body;
+            const { paymentId, method, amount, cardNumber } = req.body;
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await PaymentInfrastructureService.setPaymentMethod(paymentId, method);
+
+            await this.paymentService.setPaymentMethod(paymentId, method);
+
+            if (method === PaymentMethod.CreditCard || method === PaymentMethod.DebitCard) {
+                if (!amount || !cardNumber) {
+                    throw ApiError.BadRequest(`Required data is missing`);
+                }
+                await this.paymentService.createAndProcessPayment(amount, method);
+            }
+
             return res.json({ message: "Payment method updated successfully" });
         } catch (e) {
             next(e);
@@ -32,21 +42,8 @@ class PaymentInfrastructureController {
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await PaymentInfrastructureService.updatePaymentMethod(paymentId, method);
+            await this.paymentService.updatePaymentMethod(paymentId, method);
             return res.json({ message: "Payment method updated successfully" });
-        } catch (e) {
-            next(e);
-            logger.error(e);
-        }
-    }
-    async payByCard(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { amount, cardNumber } = req.body;
-            if (!amount || !cardNumber) {
-                throw ApiError.BadRequest(`Required data is missing`);
-            }
-            await PaymentInfrastructureService.payByCard(amount, cardNumber);
-            return res.json({ message: "Payment successful" });
         } catch (e) {
             next(e);
             logger.error(e);

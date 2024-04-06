@@ -9,6 +9,49 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 });
 class PaymentInfrastructureService {
     constructor(readonly paymentRepository: any = new PaymentDomainService(paymentRepository)){}
+
+    async createPayment(amount: number, method: PaymentMethod, paymentId: string): Promise<void> {
+        try {
+            const newPayment: Payment = {
+                createdAt: new Date(),
+                totalPrice: amount,
+                method: method,
+                paymentId: paymentId,
+                order: null,
+                user: null,
+            };
+            await this.paymentRepository.save(newPayment);
+        } catch (error) {
+            console.error('Error creating payment:', error);
+            throw ApiError.InternalServerError('Error creating payment');
+        }
+    }
+
+    async createAndProcessPayment(amount: number, method: PaymentMethod): Promise<void> {
+        try {
+            let paymentId;
+            switch (method) {
+                case PaymentMethod.CreditCard:
+                case PaymentMethod.DebitCard:
+                    paymentId = await this.payByCard(amount);
+                    break;
+                case PaymentMethod.PayPal:
+                    // TODO
+                    break;
+                case PaymentMethod.BankTransfer:
+                    // TODO
+                    break;
+                default:
+                    throw ApiError.BadRequest(`Payment method ${method} is not supported`);
+            }
+
+            await this.createPayment(amount, method, paymentId);
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            throw ApiError.InternalServerError('Error processing payment');
+        }
+    }
+
     async setPaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
         const payment = await this.paymentRepository.getById(paymentId);
         if (!payment) {
@@ -18,7 +61,7 @@ class PaymentInfrastructureService {
         await this.paymentRepository.save(payment);
     }
     async getAll(): Promise<Payment> {
-        return this.paymentRepository.getAll();
+        return await this.paymentRepository.getAll();
     }
     async updatePaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
         const payment = await this.paymentRepository.getById(paymentId);
@@ -27,22 +70,16 @@ class PaymentInfrastructureService {
         }
         await this.setPaymentMethod(paymentId, method);
     }
-    async payByCard(amount: number, cardNumber: string): Promise<void> {
+    async payByCard(amount: number): Promise<string> {
         try {
             const paymentIntent = await stripe.paymentIntents.create({
                 amount: amount,
                 currency: 'usd',
-                payment_method: cardNumber,
+                payment_method_types: ['card'],
                 confirm: true,
-                payment_method_options: {
-                    card: {
-                        installments: {
-                            enabled: true,
-                        },
-                    },
-                },
             });
             console.log('Payment successful:', paymentIntent);
+            return paymentIntent.id;
         } catch (error) {
             console.error('Error processing payment:', error);
             throw ApiError.InternalServerError('Error processing payment');

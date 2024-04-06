@@ -22,7 +22,7 @@ export class Order {
 
     @Column({ type: "float", nullable: false })
     @IsNumber()
-    public totalPrice: number;
+    public amount: number;
 
     @Column({ type: 'enum', enum: Delivery, nullable: false })
     @IsEnum(Delivery)

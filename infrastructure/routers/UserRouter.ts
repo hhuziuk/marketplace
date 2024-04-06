@@ -6,7 +6,7 @@ import authMiddleware from "../middleware/AuthenticateMiddleware";
 const router = express.Router();
 
 // Routes for Admin
-router.get('/users', authMiddleware, UserInfrastructureController.getAll);
+router.get('/users', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.getAll);
 router.post('/users', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.create);
 router.get('/users/:id', authMiddleware, UserInfrastructureController.getById);
 router.put('/users/verifySeller/:id', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.verifySeller);
