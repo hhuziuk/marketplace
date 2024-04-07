@@ -5,7 +5,7 @@ import PaymentInfrastructureController from "../controllers/PaymentInfrastructur
 
 const router = express.Router();
 
-router.post('/set', checkRole(Role.Customer), PaymentInfrastructureController.setPaymentMethod) // ---> setPaymetMethod()
+router.post('/set', PaymentInfrastructureController.setPaymentMethod) // ---> setPaymetMethod()
 router.get('/payments', checkRole(Role.Customer), PaymentInfrastructureController.getAll) // ---> getAll() for implementation!
 router.put('/update', checkRole(Role.Customer), PaymentInfrastructureController.updatePaymentMethod) // ---> setStatus()  for implementation!
 

@@ -7,19 +7,22 @@ class PaymentInfrastructureController {
     constructor(readonly paymentService: any = PaymentInfrastructureService) {}
     async setPaymentMethod(req: Request, res: Response, next: NextFunction) {
         try {
-            const { paymentId, method, amount, cardNumber } = req.body;
-            if (!paymentId || !method) {
+            const { method, amount, cardNumber, paymentMethodId } = req.body;
+            if (!amount || !method || (!cardNumber && !paymentMethodId)) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
 
-            await this.paymentService.setPaymentMethod(paymentId, method);
-
+            let paymentId;
             if (method === PaymentMethod.CreditCard || method === PaymentMethod.DebitCard) {
                 if (!amount || !cardNumber) {
                     throw ApiError.BadRequest(`Required data is missing`);
                 }
-                await this.paymentService.createAndProcessPayment(amount, method);
+
+                paymentId = await PaymentInfrastructureService.createAndProcessPayment(amount, method, paymentMethodId);
+            } else {
+                paymentId = req.body.id;
             }
+            await PaymentInfrastructureService.setPaymentMethod(paymentId, method);
 
             return res.json({ message: "Payment method updated successfully" });
         } catch (e) {
@@ -42,7 +45,7 @@ class PaymentInfrastructureController {
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            await this.paymentService.updatePaymentMethod(paymentId, method);
+            await PaymentInfrastructureService.updatePaymentMethod(paymentId, method);
             return res.json({ message: "Payment method updated successfully" });
         } catch (e) {
             next(e);
