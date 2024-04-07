@@ -8,7 +8,7 @@ export class Order {
         readonly status: Status,
         readonly userId: string,
         readonly orderItems: OrderItem[],
-        readonly totalPrice: number,
+        readonly amount: number,
         readonly paymentId: string,
         readonly deliveryType: Delivery,
     ) {}

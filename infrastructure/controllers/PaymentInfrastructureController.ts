@@ -3,11 +3,13 @@ import {Response, Request, NextFunction} from "express";
 import PaymentInfrastructureService from "../services/PaymentInfrastructureService";
 import ApiError from "../exceptions/ApiError";
 import {PaymentMethod} from "../../core/domain/enums/PaymentMethod";
+
 class PaymentInfrastructureController {
     constructor(readonly paymentService: any = PaymentInfrastructureService) {}
+
     async setPaymentMethod(req: Request, res: Response, next: NextFunction) {
         try {
-            const { method, amount, cardNumber, paymentMethodId } = req.body;
+            const { method, amount, cardNumber, paymentMethodId, userId, orderId } = req.body;
             if (!amount || !method || (!cardNumber && !paymentMethodId)) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
@@ -18,7 +20,7 @@ class PaymentInfrastructureController {
                     throw ApiError.BadRequest(`Required data is missing`);
                 }
 
-                paymentId = await PaymentInfrastructureService.createAndProcessPayment(amount, method, paymentMethodId);
+                paymentId = await PaymentInfrastructureService.createAndProcessPayment(amount, method, paymentMethodId, userId, orderId);
             } else {
                 paymentId = req.body.id;
             }
@@ -30,6 +32,7 @@ class PaymentInfrastructureController {
             logger.error(e);
         }
     }
+
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const payments = await PaymentInfrastructureService.getAll();
@@ -39,6 +42,7 @@ class PaymentInfrastructureController {
             logger.error(e);
         }
     }
+
     async updatePaymentMethod(req: Request, res: Response, next: NextFunction) {
         try {
             const { paymentId, method } = req.body;
@@ -53,4 +57,5 @@ class PaymentInfrastructureController {
         }
     }
 }
+
 export default new PaymentInfrastructureController();

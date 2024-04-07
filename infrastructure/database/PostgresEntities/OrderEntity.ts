@@ -2,7 +2,7 @@ import {Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, JoinColumn, OneToMa
 import {User} from "./UserEntity";
 import {OrderItem} from "./OrderItemEntity";
 import {Payment} from "./PaymentEntity";
-import {IsDate, IsEnum, IsNumber, IsUUID} from "class-validator";
+import {IsBoolean, IsDate, IsEnum, IsNumber, IsUUID} from "class-validator";
 import {Status} from "../../../core/domain/enums/Status";
 import {Delivery} from "../../../core/domain/enums/Delivery";
 
@@ -16,7 +16,7 @@ export class Order {
     @IsDate()
     public createdAt: Date;
 
-    @Column({ type: 'enum', enum: Status, nullable: false })
+    @Column({ type: 'enum', enum: Status, default: "Pending", nullable: true })
     @IsEnum(Status)
     public status: Status;
 
@@ -27,6 +27,10 @@ export class Order {
     @Column({ type: 'enum', enum: Delivery, nullable: false })
     @IsEnum(Delivery)
     public delivery: Delivery;
+
+    @Column({ type: "boolean", nullable: false, default: false })
+    @IsBoolean()
+    public isPaid: boolean;
 
     @OneToOne(() => Payment)
     @JoinColumn()

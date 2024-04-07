@@ -2,8 +2,11 @@ import logger from "../../tools/logger";
 import {NextFunction, Request, Response} from "express";
 import OrderInfrastructureService from "../services/OrderInfrastructureService";
 import ApiError from "../exceptions/ApiError";
+
 class OrderInfrastructureController {
+
     constructor(readonly orderService: any = OrderInfrastructureService) {}
+
     async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const orderData = req.body;
@@ -17,7 +20,12 @@ class OrderInfrastructureController {
 
     async confirmOrder(req: Request, res: Response, next: NextFunction){
         try{
-            return res.json()
+            const { orderId } = req.params;
+            if (!orderId) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            const order = await OrderInfrastructureService.confirmOrder(orderId);
+            return res.json(order);
         } catch(e){
             next(e);
             logger.error(e)
@@ -34,7 +42,7 @@ class OrderInfrastructureController {
     }
     async getById(req: Request, res: Response, next: NextFunction){
         try{
-            const {orderId} = req.params;
+            const { orderId } = req.params;
             if (!orderId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
@@ -47,12 +55,12 @@ class OrderInfrastructureController {
     }
     async cancelOrder(req: Request, res: Response, next: NextFunction){
         try{
-            const {orderId} = req.body;
+            const { orderId } = req.body;
             if (!orderId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            const book = await OrderInfrastructureService.cancelOrder(orderId)
-            return res.json(book)
+            await OrderInfrastructureService.cancelOrder(orderId)
+            return res.json({ message: "Order cancelled successfully" });
         } catch(e){
             next(e);
             logger.error(e)
@@ -73,4 +81,4 @@ class OrderInfrastructureController {
     }
 }
 
-export default new OrderInfrastructureController();
+export default new OrderInfrastructureController(OrderInfrastructureService);

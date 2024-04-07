@@ -5,30 +5,43 @@ import { v4 as uuidv4 } from 'uuid';
 import PaymentPostgresRepository from "../database/PostgresRepository/PaymentPostgresRepository";
 import {PaymentMethod} from "../../core/domain/enums/PaymentMethod";
 import Stripe from 'stripe';
+import OrderInfrastructureService from "./OrderInfrastructureService";
+import UserInfrastructureService from "./UserInfrastructureService";
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
     apiVersion: '2023-10-16',
 });
+
 class PaymentInfrastructureService {
     constructor(readonly paymentRepository: any = new PaymentDomainService(paymentRepository)){}
 
-    async createPayment(amount: number, method: PaymentMethod): Promise<void> {
+    async createPayment(amount: number, method: PaymentMethod, userId: string, orderId: string): Promise<void> {
         try {
+            const orderExists = await OrderInfrastructureService.getById(orderId);
+            const userExists = await UserInfrastructureService.getById(userId);
+
+            if (!orderExists || !userExists) {
+                throw ApiError.NotFound(`Order or User not found`);
+            }
+
             const newPayment: Payment = {
                 createdAt: new Date(),
                 totalPrice: amount,
                 method: method,
                 paymentId: uuidv4(),
-                order: null,
-                user: null,
+                user: userExists.userId,
+                order: orderExists.orderId,
             };
             await this.paymentRepository.save(newPayment);
+            await OrderInfrastructureService.updateOrderPaymentStatus(orderId, newPayment.paymentId);
+
         } catch (error) {
             console.error('Error creating payment:', error);
             throw ApiError.InternalServerError('Error creating payment');
         }
     }
 
-    async createAndProcessPayment(amount: number, method: PaymentMethod, paymentMethodId: string): Promise<void> {
+    async createAndProcessPayment(amount: number, method: PaymentMethod, paymentMethodId: string, userId: string, orderId: string): Promise<void> {
         try {
             let paymentId;
             switch (method) {
@@ -46,13 +59,12 @@ class PaymentInfrastructureService {
                     throw ApiError.BadRequest(`Payment method ${method} is not supported`);
             }
 
-            await this.createPayment(amount, method);
+            await this.createPayment(amount, method, userId, orderId);
         } catch (error) {
             console.error('Error processing payment:', error);
             throw ApiError.InternalServerError('Error processing payment');
         }
     }
-
 
     async setPaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
         const payment = await this.paymentRepository.getById(paymentId);
@@ -62,9 +74,15 @@ class PaymentInfrastructureService {
         payment.method = method;
         await this.paymentRepository.save(payment);
     }
-    async getAll(): Promise<Payment> {
+
+    async getAll(): Promise<Payment[]> {
         return await this.paymentRepository.getAll();
     }
+
+    async getById(paymentId: string): Promise<Payment | null> {
+        return await this.paymentRepository.getById(paymentId);
+    }
+
     async updatePaymentMethod(paymentId: string, method: PaymentMethod): Promise<void> {
         const payment = await this.paymentRepository.getById(paymentId);
         if (!payment) {
@@ -72,6 +90,7 @@ class PaymentInfrastructureService {
         }
         await this.setPaymentMethod(paymentId, method);
     }
+
     async payByCard(amount: number, paymentMethodId: string): Promise<string> {
         try {
             const amountInCents = Math.round(amount * 100);
@@ -92,4 +111,5 @@ class PaymentInfrastructureService {
     }
 
 }
+
 export default new PaymentInfrastructureService(PaymentPostgresRepository);

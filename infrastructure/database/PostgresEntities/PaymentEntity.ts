@@ -25,8 +25,8 @@ export class Payment {
 
     @OneToOne(() => Order, order => order.payment)
     @JoinColumn()
-    order: Order;
+    public order: Order | string;
 
     @ManyToOne(() => User, user => user.payment)
-    user: User;
+    public user: User | string;
 }
