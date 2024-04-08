@@ -3,7 +3,10 @@ import { Rating } from "../database/PostgresEntities/RatingEntity";
 import { DeleteResult } from "typeorm";
 import ApiError from "../exceptions/ApiError";
 import RatingPostgresRepository from "../database/PostgresRepository/RatingPostgresRepository";
+import {Book} from "../../core/domain/Book";
+
 class RatingInfrastructureService {
+
     constructor(readonly ratingRepository: any = new RatingDomainService(ratingRepository)) {}
     async create(ratingData: Partial<Rating>): Promise<Rating> {
         const { ratingValue, comment } = ratingData;
@@ -35,6 +38,18 @@ class RatingInfrastructureService {
             throw ApiError.BadRequest(`No id was provided`)
         }
         return await this.ratingRepository.delete(ratingId)
+    }
+    async update(ratingId: string, updates: Partial<Rating>): Promise<Book> {
+        if(!ratingId){
+            throw ApiError.BadRequest(`No id was provided`)
+        }
+        const existingRating = await this.ratingRepository.getById(ratingId);
+        if (!existingRating) {
+            throw ApiError.BadRequest(`Rating with id ${ratingId} not found`);
+        }
+        Object.assign(existingRating, updates);
+        const updatedRating = await this.ratingRepository.save(existingRating);
+        return updatedRating;
     }
 }
 export default new RatingInfrastructureService(RatingPostgresRepository);

@@ -2,6 +2,7 @@ import logger from "../../tools/logger";
 import {NextFunction, Request, Response} from "express";
 import RatingInfrastructureService from "../services/RatingInfrastructureService";
 import ApiError from "../exceptions/ApiError";
+import BookInfrastructureService from "../services/BookInfrastructureService";
 class RatingInfrastructureController {
     constructor(readonly ratingService: any = RatingInfrastructureService) {}
     async addRating(req: Request, res: Response, next: NextFunction) {
@@ -11,9 +12,22 @@ class RatingInfrastructureController {
             res.json(rating);
         } catch (e) {
             next(e);
+            logger.error(e)
         }
     }
-    // TODO добавить update
+    async update(req: Request, res: Response, next: NextFunction){
+        try{
+            const {ratingId, updates} = req.body;
+            const rating = await RatingInfrastructureService.update(ratingId, updates)
+            if (!ratingId || !updates) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
+            return res.json(rating)
+        } catch(e){
+            next(e);
+            logger.error(e)
+        }
+    }
     async getAll(req: Request, res: Response, next: NextFunction){
         try{
             const ratings = await RatingInfrastructureService.getAll();
