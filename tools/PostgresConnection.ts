@@ -13,11 +13,11 @@ import {Rating} from "../infrastructure/database/PostgresEntities/RatingEntity";
 
 export const PostgresDataSource : DataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
+    host: process.env.POSTGRES_HOST,
     port: 5432,
-    username: "postgres",
-    password: "root",
-    database: "postgres",
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
     synchronize: true,
     //logging: true,
     entities: [
