@@ -1,6 +1,6 @@
 import {OrderRepository} from "../repositories/OrderRepository/OrderRepository";
 import {Order, OrderItem} from "../domain/Order";
-import {Status} from "../domain/enums/Status";
+import {DeliveryStatus} from "../domain/enums/DeliveryStatus";
 import {Delivery} from "../domain/enums/Delivery";
 
 export class OrderDomainService implements OrderRepository {
@@ -8,7 +8,7 @@ export class OrderDomainService implements OrderRepository {
     async createOrder(
         orderId: string,
         createdAt: Date,
-        status: Status,
+        status: DeliveryStatus,
         userId: string,
         orderItems: OrderItem[],
         totalPrice: number,
@@ -32,7 +32,7 @@ export class OrderDomainService implements OrderRepository {
     async cancelOrder(orderId: string) : Promise<void> {
         return await this.orderDomainRepository.cancelOrder(orderId);
     }
-    async setStatus(status: Status) : Promise<void> {
+    async setStatus(status: DeliveryStatus) : Promise<void> {
         return await this.orderDomainRepository.setStatus(status);
     }
 }

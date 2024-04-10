@@ -9,7 +9,7 @@ import RedisStore from "connect-redis";
 import redisClient from "./tools/RedisConnect";
 import session from "express-session"
 import {PostgresDataSource} from "./tools/PostgresConnection";
-const PORT : string | number = process.env.PORT || 3015;
+const PORT : string | number = process.env.PORT || 3000;
 const app = express();
 
 passport.serializeUser((user, done) => done(null, user));

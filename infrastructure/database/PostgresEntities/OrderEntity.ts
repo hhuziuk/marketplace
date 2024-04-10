@@ -3,7 +3,7 @@ import {User} from "./UserEntity";
 import {OrderItem} from "./OrderItemEntity";
 import {Payment} from "./PaymentEntity";
 import {IsBoolean, IsDate, IsEnum, IsNumber, IsUUID} from "class-validator";
-import {Status} from "../../../core/domain/enums/Status";
+import {DeliveryStatus} from "../../../core/domain/enums/DeliveryStatus";
 import {Delivery} from "../../../core/domain/enums/Delivery";
 
 @Entity('Order')
@@ -16,9 +16,9 @@ export class Order {
     @IsDate()
     public createdAt: Date;
 
-    @Column({ type: 'enum', enum: Status, default: "Pending", nullable: true })
-    @IsEnum(Status)
-    public status: Status;
+    @Column({ type: 'enum', enum: DeliveryStatus, default: "Pending", nullable: true })
+    @IsEnum(DeliveryStatus)
+    public status: DeliveryStatus;
 
     @Column({ type: "float", nullable: false })
     @IsNumber()

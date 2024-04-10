@@ -1,11 +1,11 @@
-import {Status} from "./enums/Status";
+import {DeliveryStatus} from "./enums/DeliveryStatus";
 import {Delivery} from "./enums/Delivery";
 
 export class Order {
     constructor(
         readonly orderId: string,
         readonly createdAt: Date,
-        readonly status: Status,
+        readonly status: DeliveryStatus,
         readonly userId: string,
         readonly orderItems: OrderItem[],
         readonly amount: number,

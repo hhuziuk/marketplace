@@ -1,5 +1,5 @@
 import { OrderDomainService } from "../../core/services/OrderDomainService";
-import { Status } from "../../core/domain/enums/Status";
+import { DeliveryStatus } from "../../core/domain/enums/DeliveryStatus";
 import ApiError from "../exceptions/ApiError";
 import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgresRepository";
 import {Order} from "../database/PostgresEntities/OrderEntity";
@@ -33,7 +33,7 @@ class OrderInfrastructureService {
         if (!order) {
             throw ApiError.BadRequest(`Order with id ${orderId} not found`);
         }
-        order.status = Status.confirmed;
+        order.status = DeliveryStatus.IN_TRANSIT;
         await this.orderRepository.save(order);
         return order;
     }
@@ -51,11 +51,11 @@ class OrderInfrastructureService {
         if (!order) {
             throw ApiError.BadRequest(`Order with id ${orderId} not found`);
         }
-        order.status = Status.cancelled;
+        order.status = DeliveryStatus.CANCELLED;
         await this.orderRepository.save(order);
     }
 
-    async setStatus(orderId: string, status: Status): Promise<void> {
+    async setStatus(orderId: string, status: DeliveryStatus): Promise<void> {
         const order = await this.orderRepository.getById(orderId);
         if (!order) {
             throw ApiError.BadRequest(`Order with id ${orderId} not found`);
