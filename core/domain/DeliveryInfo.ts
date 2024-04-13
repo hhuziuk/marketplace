@@ -1,6 +1,6 @@
 export class DeliveryInfo {
     constructor(
-        readonly statusId: string,
+        readonly deliveryInfoId: string,
         readonly shipmentId: string,
         readonly location: string,
         readonly statusDescription: string,

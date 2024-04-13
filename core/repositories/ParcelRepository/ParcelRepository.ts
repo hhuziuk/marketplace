@@ -1,4 +1,5 @@
 import {Parcel} from "../../domain/Parcel";
+import {DeliveryInfo} from "../../domain/DeliveryInfo";
 export interface ParcelRepository {
     create(
         parcelId: string,
@@ -10,7 +11,8 @@ export interface ParcelRepository {
         height: number,
     ) : Promise<Parcel>,
     save(parcel: Parcel): Promise<Parcel>,
+    update(parcelId: string): Promise<Parcel>,
     getAll(): Promise<Parcel[]>,
-    getById(orderId: string): Promise<Parcel | null>,
+    getById(parcelId: string): Promise<Parcel | null>,
     delete(parcelId: string) : Promise<void>,
 }

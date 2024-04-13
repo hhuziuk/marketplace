@@ -13,8 +13,9 @@ export interface ShipmentRepository {
         addressFrom: string,
         addressTo: string,
     ) : Promise<Shipment>,
-    save(parcel: Shipment): Promise<Shipment>,
+    save(shipment: Shipment): Promise<Shipment>,
+    update(shipmentId: string): Promise<Shipment>,
     getAll(): Promise<Shipment[]>,
-    getById(orderId: string): Promise<Shipment | null>,
-    delete(parcelId: string) : Promise<void>,
+    getById(shipmentId: string): Promise<Shipment | null>,
+    delete(shipmentId: string) : Promise<void>,
 }

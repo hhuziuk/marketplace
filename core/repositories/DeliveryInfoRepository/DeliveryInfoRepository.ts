@@ -1,7 +1,7 @@
 import {DeliveryInfo} from "../../domain/DeliveryInfo";
 export interface DeliveryInfoRepository {
     create(
-        statusId: string,
+        deliveryInfoId: string,
         shipmentId: string,
         location: string,
         statusDescription: string,
@@ -9,6 +9,7 @@ export interface DeliveryInfoRepository {
     ) : Promise<DeliveryInfo>,
     save(parcel: DeliveryInfo): Promise<DeliveryInfo>,
     getAll(): Promise<DeliveryInfo[]>,
-    getById(orderId: string): Promise<DeliveryInfo | null>,
-    delete(parcelId: string) : Promise<void>,
+    update(deliveryInfoId: string): Promise<DeliveryInfo>,
+    getById(deliveryInfoId: string): Promise<DeliveryInfo | null>,
+    delete(deliveryInfoId: string) : Promise<void>,
 }
