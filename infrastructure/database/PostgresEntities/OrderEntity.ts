@@ -5,6 +5,7 @@ import {Payment} from "./PaymentEntity";
 import {IsBoolean, IsDate, IsEnum, IsNumber, IsUUID} from "class-validator";
 import {DeliveryStatus} from "../../../core/domain/enums/DeliveryStatus";
 import {Delivery} from "../../../core/domain/enums/Delivery";
+import {Shipment} from "./ShipmentEntity";
 
 @Entity('Order')
 export class Order {
@@ -36,8 +37,11 @@ export class Order {
     @JoinColumn()
     payment: Payment;
 
-    @ManyToOne(() => User, user => user.order)
+    @OneToOne(() => Shipment)
     @JoinColumn()
+    shipment: Shipment;
+
+    @ManyToOne(() => User, user => user.order)
     user: User;
 
     @OneToMany(() => OrderItem, orderItem => orderItem.order)

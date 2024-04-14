@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {IsNumber} from "class-validator";
+import {Shipment} from "./ShipmentEntity";
 
 @Entity('Parcel')
 export class Parcel {
@@ -22,6 +23,6 @@ export class Parcel {
     @IsNumber()
     public height: number;
 
-//     userId: number,
-//     shipmentId: number,
+    @ManyToOne(() => Shipment, shipment => shipment.parcel)
+    shipment: Shipment;
 }

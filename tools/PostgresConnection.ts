@@ -10,6 +10,9 @@ import {Order} from "../infrastructure/database/PostgresEntities/OrderEntity";
 import {OrderItem} from "../infrastructure/database/PostgresEntities/OrderItemEntity";
 import {Payment} from "../infrastructure/database/PostgresEntities/PaymentEntity";
 import {Rating} from "../infrastructure/database/PostgresEntities/RatingEntity";
+import {Parcel} from "../infrastructure/database/PostgresEntities/ParcelEntity";
+import {DeliveryInfo} from "../infrastructure/database/PostgresEntities/DeliveryInfoEntity";
+import {Shipment} from "../infrastructure/database/PostgresEntities/ShipmentEntity";
 
 export const PostgresDataSource : DataSource = new DataSource({
     type: "postgres",
@@ -19,7 +22,6 @@ export const PostgresDataSource : DataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
     synchronize: true,
-    //logging: true,
     entities: [
         User,
         Book,
@@ -31,7 +33,10 @@ export const PostgresDataSource : DataSource = new DataSource({
         Order,
         OrderItem,
         Payment,
-        Rating
+        Rating,
+        DeliveryInfo,
+        Parcel,
+        Shipment
     ],
     subscribers: [],
     migrations: [],

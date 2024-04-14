@@ -1,6 +1,9 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {IsDate, IsEnum, IsString, IsUUID, MaxLength} from "class-validator";
 import {ParcelStatus} from "../../../core/domain/enums/ParcelStatus";
+import {Order} from "./OrderEntity";
+import {DeliveryInfo} from "./DeliveryInfoEntity";
+import {Parcel} from "./ParcelEntity";
 
 @Entity('Shipment')
 export class Shipment {
@@ -43,7 +46,6 @@ export class Shipment {
     })
     public addressTo: string;
 
-
     @Column({ type: 'timestamptz', nullable: false })
     @IsDate()
     public estimatedDeliveryDate: Date;
@@ -51,6 +53,15 @@ export class Shipment {
     @Column({ type: 'enum', enum: ParcelStatus, default: "Processing", nullable: true })
     @IsEnum(ParcelStatus)
     public shipmentStatus: ParcelStatus;
-//     orderId: string,
-//     userId: string,
+
+    @OneToOne(() => Order)
+    @JoinColumn()
+    order: Order;
+
+    @OneToOne(() => DeliveryInfo)
+    @JoinColumn()
+    deliveryInfo: DeliveryInfo;
+
+    @OneToMany(() => Parcel, parcel => parcel.shipment)
+    parcel: Parcel[];
 }

@@ -1,5 +1,6 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {IsDate, IsString, IsUUID, MaxLength} from "class-validator";
+import {Shipment} from "./ShipmentEntity";
 @Entity('DeliveryInfo')
 export class DeliveryInfo {
     @PrimaryGeneratedColumn('uuid')
@@ -21,5 +22,7 @@ export class DeliveryInfo {
     @IsDate()
     timestamp : Date;
 
-    //shipmentId: string,
+    @OneToOne(() => Shipment)
+    @JoinColumn()
+    shipment: Shipment;
 }
