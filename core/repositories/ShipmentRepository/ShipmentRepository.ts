@@ -16,6 +16,8 @@ export interface ShipmentRepository {
     save(shipment: Shipment): Promise<Shipment>,
     update(shipmentId: string): Promise<Shipment>,
     getAll(): Promise<Shipment[]>,
-    getById(shipmentId: string): Promise<Shipment | null>,
-    delete(shipmentId: string) : Promise<void>,
+    getById(shipmentId: string): Promise<Shipment>,
+    getByCarrier(carrier: string): Promise<Shipment[]>,
+    getByTrackingNumber(trackingNumber: string): Promise<Shipment>,
+    delete(shipmentId: string): Promise<void>
 }

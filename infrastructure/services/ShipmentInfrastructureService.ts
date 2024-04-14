@@ -2,17 +2,16 @@ import EasyPostClient from '@easypost/api/src/easypost';
 import ShipmentPostgresRepository from "../database/PostgresRepository/ShipmentPostgresRepository";
 import {ShipmentDomainService} from "../../core/services/ShipmentDomainService";
 import {Shipment} from "../database/PostgresEntities/ShipmentEntity";
-import {ParcelStatus} from "../../core/domain/enums/ParcelStatus";
 import ApiError from "../exceptions/ApiError";
 
 class ShipmentInfrastructureService {
-
     constructor(readonly shipmentRepository: any = new ShipmentDomainService(shipmentRepository)) {}
+
     private client = new EasyPostClient(process.env.EASYPOST_API_KEY);
 
-    async create(shipmentData: Shipment): Promise<Shipment> {
+    async create(shipmentData: Partial<Shipment>): Promise<Shipment> {
         const trackingInfo = await this.client.shipment.createShipment(shipmentData);
-        return  await ShipmentPostgresRepository.create({ ...shipmentData, ...trackingInfo });
+        return await ShipmentPostgresRepository.create({ ...shipmentData, ...trackingInfo });
     }
 
     async update(shipmentId: string, shipmentData: any): Promise<Shipment> {
@@ -41,13 +40,6 @@ class ShipmentInfrastructureService {
         return await ShipmentPostgresRepository.getByTrackingNumber(trackingNumber);
     }
 
-    async getByStatus(status: ParcelStatus): Promise<Shipment[]> {
-        return await ShipmentPostgresRepository.getByStatus(status);
-    }
-
-    async getByDate(estimatedDeliveryDate: Date): Promise<Shipment[]> {
-        return await ShipmentPostgresRepository.getByDate(estimatedDeliveryDate);
-    }
     async delete(shipmentId: string): Promise<void> {
         await ShipmentPostgresRepository.delete(shipmentId);
     }

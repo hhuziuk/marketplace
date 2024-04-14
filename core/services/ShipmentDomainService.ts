@@ -2,6 +2,7 @@ import {ShipmentRepository} from "../repositories/ShipmentRepository/ShipmentRep
 import {Shipment} from "../domain/Shipment";
 import {ParcelStatus} from "../domain/enums/ParcelStatus";
 
+
 export class ShipmentDomainService implements ShipmentRepository{
     constructor(private shipmentDomainRepository: ShipmentRepository) {}
     async create(

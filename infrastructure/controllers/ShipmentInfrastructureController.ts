@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import logger from "../../tools/logger";
 import ShipmentInfrastructureService from "../services/ShipmentInfrastructureService";
+import OrderInfrastructureService from "../services/OrderInfrastructureService";
 
 class ShipmentInfrastructureController {
-    constructor(private readonly shipmentService: ShipmentInfrastructureService) {}
+
+    constructor(readonly shipmentService: any = new ShipmentInfrastructureService) {}
 
     async create(req: Request, res: Response, next: NextFunction) {
         try {
@@ -64,28 +66,6 @@ class ShipmentInfrastructureController {
             const trackingNumber = req.params.trackingNumber;
             const shipment = await ShipmentInfrastructureService.getByTrackingNumber(trackingNumber);
             res.json(shipment);
-        } catch (error) {
-            next(error);
-            logger.error(error);
-        }
-    }
-
-    async getByStatus(req: Request, res: Response, next: NextFunction) {
-        try {
-            const status = req.params.status;
-            const shipments = await ShipmentInfrastructureService.getByStatus(status);
-            res.json(shipments);
-        } catch (error) {
-            next(error);
-            logger.error(error);
-        }
-    }
-
-    async getByDate(req: Request, res: Response, next: NextFunction) {
-        try {
-            const date = req.query.date;
-            const shipments = await ShipmentInfrastructureService.getByDate(date);
-            res.json(shipments);
         } catch (error) {
             next(error);
             logger.error(error);
