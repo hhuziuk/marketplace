@@ -15,13 +15,13 @@ router.delete('/users/delete/:id', authMiddleware, UserInfrastructureController.
 
 // Routes for Seller
 router.get('/seller/:id', authMiddleware, UserInfrastructureController.getById);
-router.put('/seller/update/:id', authMiddleware, checkRole(Role.Seller), checkRole(Role.Admin), UserInfrastructureController.update);
-router.delete('/seller/delete/:id', authMiddleware, checkRole(Role.Admin), checkRole(Role.Seller), checkRole(Role.Admin), UserInfrastructureController.delete);
+router.put('/seller/update/:id', authMiddleware, checkRole(Role.Seller, Role.Admin), UserInfrastructureController.update);
+router.delete('/seller/delete/:id', authMiddleware, checkRole(Role.Admin, Role.Seller), checkRole(Role.Admin), UserInfrastructureController.delete);
 
 // Routes for Customer
 router.get('/customer/:id', authMiddleware, UserInfrastructureController.getById);
-router.put('/customer/update/:id', authMiddleware, checkRole(Role.Customer), checkRole(Role.Admin), UserInfrastructureController.update);
-router.delete('/customer/delete/:id', authMiddleware, checkRole(Role.Customer), checkRole(Role.Admin), UserInfrastructureController.delete);
+router.put('/customer/update/:id', authMiddleware, checkRole(Role.Customer, Role.Admin), UserInfrastructureController.update);
+router.delete('/customer/delete/:id', authMiddleware, checkRole(Role.Customer, Role.Admin), UserInfrastructureController.delete);
 
 export default router
 

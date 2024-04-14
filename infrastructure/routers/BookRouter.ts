@@ -10,6 +10,6 @@ router.get('/:bookId', BookInfrastructureController.getById) // ---> getById()
 router.get('/author/:bookAuthor', BookInfrastructureController.getByAuthor) // ---> getByAuthor()
 router.get('/name/:bookName', BookInfrastructureController.getByName) // ---> getByName()
 router.put('/update/:bookId', checkRole(Role.Seller), BookInfrastructureController.update) // ---> for implementation
-router.delete('/delete/:bookId', checkRole(Role.Admin), checkRole(Role.Seller), BookInfrastructureController.delete) // ---> delete()
+router.delete('/delete/:bookId', checkRole(Role.Admin, Role.Seller), BookInfrastructureController.delete) // ---> delete()
 
 export default router
