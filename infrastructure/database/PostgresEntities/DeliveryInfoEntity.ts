@@ -8,7 +8,6 @@ export class DeliveryInfo {
     public deliveryInfoId: string;
 
     @Column({ nullable: false })
-    @Column({ nullable: false })
     public location: string;
 
     @Column({ nullable: true })
@@ -16,7 +15,7 @@ export class DeliveryInfo {
     @MaxLength(300, {
         message: 'statusDescription is too long',
     })
-    public statusDescription: number;
+    public statusDescription: string;
 
     @Column({ type: 'timestamptz', nullable: false })
     @IsDate()
