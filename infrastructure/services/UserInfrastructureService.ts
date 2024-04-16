@@ -63,10 +63,34 @@ class UserInfrastructureService {
         if (!user) {
             throw ApiError.NotFound("User not found");
         }
-        Object.assign(user, userData);
+        if (userData.password) {
+            const hashedPassword = await bcrypt.hash(userData.password, 10);
+            const updatedUser = new User(
+                user.userId,
+                user.username,
+                user.name,
+                user.surname,
+                user.email,
+                hashedPassword,
+                user.isActivated,
+                user.activationLink,
+                user.phoneNumber,
+                user.country,
+                user.city,
+                user.postalCode,
+                user.address,
+                user.role,
+                user.verified
+            );
+            Object.assign(user, updatedUser);
+        } else {
+            Object.assign(user, userData);
+        }
+
         await this.userRepository.save(user);
         return user;
     }
+
     async delete(userId: string): Promise<void> {
         const user = await this.userRepository.getById(userId);
         if (!user) {
