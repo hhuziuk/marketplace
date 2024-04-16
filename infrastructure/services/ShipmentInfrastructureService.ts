@@ -1,9 +1,9 @@
-import EasyPost from '@easypost/api';
+import Shippo from 'shippo';
 import ShipmentPostgresRepository from "../database/PostgresRepository/ShipmentPostgresRepository";
 import { Shipment } from "../database/PostgresEntities/ShipmentEntity";
-import { ParcelDomainService } from "../../core/services/ParcelDomainService";
 import { ParcelStatus } from "../../core/domain/enums/ParcelStatus";
 import ParcelPostgresRepository from "../database/PostgresRepository/ParcelPostgresRepository";
+import logger from "../../tools/logger";
 
 class ShipmentInfrastructureService {
     private readonly client: any;
@@ -12,67 +12,71 @@ class ShipmentInfrastructureService {
         private readonly shipmentRepository: any = ShipmentPostgresRepository,
         private readonly parcelRepository: any = ParcelPostgresRepository
     ) {
-        this.client = new EasyPost(process.env.EASYPOST_API_KEY);
+        this.client = new Shippo(process.env.SHIPPO_API_KEY);
     }
 
     async createShipment(data: any): Promise<Shipment> {
         try {
-            const shipment = await this.client.Shipment.create({
-                to_address: {
-                    name: data.toAddress.name,
-                    company: data.toAddress.company,
-                    street1: data.toAddress.street1,
-                    city: data.toAddress.city,
-                    state: data.toAddress.state,
-                    zip: data.toAddress.zip,
+            const shipment = await this.client.shipment.create({
+                address_from: {
+                    name: data.shipment.address_from.name,
+                    street1: data.shipment.address_from.street1,
+                    city: data.shipment.address_from.city,
+                    state: data.shipment.address_from.state,
+                    zip: data.shipment.address_from.zip,
+                    country: data.shipment.address_from.country,
+                    phone: data.shipment.address_from.phone,
                 },
-                from_address: {
-                    company: data.fromAddress.company,
-                    street1: data.fromAddress.street1,
-                    street2: data.fromAddress.street2,
-                    city: data.fromAddress.city,
-                    state: data.fromAddress.state,
-                    zip: data.fromAddress.zip,
-                    phone: data.fromAddress.phone,
+                address_to: {
+                    name: data.shipment.address_to.name,
+                    street1: data.shipment.address_to.street1,
+                    city: data.shipment.address_to.city,
+                    state: data.shipment.address_to.state,
+                    zip: data.shipment.address_to.zip,
+                    country: data.shipment.address_to.country,
+                    phone: data.shipment.address_to.phone,
                 },
-                parcel: {
-                    length: data.parcel.length,
-                    width: data.parcel.width,
-                    height: data.parcel.height,
-                    weight: data.parcel.weight,
-                },
+                parcels: [{
+                    length: data.shipment.parcels[0].length,
+                    width: data.shipment.parcels[0].width,
+                    height: data.shipment.parcels[0].height,
+                    weight: data.shipment.parcels[0].weight,
+                    mass_unit: data.shipment.parcels[0].mass_unit,
+                    distance_unit: data.shipment.parcels[0].distance_unit
+                }],
+                orderId: data.orderId
             });
 
             const savedShipment = await this.shipmentRepository.create({
-                trackingNumber: shipment.tracking_code,
-                carrier: shipment.selected_rate.carrier,
-                service: shipment.selected_rate.service,
-                addressFrom: shipment.from_address.street1,
-                addressTo: shipment.to_address.street1,
+                carrier: shipment.rates[0].provider,
+                service: shipment.rates[0].servicelevel.name,
+                addressFrom: shipment.address_from.street1,
+                addressTo: shipment.address_to.street1,
                 shipmentStatus: ParcelStatus.PROCESSING,
+                order: data.orderId,
+                shipmentId: shipment.object_id
             });
+            await this.shipmentRepository.save(savedShipment);
+
 
             const savedParcel = await this.parcelRepository.create({
-                weight: data.parcel.weight,
-                length: data.parcel.length,
-                width: data.parcel.width,
-                height: data.parcel.height,
-                shipmentId: savedShipment.shipmentId,
+                weight: data.shipment.parcels[0].weight,
+                length: data.shipment.parcels[0].length,
+                width: data.shipment.parcels[0].width,
+                height: data.shipment.parcels[0].height,
+                shipment: savedShipment.shipmentId,
             });
+            await this.parcelRepository.save(savedParcel);
 
-            return savedShipment;
-        } catch (error) {
-            throw new Error('Failed to create shipment');
+            return shipment;
+        } catch (e) {
+            logger.error(e);
         }
     }
 
     async trackShipment(trackingCode: string): Promise<any> {
         try {
-            const tracker = new this.client.Tracker({
-                tracking_code: trackingCode,
-            });
-
-            return await tracker.save();
+            return await this.client.track.get_status(trackingCode);
         } catch (error) {
             throw new Error('Failed to track shipment');
         }

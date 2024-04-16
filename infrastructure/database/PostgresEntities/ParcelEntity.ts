@@ -24,5 +24,5 @@ export class Parcel {
     public height: number;
 
     @ManyToOne(() => Shipment, shipment => shipment.parcel)
-    shipment: Shipment;
+    shipment: Shipment | string;
 }

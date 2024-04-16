@@ -1,8 +1,7 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {IsDate, IsEnum, IsString, IsUUID, MaxLength} from "class-validator";
+import {IsEnum, IsString, IsUUID, MaxLength} from "class-validator";
 import {ParcelStatus} from "../../../core/domain/enums/ParcelStatus";
 import {Order} from "./OrderEntity";
-import {DeliveryInfo} from "./DeliveryInfoEntity";
 import {Parcel} from "./ParcelEntity";
 
 @Entity('Shipment')
@@ -10,13 +9,6 @@ export class Shipment {
     @PrimaryGeneratedColumn('uuid')
     @IsUUID()
     public shipmentId: string;
-
-    @Column({ nullable: false })
-    @IsString()
-    @MaxLength(50, {
-        message: 'tracking number is too long',
-    })
-    public trackingNumber: string;
 
     @Column({ nullable: false })
     @IsString()
@@ -46,10 +38,6 @@ export class Shipment {
     })
     public addressTo: string;
 
-    @Column({ type: 'timestamptz', nullable: false })
-    @IsDate()
-    public estimatedDeliveryDate: Date;
-
     @Column({ type: 'enum', enum: ParcelStatus, default: "Processing", nullable: true })
     @IsEnum(ParcelStatus)
     public shipmentStatus: ParcelStatus;
@@ -57,10 +45,6 @@ export class Shipment {
     @OneToOne(() => Order)
     @JoinColumn()
     order: Order;
-
-    @OneToOne(() => DeliveryInfo)
-    @JoinColumn()
-    deliveryInfo: DeliveryInfo;
 
     @OneToMany(() => Parcel, parcel => parcel.shipment)
     parcel: Parcel[];

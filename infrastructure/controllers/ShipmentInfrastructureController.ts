@@ -7,10 +7,10 @@ class ShipmentController {
         try {
             const data = req.body;
             const shipment = await ShipmentInfrastructureService.createShipment(data);
-            res.status(201).json(shipment);
-        } catch (e) {
-            next(e);
-            logger.error(e);
+            res.json(shipment);
+        } catch (error) {
+            next(error);
+            logger.error(error);
         }
     }
 
@@ -18,10 +18,10 @@ class ShipmentController {
         try {
             const trackingCode = req.params.trackingCode;
             const trackingInfo = await ShipmentInfrastructureService.trackShipment(trackingCode);
-            res.status(200).json(trackingInfo);
-        } catch (e) {
-            next(e);
-            logger.error(e);
+            res.json(trackingInfo);
+        } catch (error) {
+            next(error);
+            logger.error(error);
         }
     }
 }

@@ -19,14 +19,8 @@ class ShipmentPostgresRepository {
     async getByCarrier(carrier: string): Promise<Shipment[]> {
         return await PostgresDataSource.getRepository(Shipment).find({where: {carrier}});
     }
-    async getByTrackingNumber(trackingNumber: string): Promise<Shipment> {
-        return await PostgresDataSource.getRepository(Shipment).findOne({where: {trackingNumber}});
-    }
     async getByStatus(shipmentStatus: ParcelStatus): Promise<Shipment[]> {
         return await PostgresDataSource.getRepository(Shipment).find({ where: { shipmentStatus } });
-    }
-    async getByDate(estimatedDeliveryDate: Date): Promise<Shipment[]> {
-        return await PostgresDataSource.getRepository(Shipment).find({ where: { estimatedDeliveryDate } });
     }
     async getBy(data: object): Promise<Shipment[]> {
         return await PostgresDataSource.getRepository(Shipment).find({where: data});

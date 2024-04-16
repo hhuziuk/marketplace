@@ -11,7 +11,6 @@ import {OrderItem} from "../infrastructure/database/PostgresEntities/OrderItemEn
 import {Payment} from "../infrastructure/database/PostgresEntities/PaymentEntity";
 import {Rating} from "../infrastructure/database/PostgresEntities/RatingEntity";
 import {Parcel} from "../infrastructure/database/PostgresEntities/ParcelEntity";
-import {DeliveryInfo} from "../infrastructure/database/PostgresEntities/DeliveryInfoEntity";
 import {Shipment} from "../infrastructure/database/PostgresEntities/ShipmentEntity";
 
 export const PostgresDataSource : DataSource = new DataSource({
@@ -34,7 +33,6 @@ export const PostgresDataSource : DataSource = new DataSource({
         OrderItem,
         Payment,
         Rating,
-        DeliveryInfo,
         Parcel,
         Shipment
     ],
