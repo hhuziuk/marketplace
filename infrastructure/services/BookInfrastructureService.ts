@@ -2,8 +2,6 @@ import {BookDomainService} from "../../core/services/BookDomainService";
 import {Book} from "../../core/domain/Book";
 import ApiError from "../exceptions/ApiError";
 import BookPostgresRepository from "../database/PostgresRepository/BookPostgresRepository";
-import {User} from "../database/PostgresEntities/UserEntity";
-import {Role} from "../../core/domain/enums/Role";
 class BookInfrastructureService {
     constructor(readonly bookRepository: any = new BookDomainService(bookRepository)){}
     async create(
@@ -17,19 +15,14 @@ class BookInfrastructureService {
         language: string,
         size: string,
         price: number,
-        seller: User
     ) : Promise<Book> {
-        if (seller.role !== Role.Seller || !seller.verified) {
-            throw ApiError.Unauthorized();
-        }
-
         const userBook = await this.bookRepository.getBy({ISBN})
         if(userBook){
             throw ApiError.BadRequest(`The same book already exists`)
         }
         const book  = await this.bookRepository.create({bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price})
         await this.bookRepository.save(book)
-        return book;
+        return {bookId: book.id, ...book};
     }
     async getAll(): Promise<Book[]> {
         return await this.bookRepository.getAll()

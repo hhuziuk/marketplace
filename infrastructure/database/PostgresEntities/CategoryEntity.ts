@@ -10,9 +10,6 @@ export class Category {
 
     @Column({ nullable: false })
     @IsString()
-    @MinLength(1, {
-        message: 'categoryName is too short',
-    })
     @MaxLength(20, {
         message: 'categoryName is too long',
     })

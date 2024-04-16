@@ -7,6 +7,7 @@ class BookInfrastructureController {
     constructor(readonly bookService: any = BookInfrastructureService) {}
     async create(req: Request, res: Response, next: NextFunction){
         try{
+
             const {bookName,
                 author,
                 categoryId,
@@ -17,12 +18,11 @@ class BookInfrastructureController {
                 language,
                 size,
                 price,
-                seller
             } = req.body
-            if (!bookName || !author || !categoryId || !publisherId || !ratingId || !description || !ISBN || !language || !size || !price || !seller) {
+            if (!bookName || !author || !categoryId || !publisherId || !ratingId || !description || !ISBN || !language || !size || !price) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            const book = await BookInfrastructureService.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price, seller)
+            const book = await BookInfrastructureService.create(bookName, author, categoryId, publisherId, ratingId, description, ISBN, language, size, price)
             return res.json(book)
         } catch(e){
             next(e);
@@ -79,7 +79,7 @@ class BookInfrastructureController {
     }
     async delete(req: Request, res: Response, next: NextFunction){
         try{
-            const {bookId} = req.body;
+            const {bookId} = req.params;
             if (!bookId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
@@ -92,7 +92,8 @@ class BookInfrastructureController {
     }
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            const {bookId, updates} = req.body;
+            const {bookId} = req.params;
+            const {updates} = req.body;
             const book = await BookInfrastructureService.update(bookId, updates)
             if (!bookId || !updates) {
                 throw ApiError.BadRequest(`Required data is missing`);

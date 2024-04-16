@@ -10,16 +10,16 @@ const router = express.Router();
 router.get('/users', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.getAll);
 router.get('/users/:id', authMiddleware, UserInfrastructureController.getById);
 router.put('/users/verifySeller/:id', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.verifySeller);
-router.put('/users/update/:id', authMiddleware, UserInfrastructureController.update);
-router.delete('/users/delete/:id', authMiddleware, UserInfrastructureController.delete);
+router.put('/users/update/:id', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.update);
+router.delete('/users/delete/:id', authMiddleware, checkRole(Role.Admin), UserInfrastructureController.delete);
 
 // Routes for Seller
-router.get('/seller/:id', checkRole(Role.Admin, Role.Seller), authMiddleware, UserInfrastructureController.getById);
+router.get('/seller/:id', authMiddleware, checkRole(Role.Admin, Role.Seller), UserInfrastructureController.getById);
 router.put('/seller/update/:id', authMiddleware, checkRole(Role.Seller, Role.Admin), UserInfrastructureController.update);
-router.delete('/seller/delete/:id', authMiddleware, checkRole(Role.Admin, Role.Seller), checkRole(Role.Admin), UserInfrastructureController.delete);
+router.delete('/seller/delete/:id', authMiddleware, checkRole(Role.Admin, Role.Seller), UserInfrastructureController.delete);
 
 // Routes for Customer
-router.get('/customer/:id', checkRole(Role.Admin, Role.Seller), authMiddleware, UserInfrastructureController.getById);
+router.get('/customer/:id', authMiddleware, checkRole(Role.Admin, Role.Seller), UserInfrastructureController.getById);
 router.put('/customer/update/:id', authMiddleware, checkRole(Role.Customer, Role.Admin), UserInfrastructureController.update);
 router.delete('/customer/delete/:id', authMiddleware, checkRole(Role.Customer, Role.Admin), UserInfrastructureController.delete);
 

@@ -21,7 +21,7 @@ class UserInfrastructureController {
                 throw ApiError.BadRequest("Invalid role provided");
             }
             const user = await UserInfrastructureService.create(username, name, surname, email, password, activationLink, phoneNumber, country, city, postalCode, address, role);
-            return res.status(201).json(user);
+            return res.json(user);
         } catch(e){
             next(e);
             logger.error(e);

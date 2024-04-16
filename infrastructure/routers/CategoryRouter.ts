@@ -5,11 +5,11 @@ import CategoryInfrastructureController from "../controllers/CategoryInfrastruct
 const router = express.Router();
 
 router.post('/add', checkRole(Role.Admin), CategoryInfrastructureController.addCategory) // ---> addPublisher()
-router.get('/:publisherId', CategoryInfrastructureController.getById) // ---> getById()
-router.get('/name/:publisherName', CategoryInfrastructureController.getByName) // ---> getByName()
-router.get('/', CategoryInfrastructureController.getAll) // ---> getAll()
-router.put('/:publisherId', checkRole(Role.Admin), CategoryInfrastructureController.update) // ---> ???? update() for implementation
-router.delete('/:publisherId', checkRole(Role.Admin), CategoryInfrastructureController.delete) // ---> delete()
+router.get('/:categoryId', CategoryInfrastructureController.getById) // ---> getById()
+router.get('/name/:categoryName', CategoryInfrastructureController.getByName) // ---> getByName()
+router.get('/categories', CategoryInfrastructureController.getAll) // ---> getAll()
+router.put('/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.update) // ---> ???? update() for implementation
+router.delete('/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.delete) // ---> delete()
 
 
 export default router

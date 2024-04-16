@@ -63,32 +63,27 @@ class UserInfrastructureService {
         if (!user) {
             throw ApiError.NotFound("User not found");
         }
-        if (userData.password) {
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
-            const updatedUser = new User(
-                user.userId,
-                user.username,
-                user.name,
-                user.surname,
-                user.email,
-                hashedPassword,
-                user.isActivated,
-                user.activationLink,
-                user.phoneNumber,
-                user.country,
-                user.city,
-                user.postalCode,
-                user.address,
-                user.role,
-                user.verified
-            );
-            Object.assign(user, updatedUser);
-        } else {
-            Object.assign(user, userData);
-        }
 
-        await this.userRepository.save(user);
-        return user;
+        const updatedUser = new User(
+            user.userId,
+            userData.username ?? user.username,
+            userData.name ?? user.name,
+            userData.surname ?? user.surname,
+            userData.email ?? user.email,
+            userData.password ? await bcrypt.hash(userData.password, 10) : user.password,
+            userData.isActivated ?? user.isActivated,
+            userData.activationLink ?? user.activationLink,
+            userData.phoneNumber ?? user.phoneNumber,
+            userData.country ?? user.country,
+            userData.city ?? user.city,
+            userData.postalCode ?? user.postalCode,
+            userData.address ?? user.address,
+            userData.role ?? user.role,
+            userData.verified ?? user.verified
+        );
+
+        await this.userRepository.save(updatedUser);
+        return updatedUser;
     }
 
     async delete(userId: string): Promise<void> {

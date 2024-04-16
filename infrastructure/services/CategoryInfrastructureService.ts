@@ -2,17 +2,23 @@ import {CategoryDomainService} from "../../core/services/CategoryDomainService";
 import {Category} from "../../core/domain/Category";
 import ApiError from "../exceptions/ApiError";
 import CategoryPostgresRepository from "../database/PostgresRepository/CategoryPostgresRepository";
+
 class CategoryInfrastructureService {
     constructor(readonly categoryRepository: any = new CategoryDomainService(categoryRepository)){}
+
     async addCategory(category: string): Promise<Category> {
-        const userType = await this.categoryRepository.getByName(category);
-        if(userType){
-            throw ApiError.BadRequest(`The same type already exists`)
+        if (!category) {
+            throw ApiError.BadRequest(`Category is required`);
         }
-        const type = await this.categoryRepository.addCategory(category)
+        const userType = await this.categoryRepository.getByName(category);
+        if (userType) {
+            throw ApiError.BadRequest(`The same type already exists`);
+        }
+        const type = await this.categoryRepository.create({ categoryName: category })
         await this.categoryRepository.save(type)
         return type;
     }
+
     async update(categoryId: string, categoryName: string): Promise<Category> {
         const existingCategory = await this.categoryRepository.getById(categoryId);
         if(!existingCategory) {

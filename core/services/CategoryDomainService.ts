@@ -17,13 +17,13 @@ export class CategoryDomainService implements CategoryRepository{
     async getAll(): Promise<Category[]> {
         return await this.categoryDomainRepository.getAll();
     }
-    async getById(categryId: string): Promise<Category | null> {
-        return await this.categoryDomainRepository.getById(categryId);
+    async getById(categoryId: string): Promise<Category | null> {
+        return await this.categoryDomainRepository.getById(categoryId);
     }
     async getByName(categoryName: string): Promise<Category | null> {
         return await this.categoryDomainRepository.getByName(categoryName);
     }
-    async delete(categryId: string): Promise<void> {
-        return await this.categoryDomainRepository.delete(categryId);
+    async delete(categoryId: string): Promise<void> {
+        return await this.categoryDomainRepository.delete(categoryId);
     }
 }

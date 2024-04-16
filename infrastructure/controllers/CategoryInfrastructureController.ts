@@ -14,6 +14,7 @@ class CategoryInfrastructureController {
             return res.json(type)
         } catch(e){
             next(e);
+            logger.error(e)
         }
     }
     async update(req: Request, res: Response, next: NextFunction){
