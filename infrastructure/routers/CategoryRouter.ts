@@ -8,8 +8,8 @@ router.post('/add', checkRole(Role.Admin), CategoryInfrastructureController.addC
 router.get('/:categoryId', CategoryInfrastructureController.getById) // ---> getById()
 router.get('/name/:categoryName', CategoryInfrastructureController.getByName) // ---> getByName()
 router.get('/', CategoryInfrastructureController.getAll) // ---> getAll()
-router.put('/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.update) // ---> ???? update() for implementation
-router.delete('/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.delete) // ---> delete()
+router.put('/update/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.update) // ---> ???? update() for implementation
+router.delete('/delete/:categoryId', checkRole(Role.Admin), CategoryInfrastructureController.delete) // ---> delete()
 
 
 export default router

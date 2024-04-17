@@ -19,9 +19,10 @@ class CategoryInfrastructureController {
     }
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            const {categoryId, categoryName} = req.body;
-            const category = await CategoryInfrastructureService.update(categoryId, categoryName)
-            if (!categoryId || !categoryName) {
+            const { categoryId } = req.params;
+            const { category } = req.body;
+            const updatedCategory = await CategoryInfrastructureService.update(categoryId, category)
+            if (!categoryId || !updatedCategory) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
             return res.json(category)
@@ -63,7 +64,7 @@ class CategoryInfrastructureController {
     }
     async delete(req: Request, res: Response, next: NextFunction) {
         try{
-            const {categoryId} = req.body;
+            const { categoryId } = req.params;
             if (!categoryId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
