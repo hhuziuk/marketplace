@@ -8,11 +8,14 @@ import {Category} from "../../core/domain/Category";
 class PublisherInfrastructureService {
     constructor(readonly publisherRepository: any = new PublisherDomainService(publisherRepository)){}
     async create(publisher: string) {
+        if (!publisher) {
+            throw ApiError.BadRequest(`Publisher is required`);
+        }
         const userPublisher = await this.publisherRepository.getByName(publisher);
         if(userPublisher){
-            throw ApiError.BadRequest(`The same type already exists`)
+            throw ApiError.BadRequest(`The same publisher already exists`)
         }
-        const type = await this.publisherRepository.addCategory(publisher)
+        const type = await this.publisherRepository.create({publisherName: publisher})
         await this.publisherRepository.save(type)
         return type;
     }
@@ -40,7 +43,7 @@ class PublisherInfrastructureService {
     async update(publisherId: string, publisherName: string): Promise<Category> {
         const existingPublisher = await this.publisherRepository.getById(publisherId);
         if(!existingPublisher) {
-            throw ApiError.BadRequest(`Category with id ${publisherId} not found`);
+            throw ApiError.BadRequest(`Publisher with id ${publisherId} not found`);
         }
         Object.assign(existingPublisher, { publisherName });
         return await this.publisherRepository.save(existingPublisher);

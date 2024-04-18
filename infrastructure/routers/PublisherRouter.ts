@@ -5,10 +5,10 @@ import PublisherInfrastructureController from "../controllers/PublisherInfrastru
 const router = express.Router();
 
 router.post('/add', checkRole(Role.Admin), PublisherInfrastructureController.addPublisher) // ---> addPublisher()
-router.get('/publisher/:publisherId', checkRole(Role.Admin, Role.Seller, Role.Customer), PublisherInfrastructureController.getById) // ---> getById()
-router.get('/publisher/:publisherName', checkRole(Role.Admin, Role.Seller, Role.Customer), PublisherInfrastructureController.getByName) // ---> getByName()
+router.get('/:publisherId', checkRole(Role.Admin, Role.Seller, Role.Customer), PublisherInfrastructureController.getById) // ---> getById()
+router.get('/name/:publisherName', checkRole(Role.Admin, Role.Seller, Role.Customer), PublisherInfrastructureController.getByName) // ---> getByName()
 router.get('/', checkRole(Role.Admin, Role.Seller, Role.Customer), PublisherInfrastructureController.getAll) // ---> getAll()
-router.put('/publisher/:publisherId', checkRole(Role.Admin), PublisherInfrastructureController.update) // ---> ???? update() for implementation
-router.delete('/publisher/:publisherId', checkRole(Role.Admin), PublisherInfrastructureController.delete) // ---> delete()
+router.put('/update/:publisherId', checkRole(Role.Admin), PublisherInfrastructureController.update) // ---> ???? update() for implementation
+router.delete('/delete/:publisherId', checkRole(Role.Admin), PublisherInfrastructureController.delete) // ---> delete()
 
 export default router

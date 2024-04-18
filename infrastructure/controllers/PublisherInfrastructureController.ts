@@ -1,7 +1,7 @@
-import logger from "../../tools/logger";
 import {NextFunction, Request, Response} from "express";
 import PublisherInfrastructureService from "../services/PublisherInfrastructureService";
 import ApiError from "../exceptions/ApiError";
+
 class PublisherInfrastructureController {
     constructor(readonly publisherService: any = PublisherInfrastructureService) {}
     async addPublisher(req: Request, res: Response, next: NextFunction){
@@ -22,7 +22,6 @@ class PublisherInfrastructureController {
             return res.json(publishers);
         } catch(e) {
             next(e);
-            logger.error(e)
         }
     }
     async getById(req: Request, res: Response, next: NextFunction){
@@ -35,7 +34,6 @@ class PublisherInfrastructureController {
             return res.json(publisher)
         } catch(e){
             next(e)
-            logger.error(e)
         }
     }
     async getByName(req: Request, res: Response, next: NextFunction){
@@ -48,12 +46,12 @@ class PublisherInfrastructureController {
             return res.json(publisher)
         } catch(e){
             next(e)
-            logger.error(e)
         }
     }
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            const {publisherId, publisherName} = req.body;
+            const {publisherId} = req.params;
+            const {publisherName} = req.body;
             const publisher = await PublisherInfrastructureService.update(publisherId, publisherName)
             if (!publisherId || !publisherName) {
                 ApiError.BadRequest(`Required data is missing`);
@@ -61,12 +59,11 @@ class PublisherInfrastructureController {
             return res.json(publisher)
         } catch(e){
             next(e);
-            logger.error(e)
         }
     }
     async delete(req: Request, res: Response, next: NextFunction){
         try{
-            const {publisherId} = req.body;
+            const {publisherId} = req.params;
             if (!publisherId) {
                 ApiError.BadRequest(`Required data is missing`);
             }
@@ -74,7 +71,6 @@ class PublisherInfrastructureController {
             return res.json(publisher)
         } catch(e){
             next(e);
-            logger.error(e)
         }
     }
 }

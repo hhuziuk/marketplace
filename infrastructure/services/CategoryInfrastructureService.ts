@@ -2,8 +2,6 @@ import {CategoryDomainService} from "../../core/services/CategoryDomainService";
 import {Category} from "../../core/domain/Category";
 import ApiError from "../exceptions/ApiError";
 import CategoryPostgresRepository from "../database/PostgresRepository/CategoryPostgresRepository";
-import {Book} from "../../core/domain/Book";
-import {User} from "../../core/domain/User";
 
 class CategoryInfrastructureService {
     constructor(readonly categoryRepository: any = new CategoryDomainService(categoryRepository)){}
@@ -27,8 +25,7 @@ class CategoryInfrastructureService {
             throw ApiError.BadRequest(`Category with id ${categoryId} not found`);
         }
         Object.assign(existingCategory, { categoryName });
-        const updatedCategory = await this.categoryRepository.save(existingCategory);
-        return updatedCategory;
+        return await this.categoryRepository.save(existingCategory);
     }
     async getAll(): Promise<Category[]> {
         return await this.categoryRepository.getAll();
