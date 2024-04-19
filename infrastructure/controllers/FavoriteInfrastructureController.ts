@@ -1,16 +1,19 @@
-import logger from "../../tools/logger";
 import {NextFunction, Request, Response} from "express";
 import FavoriteInfrastructureService from "../services/FavoriteInfrastructureService";
 import ApiError from "../exceptions/ApiError";
+
 class FavoriteInfrastructureController {
     constructor(readonly favoriteService: any = FavoriteInfrastructureService) {}
     async addToFavorite(req: Request, res: Response, next: NextFunction){
         try{
-            const {bookId} = req.body
+            const { userId, bookId } = req.body;
+            if (!userId || !bookId) {
+                throw ApiError.BadRequest(`Required data is missing`);
+            }
             if (!bookId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
-            const favorite = await FavoriteInfrastructureService.addToFavorite(bookId)
+            const favorite = await FavoriteInfrastructureService.addToFavorite(userId, bookId)
             return res.json(favorite)
         } catch(e){
             next(e);
@@ -22,12 +25,12 @@ class FavoriteInfrastructureController {
             return res.json(favorites);
         } catch(e) {
             next(e);
-            logger.error(e)
         }
     }
     async deleteFromFavorite(req: Request, res: Response, next: NextFunction){
         try{
-            const {bookId} = req.body;
+            const {bookId} = req.params;
+            console.log(bookId)
             if (!bookId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
@@ -35,7 +38,6 @@ class FavoriteInfrastructureController {
             return res.json(favorite)
         } catch(e){
             next(e);
-            logger.error(e)
         }
     }
 }

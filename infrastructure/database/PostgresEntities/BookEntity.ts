@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { IsISBN, IsNumber, IsString, IsUUID, MaxLength, MinLength } from "class-validator";
+import { IsISBN, IsNumber, IsString, MaxLength, MinLength } from "class-validator";
 import { Rating } from "./RatingEntity";
 import { Favorite } from "./FavoriteEntity";
 import { Category } from "./CategoryEntity";
@@ -70,8 +70,8 @@ export class Book {
     @OneToMany(() => Rating, rating => rating.book)
     rating: Rating[];
 
-    @ManyToOne(() => Favorite, favorite => favorite.book)
-    favorite: Favorite;
+    @OneToMany(() => Favorite, favorite => favorite.book)
+    favorites: Favorite[];
 
     @ManyToOne(() => Category, category => category.books)
     category: Category;

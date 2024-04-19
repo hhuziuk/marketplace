@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/add', checkRole(Role.Customer), FavoriteInfrastructureController.addToFavorite) // ---> addToFavorite()
 router.get('/favorites', checkRole(Role.Customer), FavoriteInfrastructureController.getAll) // ---> getAll() for implementation!
-router.delete('/delete', checkRole(Role.Customer), FavoriteInfrastructureController.deleteFromFavorite) // ---> deleteFromFavorite()
+router.delete('/deleteFromFavorite/:bookId', checkRole(Role.Customer), FavoriteInfrastructureController.deleteFromFavorite) // ---> deleteFromFavorite()
 
 export default router
