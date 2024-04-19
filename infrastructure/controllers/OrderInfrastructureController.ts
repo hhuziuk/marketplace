@@ -55,7 +55,7 @@ class OrderInfrastructureController {
     }
     async cancelOrder(req: Request, res: Response, next: NextFunction){
         try{
-            const { orderId } = req.body;
+            const { orderId } = req.params;
             if (!orderId) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
@@ -68,7 +68,8 @@ class OrderInfrastructureController {
     }
     async setStatus(req: Request, res: Response, next: NextFunction) {
         try {
-            const { orderId, status } = req.body;
+            const {orderId} = req.params;
+            const { status } = req.body;
             if (!orderId || !status) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }
