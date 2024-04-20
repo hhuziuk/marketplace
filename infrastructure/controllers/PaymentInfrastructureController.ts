@@ -45,7 +45,8 @@ class PaymentInfrastructureController {
 
     async updatePaymentMethod(req: Request, res: Response, next: NextFunction) {
         try {
-            const { paymentId, method } = req.body;
+            const {paymentId} = req.params;
+            const { method } = req.body;
             if (!paymentId || !method) {
                 throw ApiError.BadRequest(`Required data is missing`);
             }

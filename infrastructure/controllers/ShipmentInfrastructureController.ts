@@ -16,7 +16,7 @@ class ShipmentController {
 
     async trackShipment(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const trackingCode = req.params.trackingCode;
+            const {trackingCode} = req.params;
             const trackingInfo = await ShipmentInfrastructureService.trackShipment(trackingCode);
             res.json(trackingInfo);
         } catch (error) {

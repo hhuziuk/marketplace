@@ -11,6 +11,7 @@ export class Order {
         readonly amount: number,
         readonly paymentId: string,
         readonly deliveryType: Delivery,
+        readonly shipmentId?: string,
     ) {}
 }
 

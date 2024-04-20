@@ -3,13 +3,15 @@ import { DeliveryStatus } from "../../core/domain/enums/DeliveryStatus";
 import ApiError from "../exceptions/ApiError";
 import OrderPostgresRepository from "../database/PostgresRepository/OrderPostgresRepository";
 import {Order} from "../database/PostgresEntities/OrderEntity";
+import {Category} from "../../core/domain/Category";
+import {Book} from "../../core/domain/Book";
 
 class OrderInfrastructureService {
 
     constructor(readonly orderRepository: any = new OrderDomainService(orderRepository)) {}
 
     async createOrder(orderData: Partial<Order>): Promise<Order> {
-        const { createdAt, status, user, orderItems, amount, delivery, payment } = orderData;
+        const { createdAt, status, user, orderItems, amount, delivery, payment, shipment } = orderData;
 
         if (!createdAt || !status || !user || !orderItems || !amount || !delivery) {
             throw ApiError.BadRequest(`Required data is missing`);
@@ -22,7 +24,8 @@ class OrderInfrastructureService {
             orderItems,
             amount,
             delivery,
-            payment: null
+            payment: null,
+            shipment
         });
 
         await this.orderRepository.save(order);
@@ -73,6 +76,18 @@ class OrderInfrastructureService {
         order.payment = paymentId;
         await this.orderRepository.save(order);
         return order;
+    }
+
+    async update(orderId: string, updates: Partial<Order>): Promise<Book> {
+        if(!orderId){
+            throw ApiError.BadRequest(`No id was provided`)
+        }
+        const existingBook = await this.orderRepository.getById(orderId);
+        if (!existingBook) {
+            throw ApiError.BadRequest(`Order with id ${orderId} not found`);
+        }
+        Object.assign(existingBook, updates);
+        return await this.orderRepository.save(existingBook);
     }
 }
 export default new OrderInfrastructureService(OrderPostgresRepository);

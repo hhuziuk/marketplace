@@ -99,7 +99,7 @@ class PaymentInfrastructureService {
                 currency: 'usd',
                 payment_method: paymentMethodId,
                 confirm: true,
-                return_url: 'http://localhost:3014',
+                return_url: process.env.API_URL,
                 payment_method_types: ['card'],
             });
             console.log('Payment successful:', paymentIntent);
