@@ -6,3 +6,5 @@ node_modules/
 infrastructure/database/PostgresMigrations
 dump.rdb
 view
+selfsigned.key
+selfsigned.crt

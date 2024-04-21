@@ -11,14 +11,16 @@ import RedisService from "./OuterServices/RedisService";
 
 class AuthInfrastructureService {
     public cookiesEnabled: boolean
+
     constructor(readonly userRepository: any = new UserDomainService(userRepository),
-                readonly authRepository: any = new AuthDomainService(authRepository)){
-        if(authRepository === JWTservice) {
+                readonly authRepository: any = new AuthDomainService(authRepository)) {
+        if (authRepository === JWTservice) {
             this.cookiesEnabled = true;
         } else {
             this.cookiesEnabled = false
         }
     }
+
     async registration(
         email: string,
         name: string,
@@ -32,9 +34,9 @@ class AuthInfrastructureService {
         address: string,
         role: Role
     ) {
-        const candidate = await this.userRepository.getBy({ email });
+        const candidate = await this.userRepository.getBy({email});
         if (candidate) {
-            throw ApiError.BadRequest(`User with the same ${email} already exists`)
+            throw ApiError.Conflict(`User with the same ${email} already exists`)
         }
         if (!email || !name || !surname || !username || !password || !phoneNumber || !country || !city || !postalCode || !address || !role) {
             throw ApiError.BadRequest(`All data are required`)
@@ -59,8 +61,9 @@ class AuthInfrastructureService {
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/auth/activate/${activationLink}`)
         return await this.authRepository.registration(user)
     }
+
     async login(email: string, password: string) {
-        const user = await this.userRepository.getBy({ email });
+        const user = await this.userRepository.getBy({email});
         if (!user) {
             throw ApiError.BadRequest("User with this email does not exist")
         }
@@ -71,9 +74,11 @@ class AuthInfrastructureService {
         }
         return await this.authRepository.login(user)
     }
+
     async logout(argument: any) {
         return await this.authRepository.logout(argument)
     }
+
     async activate(activationLink: any) {
         const user = await this.userRepository.getBy({activationLink})
         if (!user) {
@@ -82,8 +87,10 @@ class AuthInfrastructureService {
         user.isActivated = true;
         await this.userRepository.save(user)
     }
+
     async refresh(refreshToken: string) {
         return await this.authRepository.refresh(refreshToken)
     }
 }
+
 export default new AuthInfrastructureService(UserPostgresRepository, RedisService);
