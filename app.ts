@@ -19,6 +19,7 @@ const app = express();
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
@@ -57,7 +58,7 @@ const start = async () => {
         await redisClient.connect()
         await PostgresDataSource.initialize()
             .then(() => logger.info('Postgres Connected...'))
-            .catch((error) => console.log(error))
+            .catch((error) => logger.error(error))
         server.listen(PORT, () => {
             logger.info(`app is running on ${PORT} port`)
         })
