@@ -48,8 +48,12 @@ This section describes the services, technologies and frameworks I used in my pr
 #### Services:
 
 ![marketplace_services.jpg](./readme/marketplace_services.jpg)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+#### Database schema:
+
+![marketplace_db.png](./readme/marketplace_db.png)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Getting Started
 
