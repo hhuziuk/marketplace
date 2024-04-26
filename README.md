@@ -121,6 +121,8 @@ _Below is an example of how you can instruct your audience on installing and set
 
 To get better acquainted with the usage, I recommend you to read the documentation written with Swagger
 
+Or if you want to make some tests, i recommend you to import `MarketplaceOuter.postman_collection.json` to Postman.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 

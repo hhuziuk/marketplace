@@ -1,0 +1,1494 @@
+{
+	"info": {
+		"_postman_id": "cdedaaaa-936e-4022-9d7d-ec2e6d707676",
+		"name": "MarketplaceOuter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26041658"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"username\": \"your username\",\n    \"password\": \"your password\",\n    \"role\": \"ADMIN | USER | SELLER\",\n    \"name\": \"your name\",\n    \"surname\": \"your surname\",\n    \"phoneNumber\": \"your phoneNumber\",\n    \"country\": \"your country\",\n    \"city\": \"your city\",\n    \"postalCode\": \"your postalCode\",\n    \"address\": \"your address\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/auth/registration",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"auth",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/auth/activate/326bad7c-1db1-4fa1-b70a-86d4cd459a7a",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"auth",
+								"activate",
+								"326bad7c-1db1-4fa1-b70a-86d4cd459a7a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/auth/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/auth/logout",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "verifySeller",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/users/verifySeller/8b7dadb5-6832-4495-ac93-ef604204e61d",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"users",
+										"verifySeller",
+										"8b7dadb5-6832-4495-ac93-ef604204e61d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/users/",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:3000/api/user/users/fd1a25cc-be1e-467b-9068-556dc1e0f883",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"users",
+										"fd1a25cc-be1e-467b-9068-556dc1e0f883"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"your name or any data for update\",\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/users/update/47691110-ff74-4203-9f68-218043c46e42",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"users",
+										"update",
+										"47691110-ff74-4203-9f68-218043c46e42"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/users/delete/fd1a25cc-be1e-467b-9068-556dc1e0f883",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"users",
+										"delete",
+										"fd1a25cc-be1e-467b-9068-556dc1e0f883"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Seller",
+					"item": [
+						{
+							"name": "getById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:3000/api/user/seller/f276e6e5-198b-4417-b413-1baf5b14056c",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"seller",
+										"f276e6e5-198b-4417-b413-1baf5b14056c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"your username or any data for update\",\n    \"surname\": \"your surname or any data for update\",\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:3000/api/user/seller/update/f276e6e5-198b-4417-b413-1baf5b14056c",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"seller",
+										"update",
+										"f276e6e5-198b-4417-b413-1baf5b14056c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/seller/delete/f276e6e5-198b-4417-b413-1baf5b14056c",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"seller",
+										"delete",
+										"f276e6e5-198b-4417-b413-1baf5b14056c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Customer",
+					"item": [
+						{
+							"name": "getById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:3000/api/user/customer/f276e6e5-198b-4417-b413-1baf5b14056c",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"customer",
+										"f276e6e5-198b-4417-b413-1baf5b14056c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"your username or any data for update\",\n    \"name\": \"your name or any data for update\",\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:3000/api/user/customer/update/a609e4c9-ed9a-48b6-941a-a2da101d9189",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"customer",
+										"update",
+										"a609e4c9-ed9a-48b6-941a-a2da101d9189"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:{{PORT}}/api/user/customer/delete/f276e6e5-198b-4417-b413-1baf5b14056c",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "{{PORT}}",
+									"path": [
+										"api",
+										"user",
+										"customer",
+										"delete",
+										"f276e6e5-198b-4417-b413-1baf5b14056c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "setPaymentMethod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"method\": \"Credit Card\",\n    \"amount\": 11.11,\n    \"cardNumber\": \"4242424242424242\",\n    \"paymentMethodId\": \"pm_card_visa\",\n    \"userId\": \"your userId\",\n    \"orderId\": \"your orderId\"\n}\n  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https//localhost:{{PORT}}/api/payment/set",
+							"host": [
+								"https"
+							],
+							"path": [
+								"",
+								"localhost:{{PORT}}",
+								"api",
+								"payment",
+								"set"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "createOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"createdAt\": \"2024-04-07T08:00:00.000Z\",\n    \"status\": \"Pending\",\n    \"user\": \"your userId\",\n    \"orderItems\": [\n        {\n            \"orderId\": \"your orderId\",\n            \"quantity\": 2\n        },\n        {\n            \"orderId\": \"your orderId\",\n            \"quantity\": 1\n        }\n    ],\n    \"amount\": 4.88,\n    \"delivery\": \"Express Delivery\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/order/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"order",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/order/orders",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"order",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "confirm",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/order/confirm/caa3d0ed-c6c4-471a-9b31-927b04133a8d",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"confirm",
+								"caa3d0ed-c6c4-471a-9b31-927b04133a8d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/order/04b1a565-b736-4428-886d-b13982fcd584",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"04b1a565-b736-4428-886d-b13982fcd584"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setStatus",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\",\n    \"status\": \"status from ./core/domain/enums/DeliveryStatus\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/order/setStatus/04b1a565-b736-4428-886d-b13982fcd584",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"setStatus",
+								"04b1a565-b736-4428-886d-b13982fcd584"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelOrder",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/order/cancelOrder/04b1a565-b736-4428-886d-b13982fcd584",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"order",
+								"cancelOrder",
+								"04b1a565-b736-4428-886d-b13982fcd584"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shipment",
+			"item": [
+				{
+					"name": "createShipment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "ShippoToken {{SHIPPO_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shipment\": {\n        \"address_from\": {\n            \"name\": \"Shawn Ippotle\",\n            \"company\": \"Shippo\",\n            \"street1\": \"215 Clayton St.\",\n            \"city\": \"San Francisco\",\n            \"state\": \"CA\",\n            \"zip\": \"94117\",\n            \"country\": \"US\",\n            \"phone\": \"+1 555 341 9393\",\n            \"email\": \"shippotle@shippo.com\"\n        },\n        \"address_to\": {\n            \"name\": \"Mr Hippo\",\n            \"company\": \"\",\n            \"street1\": \"Broadway 1\",\n            \"street2\": \"\",\n            \"city\": \"New York\",\n            \"state\": \"NY\",\n            \"zip\": \"10007\",\n            \"country\": \"US\",\n            \"phone\": \"+1 555 341 9393\",\n            \"email\": \"mrhippo@shippo.com\",\n            \"metadata\": \"Hippos dont lie\"\n        },\n        \"parcels\": [\n            {\n                \"length\": 5,\n                \"width\": 5,\n                \"height\": 5,\n                \"distance_unit\": \"in\",\n                \"weight\": 2,\n                \"mass_unit\": \"lb\"\n            }\n        ]\n    },\n    \"carrier_account\": \"078870331023437cb917f5187429b093\",\n    \"servicelevel_token\": \"usps_priority\",\n    \"orderId\": \"your orderId\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/shipment/shipments",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"shipment",
+								"shipments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "trackShipment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/shipment/shipments/ad8e6e55-ae84-45e6-8990-8eec0683dfc3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"shipment",
+								"shipments",
+								"ad8e6e55-ae84-45e6-8990-8eec0683dfc3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/book/books",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/book/df72452f-42e5-445e-a0f3-f7e26b7cf5bd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"df72452f-42e5-445e-a0f3-f7e26b7cf5bd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByAuthor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/book/author/Harper Lee",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"author",
+								"Harper Lee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/book/name/To Kill a Mockingbird",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"name",
+								"To Kill a Mockingbird"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bookName\": \"1984\",\n    \"author\": \"George Oorwell\",\n    \"categoryId\": \"your categoryId\",\n    \"publisherId\": \"your publisherId\",\n    \"ratingId\": \"your ratingId\",\n    \"description\": \"A dystopian novel depicting a totalitarian regime and the struggle for individual freedom.\",\n    \"ISBN\": \"978-0-452-28423-4\",\n    \"language\": \"English\",\n    \"size\": \"Medium\",\n    \"price\": 12.50,\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/book/update/02faa9a6-a754-456c-a95e-9c8268c945b0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"update",
+								"02faa9a6-a754-456c-a95e-9c8268c945b0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bookName\": \"Pride and Prejudice\",\n    \"author\": \"Jane Austen\",\n    \"categoryId\": \"your categoryId\",\n    \"publisherId\": \"your publisherId\",\n    \"ratingId\": \"your ratingId\",\n    \"description\": \"A classic romantic novel revolving around the lives of the Bennet sisters and their pursuit of love.\",\n    \"ISBN\": \"978-0-19-953556-9\",\n    \"language\": \"English\",\n    \"size\": \"Medium\",\n    \"price\": 16.50,\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/book/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"book",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/book/delete/6f7f6e73-8ff4-47ad-9e70-5116bf4200f0",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"book",
+								"delete",
+								"6f7f6e73-8ff4-47ad-9e70-5116bf4200f0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "addCategory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Sci-Fy\",\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/category/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"category",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/category/dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/category/name/Sci-Fy",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"name",
+								"Sci-Fy"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/category/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"category\": \"Sci-Foe\",\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/category/update/dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"update",
+								"dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/category/delete/dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"category",
+								"delete",
+								"dd75c0f2-2fe3-4eb1-9556-43eb0d6d01ea"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Publisher",
+			"item": [
+				{
+					"name": "addPublisher",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"publisher\": \"Folio\",\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/publisher/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"publisher",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/publisher/154f5c26-532c-4a34-9ae5-e2ef73b64a69",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"publisher",
+								"154f5c26-532c-4a34-9ae5-e2ef73b64a69"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/publisher/name/Abbabagalamaga",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"publisher",
+								"name",
+								"Abbabagalamaga"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/publisher/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"publisher",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"publisherName\": \"Folio-Lemberg\",\n    \"email\": \"your email\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/publisher/update/11512ba2-3c66-4274-bba2-5ad0f950dde3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"publisher",
+								"update",
+								"11512ba2-3c66-4274-bba2-5ad0f950dde3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"a45@gmail.com\",\n    \"password\": \"hollandiamy4A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/publisher/delete/154f5c26-532c-4a34-9ae5-e2ef73b64a69",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"publisher",
+								"delete",
+								"154f5c26-532c-4a34-9ae5-e2ef73b64a69"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorite",
+			"item": [
+				{
+					"name": "addToFavorite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"bookId\": \"your bookId\",\n    \"userId\": \"your userId\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/favorite/add",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"favorite",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:{{PORT}}/api/favorite/favorites",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "{{PORT}}",
+							"path": [
+								"api",
+								"favorite",
+								"favorites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteFromFavorite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"your email\",\n    \"password\": \"your password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/favorite/deleteFromFavorite/df72452f-42e5-445e-a0f3-f7e26b7cf5bd",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"favorite",
+								"deleteFromFavorite",
+								"df72452f-42e5-445e-a0f3-f7e26b7cf5bd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:3000/api/payment/payments",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"payments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setPaymentMethod",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"Credit Card\",\n  \"amount\": 100,\n  \"cardNumber\": \"4242424242424242\",\n  \"paymentMethodId\": \"pm_card_visa\",\n  \"userId\": \"your userId\",\n  \"orderId\": \"your orderId\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/payment/set",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"set"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePaymentMethod",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"method\": \"Debit Card\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:3000/api/payment/update/cfc934a0-927f-4462-9a54-bef991a9ef61",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"payment",
+								"update",
+								"cfc934a0-927f-4462-9a54-bef991a9ef61"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "SHIPPO_API_KEY",
+			"value": "shippo_test_98138c9dc4d480372789270aa8044546dab40ed6"
+		},
+		{
+			"key": "PORT",
+			"value": "3000"
+		}
+	]
+}
