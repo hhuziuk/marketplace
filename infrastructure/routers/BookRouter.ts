@@ -6,6 +6,7 @@ import {verify} from "../middleware/VerifyMiddlware";
 
 const router = express.Router();
 
+
 router.post('/add', verify(), checkRole(Role.Seller, Role.Admin), BookInfrastructureController.create) // ---> create()
 router.get('/books', checkRole(Role.Seller, Role.Customer, Role.Admin), BookInfrastructureController.getAll) // ---> getAll()
 router.get('/:bookId', checkRole(Role.Seller, Role.Customer, Role.Admin), BookInfrastructureController.getById) // ---> getById()

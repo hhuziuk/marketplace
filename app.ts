@@ -12,8 +12,10 @@ import redisClient from "./tools/RedisConnect";
 import session from "express-session"
 import {PostgresDataSource} from "./tools/PostgresConnection";
 import {setupSwagger} from "./tools/swagger";
-import {rateLimit, Store} from 'express-rate-limit'
+import {rateLimit} from 'express-rate-limit'
+import client, {collectDefaultMetrics} from 'prom-client';
 import * as fs from "node:fs";
+import {observeDuration} from "./infrastructure/middleware/metrics";
 
 const PORT: string | number = process.env.PORT || 3000;
 const app = express();
@@ -51,6 +53,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api', router);
+
+collectDefaultMetrics();
+
+export const counter = new client.Counter({
+    name: 'node_request_operations',
+    help: 'The total number of processed requests'
+})
+
+export const histogram = new client.Histogram({
+    name: 'node_request_duration_seconds',
+    help: 'Histogram for the duration in seconds',
+    buckets: [1, 2, 5, 6, 10]
+})
 
 const key = fs.readFileSync(__dirname + '/selfsigned.key');
 const cert = fs.readFileSync(__dirname + '/selfsigned.crt');

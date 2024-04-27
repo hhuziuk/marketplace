@@ -8,7 +8,7 @@ import PublisherRouter from "./PublisherRouter";
 import AuthRouter from "./AuthRouter";
 import ShipmentRouter from "./ShipmentRouter";
 import CategoryRouter from "./CategoryRouter";
-
+import MetricsRouter from "./MetricsRouter";
 const router = express.Router();
 
 router.use('/auth', AuthRouter)
@@ -20,5 +20,6 @@ router.use('/order', OrderRouter)
 router.use('/payment', PaymentRouter)
 router.use('/publisher', PublisherRouter)
 router.use('/shipment', ShipmentRouter)
+router.use('/prometheus', MetricsRouter)
 
 export default router
